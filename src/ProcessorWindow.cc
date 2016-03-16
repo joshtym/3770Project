@@ -15,9 +15,9 @@ ProcessorWindow::ProcessorWindow()
    }
    
    boxNames[0]->setText("Selection 1");
-   boxNames[0]->setText("Selection 2");
-   boxNames[0]->setText("Selection 3");
-   boxNames[0]->setText("Selection 4");
+   boxNames[1]->setText("Selection 2");
+   boxNames[2]->setText("Selection 3");
+   boxNames[3]->setText("Selection 4");
    
    QHBoxLayout* mainWidgetLayout = new QHBoxLayout();
    QVBoxLayout* leftSideLayout = new QVBoxLayout();
@@ -31,6 +31,8 @@ ProcessorWindow::ProcessorWindow()
    
    mainWidgetLayout->addLayout(leftSideLayout);
    mainWidgetLayout->addLayout(rightSideLayout);
+   
+   this->setLayout(mainWidgetLayout);
 }
 
 ProcessorWindow::~ProcessorWindow()
