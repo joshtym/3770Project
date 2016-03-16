@@ -1,7 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PARTPICKERWINDOW_H
+#define PARTPICKERWINDOW_H
 
 #include <QMainWindow>
+#include "ProcessorWindow.h"
 
 // Forward Declarations
 class QTabBar;
@@ -20,6 +21,8 @@ class PartPickerWindow : public QMainWindow
       
    private:
       QTabBar* tabBar;
+      ProcessorWindow* cpuWindow;
+      int currentTab;
 };
 
 #endif

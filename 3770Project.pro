@@ -11,5 +11,5 @@ OBJECTS_DIR = ./obj/
 DESTDIR = ./bin/
 
 # Input
-HEADERS += include/PartPickerWindow.h
-SOURCES += src/PartPickerWindow.cc src/main.cc
+HEADERS += include/PartPickerWindow.h include/ProcessorWindow.h
+SOURCES += src/PartPickerWindow.cc src/main.cc src/ProcessorWindow.cc
