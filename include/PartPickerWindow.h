@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ProcessorWindow.h"
+#include "MotherboardWindow.h"
 
 // Forward Declarations
 class QTabBar;
@@ -22,6 +23,7 @@ class PartPickerWindow : public QMainWindow
    private:
       QTabBar* tabBar;
       ProcessorWindow* cpuWindow;
+      MotherboardWindow* mbWindow;
       int currentTab;
 };
 

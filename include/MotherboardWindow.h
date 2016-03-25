@@ -1,5 +1,5 @@
-#ifndef PROCESSORWINDOW_H
-#define PROCESSORWINDOW_H
+#ifndef MOTHERBOARDWINDOW_H
+#define MOTHERBOARDWINDOW_H
 
 #include <QWidget>
 #include <vector>
@@ -8,18 +8,18 @@
 class QCheckBox;
 class QLabel;
 
-class ProcessorWindow : public QWidget
+class MotherboardWindow : public QWidget
 {
    // Meta object compiler macro
    Q_OBJECT
    
    public:
       // Default constructor
-      ProcessorWindow();
+      MotherboardWindow();
       
       // Destructor of class
-      ~ProcessorWindow();
-   
+      ~MotherboardWindow();
+      
    private slots:
       void updateBoxOne(int);
       void updateBoxTwo(int);

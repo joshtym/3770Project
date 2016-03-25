@@ -13,6 +13,7 @@ PartPickerWindow::PartPickerWindow()
    currentTab = 0;
    
    cpuWindow = new ProcessorWindow();
+   mbWindow = new MotherboardWindow();
    
    // Initialize our tab bar
    tabBar = new QTabBar();
@@ -26,6 +27,8 @@ PartPickerWindow::PartPickerWindow()
    // Add in our tab into the layout
    primaryLayout->addWidget(tabBar);
    primaryLayout->addWidget(cpuWindow);
+   primaryLayout->addWidget(mbWindow);
+   mbWindow->hide();
    
    // Central Widget assignment and Layout assignment
    setCentralWidget(centralWidget);
@@ -41,11 +44,20 @@ void PartPickerWindow::updateWindow(int newTab)
    if (currentTab != newTab)
    {
       if (newTab == 0)
+      {
          cpuWindow->show();
-      else
+         mbWindow->hide();
+      }
+      else if (newTab == 1)
+      {
          cpuWindow->hide();
-         
+         mbWindow->show();
+      }
+      else
+      {
+         cpuWindow->hide();
+         mbWindow->hide();
+      }
       currentTab = newTab;
    }
-   
 }
