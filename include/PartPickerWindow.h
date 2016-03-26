@@ -6,7 +6,8 @@
 #include "MotherboardWindow.h"
 
 // Forward Declarations
-class QTabBar;
+class QTabWidget;
+class QScrollArea;
 
 class PartPickerWindow : public QMainWindow
 {
@@ -16,15 +17,12 @@ class PartPickerWindow : public QMainWindow
    public:
       /// Constructor for the mainWindow
       PartPickerWindow();
-   
-   private slots:
-      void updateWindow(int);
       
    private:
-      QTabBar* tabBar;
+      QTabWidget* tabBar;
       ProcessorWindow* cpuWindow;
       MotherboardWindow* mbWindow;
-      int currentTab;
+      std::vector<QScrollArea*> tabPages;
 };
 
 #endif

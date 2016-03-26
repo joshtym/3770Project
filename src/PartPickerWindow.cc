@@ -1,63 +1,26 @@
 #include <QtGui>
+#include <iostream>
 #include "PartPickerWindow.h"
 
 PartPickerWindow::PartPickerWindow()
 {
-   // Central widget declaration
-   QWidget* centralWidget = new QWidget();
+   // Instantiate our tabBar
+   tabBar = new QTabWidget();
    
-   // Create a layout
-   QVBoxLayout* primaryLayout = new QVBoxLayout();
+   tabPages.clear();
    
-   // Default our current tab to 0
-   currentTab = 0;
+   for (int i = 0; i < 4; ++i)
+      tabPages.push_back(new QScrollArea());
    
    cpuWindow = new ProcessorWindow();
    mbWindow = new MotherboardWindow();
    
-   // Initialize our tab bar
-   tabBar = new QTabBar();
+   tabPages[0]->setWidget(new ProcessorWindow());
+   tabPages[1]->setWidget(new MotherboardWindow());
    
-   // Add in our tabs
-   tabBar->addTab("CPU");
-   tabBar->addTab("MotherBoard");
-   tabBar->addTab("RAM");
-   tabBar->addTab("HDD / SDD");
+   tabBar->addTab(tabPages[0], "CPU");
+   tabBar->addTab(tabPages[1], "Motherboard");
    
-   // Add in our tab into the layout
-   primaryLayout->addWidget(tabBar);
-   primaryLayout->addWidget(cpuWindow);
-   primaryLayout->addWidget(mbWindow);
-   mbWindow->hide();
-   
-   // Central Widget assignment and Layout assignment
-   setCentralWidget(centralWidget);
-   centralWidget->setLayout(primaryLayout);
-   
-   // Update our window when the tab is changed
-   connect(tabBar, SIGNAL(currentChanged(int)), this, SLOT(updateWindow(int)));
-}
-
-void PartPickerWindow::updateWindow(int newTab)
-{
-   /// TODO: Add in logic to update the window
-   if (currentTab != newTab)
-   {
-      if (newTab == 0)
-      {
-         cpuWindow->show();
-         mbWindow->hide();
-      }
-      else if (newTab == 1)
-      {
-         cpuWindow->hide();
-         mbWindow->show();
-      }
-      else
-      {
-         cpuWindow->hide();
-         mbWindow->hide();
-      }
-      currentTab = newTab;
-   }
+   // Set this to be the central widget
+   setCentralWidget(tabBar);
 }

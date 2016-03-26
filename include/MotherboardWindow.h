@@ -25,9 +25,12 @@ class MotherboardWindow : public QWidget
       void updateBoxTwo(int);
       void updateBoxThree(int);
       void updateBoxFour(int);
+      void updateBoxFive(int);
+      void updateBoxSix(int);
    
    private:
       std::vector<QCheckBox*> boxOptions;
       std::vector<QLabel*> boxNames;
+      std::vector<QLabel*> itemPrices;
 };
 #endif

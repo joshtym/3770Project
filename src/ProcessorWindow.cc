@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <iostream>
 #include "ProcessorWindow.h"
 
 ProcessorWindow::ProcessorWindow()
@@ -6,38 +7,58 @@ ProcessorWindow::ProcessorWindow()
    // Layout declarations
    QHBoxLayout* mainWidgetLayout = new QHBoxLayout();
    QVBoxLayout* leftSideLayout = new QVBoxLayout();
+   QVBoxLayout* middleLayout = new QVBoxLayout();
    QVBoxLayout* rightSideLayout = new QVBoxLayout();
    
    // Ensure a starting empty vector
    boxOptions.clear();
    boxNames.clear();
+   itemPrices.clear();
    
    // Instantiate our vectors
-   for (int i = 0; i < 4; ++i)
+   for (int i = 0; i < 6; ++i)
    {
       boxOptions.push_back(new QCheckBox());
       boxNames.push_back(new QLabel());
-      leftSideLayout->addWidget(boxNames[i]);
-      rightSideLayout->addWidget(boxOptions[i]);
+      itemPrices.push_back(new QLabel());
+      
+      leftSideLayout->addWidget(boxOptions[i]);
+      rightSideLayout->addWidget(boxNames[i]);
+      middleLayout->addWidget(itemPrices[i]);
+      
+      boxNames[i]->setText("View Now");
+      
+      boxNames[i]->setAlignment(Qt::AlignRight);
+      itemPrices[i]->setAlignment(Qt::AlignRight);
    }
    
-   boxNames[0]->setText("CPU 1");
-   boxNames[1]->setText("CPU 2");
-   boxNames[2]->setText("CPU 3");
-   boxNames[3]->setText("CPU 4");
+   itemPrices[0]->setText("$259.99");
+   itemPrices[1]->setText("$159.99");
+   itemPrices[2]->setText("$109.99");
+   itemPrices[3]->setText("$499.99");
+   itemPrices[4]->setText("$339.99");
+   itemPrices[5]->setText("$179.99");
    
-   boxNames[0]->setToolTip("<html><img src=https://raw.githubusercontent.com/plu/JPSimulatorHacks/master/Data/test.png/></html>");
+   boxOptions[0]->setText("High End AMD CPU");
+   boxOptions[1]->setText("Middle Range AMD CPU");
+   boxOptions[2]->setText("Low End AMD CPU");
+   boxOptions[3]->setText("High End Intel CPU");
+   boxOptions[4]->setText("Mid Range Intel CPU");
+   boxOptions[5]->setText("Low End Intel CPU");
    
    mainWidgetLayout->addLayout(leftSideLayout);
+   mainWidgetLayout->addLayout(middleLayout);
    mainWidgetLayout->addLayout(rightSideLayout);
    
    this->setLayout(mainWidgetLayout);
    
-   // Connect our check boxes to ensure that only one check box can be checked at a time
+   // Connect our check boxes
    connect(boxOptions[0], SIGNAL(stateChanged(int)), this, SLOT(updateBoxOne(int)));
    connect(boxOptions[1], SIGNAL(stateChanged(int)), this, SLOT(updateBoxTwo(int)));
    connect(boxOptions[2], SIGNAL(stateChanged(int)), this, SLOT(updateBoxThree(int)));
    connect(boxOptions[3], SIGNAL(stateChanged(int)), this, SLOT(updateBoxFour(int)));
+   connect(boxOptions[4], SIGNAL(stateChanged(int)), this, SLOT(updateBoxFive(int)));
+   connect(boxOptions[5], SIGNAL(stateChanged(int)), this, SLOT(updateBoxSix(int)));
 }
 
 ProcessorWindow::~ProcessorWindow()
@@ -52,6 +73,8 @@ void ProcessorWindow::updateBoxOne(int newState)
       boxOptions[1]->setCheckState(Qt::Unchecked);
       boxOptions[2]->setCheckState(Qt::Unchecked);
       boxOptions[3]->setCheckState(Qt::Unchecked);
+      boxOptions[4]->setCheckState(Qt::Unchecked);
+      boxOptions[5]->setCheckState(Qt::Unchecked);
    }
 }
 
@@ -63,6 +86,8 @@ void ProcessorWindow::updateBoxTwo(int newState)
       boxOptions[0]->setCheckState(Qt::Unchecked);
       boxOptions[2]->setCheckState(Qt::Unchecked);
       boxOptions[3]->setCheckState(Qt::Unchecked);
+      boxOptions[4]->setCheckState(Qt::Unchecked);
+      boxOptions[5]->setCheckState(Qt::Unchecked);
    }
 }
 
@@ -74,6 +99,8 @@ void ProcessorWindow::updateBoxThree(int newState)
       boxOptions[0]->setCheckState(Qt::Unchecked);
       boxOptions[1]->setCheckState(Qt::Unchecked);
       boxOptions[3]->setCheckState(Qt::Unchecked);
+      boxOptions[4]->setCheckState(Qt::Unchecked);
+      boxOptions[5]->setCheckState(Qt::Unchecked);
    }
 }
 
@@ -85,5 +112,33 @@ void ProcessorWindow::updateBoxFour(int newState)
       boxOptions[0]->setCheckState(Qt::Unchecked);
       boxOptions[1]->setCheckState(Qt::Unchecked);
       boxOptions[2]->setCheckState(Qt::Unchecked);
+      boxOptions[4]->setCheckState(Qt::Unchecked);
+      boxOptions[5]->setCheckState(Qt::Unchecked);
+   }
+}
+
+void ProcessorWindow::updateBoxFive(int newState)
+{
+   // Ensure removal of all other check marks
+   if (newState == 2)
+   {
+      boxOptions[0]->setCheckState(Qt::Unchecked);
+      boxOptions[1]->setCheckState(Qt::Unchecked);
+      boxOptions[2]->setCheckState(Qt::Unchecked);
+      boxOptions[3]->setCheckState(Qt::Unchecked);
+      boxOptions[5]->setCheckState(Qt::Unchecked);
+   }
+}
+
+void ProcessorWindow::updateBoxSix(int newState)
+{
+   // Ensure removal of all other check marks
+   if (newState == 2)
+   {
+      boxOptions[0]->setCheckState(Qt::Unchecked);
+      boxOptions[1]->setCheckState(Qt::Unchecked);
+      boxOptions[2]->setCheckState(Qt::Unchecked);
+      boxOptions[3]->setCheckState(Qt::Unchecked);
+      boxOptions[4]->setCheckState(Qt::Unchecked);
    }
 }
