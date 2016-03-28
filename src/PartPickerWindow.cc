@@ -18,6 +18,9 @@ PartPickerWindow::PartPickerWindow()
    tabPages[0]->setWidget(new ProcessorWindow());
    tabPages[1]->setWidget(new MotherboardWindow());
    
+   tabPages[0]->setWidgetResizable(true);
+   tabPages[1]->setWidgetResizable(true);
+   
    tabBar->addTab(tabPages[0], "CPU");
    tabBar->addTab(tabPages[1], "Motherboard");
    

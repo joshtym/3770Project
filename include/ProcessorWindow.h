@@ -5,8 +5,11 @@
 #include <vector>
 
 // Forward Declarations
+class QHBoxLayout;
 class QCheckBox;
 class QLabel;
+class QPushButton;
+class QPixMap;
 
 class ProcessorWindow : public QWidget
 {
@@ -28,9 +31,17 @@ class ProcessorWindow : public QWidget
       void updateBoxFive(int);
       void updateBoxSix(int);
    
+   public slots:
+      void resizeEvent(QResizeEvent*);
+   
    private:
+      void loadAssets();
+      
+      std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
-      std::vector<QLabel*> boxNames;
+      std::vector<QPushButton*> expandableButtons;
       std::vector<QLabel*> itemPrices;
+      std::vector<QLabel*> productImages;
+      std::vector<QPixmap> pixMaps;
 };
 #endif

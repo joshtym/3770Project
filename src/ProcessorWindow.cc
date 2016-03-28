@@ -4,34 +4,42 @@
 
 ProcessorWindow::ProcessorWindow()
 {
-   // Layout declarations
-   QHBoxLayout* mainWidgetLayout = new QHBoxLayout();
-   QVBoxLayout* leftSideLayout = new QVBoxLayout();
-   QVBoxLayout* middleLayout = new QVBoxLayout();
-   QVBoxLayout* rightSideLayout = new QVBoxLayout();
+   // The main layout
+   QVBoxLayout* mainLayout = new QVBoxLayout();
    
    // Ensure a starting empty vector
+   layouts.clear();
    boxOptions.clear();
-   boxNames.clear();
+   expandableButtons.clear();
    itemPrices.clear();
+   productImages.clear();
+   pixMaps.clear();
    
-   // Instantiate our vectors
+   // Load our assets
+   loadAssets();
+   
+   // Instantiate all of our vectors and populate them
    for (int i = 0; i < 6; ++i)
    {
+      layouts.push_back(new QHBoxLayout());
       boxOptions.push_back(new QCheckBox());
-      boxNames.push_back(new QLabel());
+      expandableButtons.push_back(new QPushButton());
       itemPrices.push_back(new QLabel());
+      productImages.push_back(new QLabel());
       
-      leftSideLayout->addWidget(boxOptions[i]);
-      rightSideLayout->addWidget(boxNames[i]);
-      middleLayout->addWidget(itemPrices[i]);
+      productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+      expandableButtons[i]->setText("View Now");
+      expandableButtons[i]->setStyleSheet("border:0px;");
       
-      boxNames[i]->setText("View Now");
+      layouts[i]->addWidget(productImages[i]);
+      layouts[i]->addWidget(boxOptions[i]);
+      layouts[i]->addWidget(itemPrices[i]);
+      layouts[i]->addWidget(expandableButtons[i]);
       
-      boxNames[i]->setAlignment(Qt::AlignRight);
-      itemPrices[i]->setAlignment(Qt::AlignRight);
+      mainLayout->addLayout(layouts[i]);
    }
    
+   // Set our values
    itemPrices[0]->setText("$259.99");
    itemPrices[1]->setText("$159.99");
    itemPrices[2]->setText("$109.99");
@@ -46,11 +54,7 @@ ProcessorWindow::ProcessorWindow()
    boxOptions[4]->setText("Mid Range Intel CPU");
    boxOptions[5]->setText("Low End Intel CPU");
    
-   mainWidgetLayout->addLayout(leftSideLayout);
-   mainWidgetLayout->addLayout(middleLayout);
-   mainWidgetLayout->addLayout(rightSideLayout);
-   
-   this->setLayout(mainWidgetLayout);
+   this->setLayout(mainLayout);
    
    // Connect our check boxes
    connect(boxOptions[0], SIGNAL(stateChanged(int)), this, SLOT(updateBoxOne(int)));
@@ -141,4 +145,27 @@ void ProcessorWindow::updateBoxSix(int newState)
       boxOptions[3]->setCheckState(Qt::Unchecked);
       boxOptions[4]->setCheckState(Qt::Unchecked);
    }
+}
+
+void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
+{
+   // Handle the resize of the window for the assets
+   for (int i = 0; i < 6; ++i)
+      if (!(pixMaps[i].isNull()))
+         productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 6, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void ProcessorWindow::loadAssets()
+{
+   // Instantiate our images and put them in pixmaps
+   std::vector<QImage> images;
+   images.push_back(QImage("./assets/HighEndAmdCpu.jpeg"));
+   images.push_back(QImage("./assets/MidRangeAmdCpu.jpeg"));
+   images.push_back(QImage("./assets/LowRangeAmdCpu.jpeg"));
+   images.push_back(QImage("./assets/HighEndIntelCpu.jpeg"));
+   images.push_back(QImage("./assets/MidRangeIntelCpu.jpeg"));
+   images.push_back(QImage("./assets/LowRangeIntelCpu.jpeg"));
+   
+   for (int i = 0; i < 6; ++i)
+      pixMaps.push_back(QPixmap(QPixmap::fromImage(images[i])));
 }
