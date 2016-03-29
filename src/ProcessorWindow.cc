@@ -29,7 +29,8 @@ ProcessorWindow::ProcessorWindow()
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
-      expandableButtons[i]->setStyleSheet("border:0px;");
+      expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
+      boxOptions[i]->setFixedWidth(200);
       
       layouts[i]->addWidget(productImages[i]);
       layouts[i]->addWidget(boxOptions[i]);
@@ -63,6 +64,14 @@ ProcessorWindow::ProcessorWindow()
    connect(boxOptions[3], SIGNAL(stateChanged(int)), this, SLOT(updateBoxFour(int)));
    connect(boxOptions[4], SIGNAL(stateChanged(int)), this, SLOT(updateBoxFive(int)));
    connect(boxOptions[5], SIGNAL(stateChanged(int)), this, SLOT(updateBoxSix(int)));
+   
+   // Connect our expandable buttons
+   connect(expandableButtons[0], SIGNAL(clicked()), this, SLOT(openWindowOne()));
+   connect(expandableButtons[1], SIGNAL(clicked()), this, SLOT(openWindowTwo()));
+   connect(expandableButtons[2], SIGNAL(clicked()), this, SLOT(openWindowThree()));
+   connect(expandableButtons[3], SIGNAL(clicked()), this, SLOT(openWindowFour()));
+   connect(expandableButtons[4], SIGNAL(clicked()), this, SLOT(openWindowFive()));
+   connect(expandableButtons[5], SIGNAL(clicked()), this, SLOT(openWindowSix()));
 }
 
 ProcessorWindow::~ProcessorWindow()
@@ -157,15 +166,46 @@ void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
 
 void ProcessorWindow::loadAssets()
 {
+   // Let's get the location of our images
+   QDir workingDirectory(QApplication::applicationFilePath());
+   workingDirectory.cdUp();
+   workingDirectory.cdUp();
+   QString imagesDirectory = workingDirectory.absolutePath() + "/assets/";
+   
    // Instantiate our images and put them in pixmaps
    std::vector<QImage> images;
-   images.push_back(QImage("./assets/HighEndAmdCpu.jpeg"));
-   images.push_back(QImage("./assets/MidRangeAmdCpu.jpeg"));
-   images.push_back(QImage("./assets/LowRangeAmdCpu.jpeg"));
-   images.push_back(QImage("./assets/HighEndIntelCpu.jpeg"));
-   images.push_back(QImage("./assets/MidRangeIntelCpu.jpeg"));
-   images.push_back(QImage("./assets/LowRangeIntelCpu.jpeg"));
+   
+   images.push_back(QImage(imagesDirectory + "HighEndAmdCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeAmdCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeAmdCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "HighEndIntelCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeIntelCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeIntelCpu.jpeg"));
    
    for (int i = 0; i < 6; ++i)
       pixMaps.push_back(QPixmap(QPixmap::fromImage(images[i])));
+}
+
+void ProcessorWindow::openWindowOne()
+{
+}
+
+void ProcessorWindow::openWindowTwo()
+{
+}
+
+void ProcessorWindow::openWindowThree()
+{
+}
+
+void ProcessorWindow::openWindowFour()
+{
+}
+
+void ProcessorWindow::openWindowFive()
+{
+}
+
+void ProcessorWindow::openWindowSix()
+{
 }

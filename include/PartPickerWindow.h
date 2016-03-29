@@ -8,6 +8,7 @@
 // Forward Declarations
 class QTabWidget;
 class QScrollArea;
+class QString;
 
 class PartPickerWindow : public QMainWindow
 {
@@ -19,10 +20,13 @@ class PartPickerWindow : public QMainWindow
       PartPickerWindow();
       
    private:
+      bool parseBudgetAmount(QString);
+      
       QTabWidget* tabBar;
       ProcessorWindow* cpuWindow;
       MotherboardWindow* mbWindow;
       std::vector<QScrollArea*> tabPages;
+      double budgetAmount;
 };
 
 #endif

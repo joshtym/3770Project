@@ -30,6 +30,12 @@ class ProcessorWindow : public QWidget
       void updateBoxFour(int);
       void updateBoxFive(int);
       void updateBoxSix(int);
+      void openWindowOne();
+      void openWindowTwo();
+      void openWindowThree();
+      void openWindowFour();
+      void openWindowFive();
+      void openWindowSix();
    
    public slots:
       void resizeEvent(QResizeEvent*);
