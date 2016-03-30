@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <vector>
+#include "SpecificationWindow.h"
 
 // Forward Declarations
 class QHBoxLayout;
@@ -49,5 +50,6 @@ class ProcessorWindow : public QWidget
       std::vector<QLabel*> itemPrices;
       std::vector<QLabel*> productImages;
       std::vector<QPixmap> pixMaps;
+      std::vector<SpecificationWindow*> specWindows;
 };
 #endif

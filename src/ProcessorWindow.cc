@@ -14,6 +14,7 @@ ProcessorWindow::ProcessorWindow()
    itemPrices.clear();
    productImages.clear();
    pixMaps.clear();
+   specWindows.clear();
    
    // Load our assets
    loadAssets();
@@ -21,24 +22,38 @@ ProcessorWindow::ProcessorWindow()
    // Instantiate all of our vectors and populate them
    for (int i = 0; i < 6; ++i)
    {
-      layouts.push_back(new QHBoxLayout());
       boxOptions.push_back(new QCheckBox());
       expandableButtons.push_back(new QPushButton());
       itemPrices.push_back(new QLabel());
       productImages.push_back(new QLabel());
+      specWindows.push_back(new SpecificationWindow());
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
       boxOptions[i]->setFixedWidth(200);
+      specWindows[i]->hide();
+   }
+   
+   // Make our layouts. Odd layouts not initially visible since widgets hidden
+   for (int i = 0; i < 12; ++i)
+   {
+      layouts.push_back(new QHBoxLayout());
       
-      layouts[i]->addWidget(productImages[i]);
-      layouts[i]->addWidget(boxOptions[i]);
-      layouts[i]->addWidget(itemPrices[i]);
-      layouts[i]->addWidget(expandableButtons[i]);
-      
+      if ((i % 2) == 0)
+      {
+         layouts[i]->addWidget(productImages[i/2]);
+         layouts[i]->addWidget(boxOptions[i/2]);
+         layouts[i]->addWidget(itemPrices[i/2]);
+         layouts[i]->addWidget(expandableButtons[i/2]);
+      }
+      else
+         layouts[i]->addWidget(specWindows[i/2]);
+         
       mainLayout->addLayout(layouts[i]);
    }
+   
+   /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
    itemPrices[0]->setText("$259.99");
@@ -188,24 +203,48 @@ void ProcessorWindow::loadAssets()
 
 void ProcessorWindow::openWindowOne()
 {
+   if (specWindows[0]->isHidden())
+      specWindows[0]->show();
+   else
+      specWindows[0]->hide();
 }
 
 void ProcessorWindow::openWindowTwo()
 {
+   if (specWindows[1]->isHidden())
+      specWindows[1]->show();
+   else
+      specWindows[1]->hide();
 }
 
 void ProcessorWindow::openWindowThree()
 {
+   if (specWindows[2]->isHidden())
+      specWindows[2]->show();
+   else
+      specWindows[2]->hide();
 }
 
 void ProcessorWindow::openWindowFour()
 {
+   if (specWindows[3]->isHidden())
+      specWindows[3]->show();
+   else
+      specWindows[3]->hide();
 }
 
 void ProcessorWindow::openWindowFive()
 {
+   if (specWindows[4]->isHidden())
+      specWindows[4]->show();
+   else
+      specWindows[4]->hide();
 }
 
 void ProcessorWindow::openWindowSix()
 {
+   if (specWindows[5]->isHidden())
+      specWindows[5]->show();
+   else
+      specWindows[5]->hide();
 }

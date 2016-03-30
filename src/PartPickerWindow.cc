@@ -4,8 +4,15 @@
 PartPickerWindow::PartPickerWindow()
 {
    // Some variable declarations
-   bool goodInput, noBudget = false;
+   bool goodInput = false;
    QString budgetAmountString;
+   QVBoxLayout* mainLayout = new QVBoxLayout();
+   QHBoxLayout* budgetLayout = new QHBoxLayout();
+   QWidget* centralWidget = new QWidget();
+   QLabel* budget = new QLabel();
+   QLabel* currentSpent = new QLabel("Current Cost: $0");
+   budget->setAlignment(Qt::AlignLeft);
+   currentSpent->setAlignment(Qt::AlignRight);
    
    // Instantiate our tabBar and ensure an empty vector
    tabBar = new QTabWidget();
@@ -21,9 +28,11 @@ PartPickerWindow::PartPickerWindow()
          goodInput = parseBudgetAmount(budgetAmountString);
    }
    
-   // If the budget is empty, then we assume an unlimited budget
+   // If the budget is empty, then we assume an unlimited budget. Assign the appropriate label
    if (budgetAmountString.isEmpty())
-      noBudget = true;
+      budget->setText("No budget!");
+   else
+      budget->setText("Budget: $" + budgetAmountString);
    
    // Create some tab pages to be used
    for (int i = 0; i < 4; ++i)
@@ -45,8 +54,15 @@ PartPickerWindow::PartPickerWindow()
    tabBar->addTab(tabPages[0], "CPU");
    tabBar->addTab(tabPages[1], "Motherboard");
    
-   // Set this to be the central widget
-   setCentralWidget(tabBar);
+   // Set the layouts
+   budgetLayout->addWidget(budget);
+   budgetLayout->addWidget(currentSpent);
+   mainLayout->addWidget(tabBar);
+   mainLayout->addLayout(budgetLayout);
+   
+   // Set this to be the central widget and assign our layout
+   setCentralWidget(centralWidget);
+   centralWidget->setLayout(mainLayout);
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)

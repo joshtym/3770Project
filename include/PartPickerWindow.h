@@ -27,6 +27,7 @@ class PartPickerWindow : public QMainWindow
       MotherboardWindow* mbWindow;
       std::vector<QScrollArea*> tabPages;
       double budgetAmount;
+      double totalAmount;
 };
 
 #endif
