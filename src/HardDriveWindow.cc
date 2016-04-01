@@ -1,7 +1,7 @@
 #include <QtGui>
-#include "ProcessorWindow.h"
+#include "HardDriveWindow.h"
 
-ProcessorWindow::ProcessorWindow()
+HardDriveWindow::HardDriveWindow()
 {
    // The main layout
    QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -14,10 +14,10 @@ ProcessorWindow::ProcessorWindow()
    boxOptions.clear();
    expandableButtons.clear();
    itemPriceLabels.clear();
-   itemPrices.clear();
    productImages.clear();
    pixMaps.clear();
    specWindows.clear();
+   itemPrices.clear();
    
    // Load our assets
    loadAssets();
@@ -35,7 +35,7 @@ ProcessorWindow::ProcessorWindow()
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setMinimumWidth(200);
+      boxOptions[i]->setFixedWidth(250);
       specWindows[i]->hide();
    }
    
@@ -60,25 +60,25 @@ ProcessorWindow::ProcessorWindow()
    /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
-   itemPriceLabels[0]->setText("$259.99");
-   itemPrices.push_back(259.99);
-   itemPriceLabels[1]->setText("$159.99");
-   itemPrices.push_back(159.99);
-   itemPriceLabels[2]->setText("$109.99");
-   itemPrices.push_back(109.99);
-   itemPriceLabels[3]->setText("$499.99");
-   itemPrices.push_back(499.99);
-   itemPriceLabels[4]->setText("$339.99");
-   itemPrices.push_back(339.99);
-   itemPriceLabels[5]->setText("$179.99");
+   itemPriceLabels[0]->setText("$209.99");
+   itemPrices.push_back(209.99);
+   itemPriceLabels[1]->setText("$179.99");
    itemPrices.push_back(179.99);
+   itemPriceLabels[2]->setText("$129.99");
+   itemPrices.push_back(129.99);
+   itemPriceLabels[3]->setText("$99.99");
+   itemPrices.push_back(99.99);
+   itemPriceLabels[4]->setText("$99.99");
+   itemPrices.push_back(99.99);
+   itemPriceLabels[5]->setText("$65.99");
+   itemPrices.push_back(65.99);
    
-   boxOptions[0]->setText("High End AMD CPU");
-   boxOptions[1]->setText("Middle Range AMD CPU");
-   boxOptions[2]->setText("Low End AMD CPU");
-   boxOptions[3]->setText("High End Intel CPU");
-   boxOptions[4]->setText("Mid Range Intel CPU");
-   boxOptions[5]->setText("Low End Intel CPU");
+   boxOptions[0]->setText("4TB Hard Drive");
+   boxOptions[1]->setText("2TB Hard Drive");
+   boxOptions[2]->setText("1TB Hard Drive");
+   boxOptions[3]->setText("1TB Hard Drive");
+   boxOptions[4]->setText("500GB Hard Drive");
+   boxOptions[5]->setText("300GB Hard Drive");
    
    this->setLayout(mainLayout);
    
@@ -99,11 +99,11 @@ ProcessorWindow::ProcessorWindow()
    connect(expandableButtons[5], SIGNAL(clicked()), this, SLOT(openWindowSix()));
 }
 
-ProcessorWindow::~ProcessorWindow()
+HardDriveWindow::~HardDriveWindow()
 {
 }
 
-void ProcessorWindow::updateBoxOne(int newState)
+void HardDriveWindow::updateBoxOne(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -125,7 +125,7 @@ void ProcessorWindow::updateBoxOne(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxTwo(int newState)
+void HardDriveWindow::updateBoxTwo(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -147,7 +147,7 @@ void ProcessorWindow::updateBoxTwo(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxThree(int newState)
+void HardDriveWindow::updateBoxThree(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -169,7 +169,7 @@ void ProcessorWindow::updateBoxThree(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxFour(int newState)
+void HardDriveWindow::updateBoxFour(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -191,7 +191,7 @@ void ProcessorWindow::updateBoxFour(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxFive(int newState)
+void HardDriveWindow::updateBoxFive(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -213,7 +213,7 @@ void ProcessorWindow::updateBoxFive(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxSix(int newState)
+void HardDriveWindow::updateBoxSix(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -235,7 +235,7 @@ void ProcessorWindow::updateBoxSix(int newState)
    }
 }
 
-void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
+void HardDriveWindow::resizeEvent(QResizeEvent* resizeEvent)
 {
    // Handle the resize of the window for the assets
    for (int i = 0; i < 6; ++i)
@@ -243,7 +243,7 @@ void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
          productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 6, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-void ProcessorWindow::loadAssets()
+void HardDriveWindow::loadAssets()
 {
    // Let's get the location of our images
    QDir workingDirectory(QApplication::applicationFilePath());
@@ -254,18 +254,18 @@ void ProcessorWindow::loadAssets()
    // Instantiate our images and put them in pixmaps
    std::vector<QImage> images;
    
-   images.push_back(QImage(imagesDirectory + "HighEndAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "HighEndIntelCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeIntelCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeIntelCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "4tb_Seagate_HardDrive.jpeg"));
+   images.push_back(QImage(imagesDirectory + "2tb_WB_HardDrive.jpeg"));
+   images.push_back(QImage(imagesDirectory + "300gb_Seagate_HardDrive.jpeg"));
+   images.push_back(QImage(imagesDirectory + "1tb_WB_HardDrive.jpeg"));
+   images.push_back(QImage(imagesDirectory + "1tb_Seagate_HardDrive.jpeg"));
+   images.push_back(QImage(imagesDirectory + "500gb_WB_HardDrive.jpeg"));
    
    for (int i = 0; i < 6; ++i)
       pixMaps.push_back(QPixmap(QPixmap::fromImage(images[i])));
 }
 
-void ProcessorWindow::openWindowOne()
+void HardDriveWindow::openWindowOne()
 {
    if (specWindows[0]->isHidden())
       specWindows[0]->show();
@@ -273,7 +273,7 @@ void ProcessorWindow::openWindowOne()
       specWindows[0]->hide();
 }
 
-void ProcessorWindow::openWindowTwo()
+void HardDriveWindow::openWindowTwo()
 {
    if (specWindows[1]->isHidden())
       specWindows[1]->show();
@@ -281,7 +281,7 @@ void ProcessorWindow::openWindowTwo()
       specWindows[1]->hide();
 }
 
-void ProcessorWindow::openWindowThree()
+void HardDriveWindow::openWindowThree()
 {
    if (specWindows[2]->isHidden())
       specWindows[2]->show();
@@ -289,7 +289,7 @@ void ProcessorWindow::openWindowThree()
       specWindows[2]->hide();
 }
 
-void ProcessorWindow::openWindowFour()
+void HardDriveWindow::openWindowFour()
 {
    if (specWindows[3]->isHidden())
       specWindows[3]->show();
@@ -297,7 +297,7 @@ void ProcessorWindow::openWindowFour()
       specWindows[3]->hide();
 }
 
-void ProcessorWindow::openWindowFive()
+void HardDriveWindow::openWindowFive()
 {
    if (specWindows[4]->isHidden())
       specWindows[4]->show();
@@ -305,7 +305,7 @@ void ProcessorWindow::openWindowFive()
       specWindows[4]->hide();
 }
 
-void ProcessorWindow::openWindowSix()
+void HardDriveWindow::openWindowSix()
 {
    if (specWindows[5]->isHidden())
       specWindows[5]->show();

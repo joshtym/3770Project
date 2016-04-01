@@ -1,7 +1,7 @@
 #include <QtGui>
-#include "ProcessorWindow.h"
+#include "RamWindow.h"
 
-ProcessorWindow::ProcessorWindow()
+RamWindow::RamWindow()
 {
    // The main layout
    QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -14,10 +14,10 @@ ProcessorWindow::ProcessorWindow()
    boxOptions.clear();
    expandableButtons.clear();
    itemPriceLabels.clear();
-   itemPrices.clear();
    productImages.clear();
    pixMaps.clear();
    specWindows.clear();
+   itemPrices.clear();
    
    // Load our assets
    loadAssets();
@@ -35,7 +35,7 @@ ProcessorWindow::ProcessorWindow()
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setMinimumWidth(200);
+      boxOptions[i]->setFixedWidth(250);
       specWindows[i]->hide();
    }
    
@@ -60,25 +60,25 @@ ProcessorWindow::ProcessorWindow()
    /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
-   itemPriceLabels[0]->setText("$259.99");
-   itemPrices.push_back(259.99);
-   itemPriceLabels[1]->setText("$159.99");
-   itemPrices.push_back(159.99);
-   itemPriceLabels[2]->setText("$109.99");
-   itemPrices.push_back(109.99);
-   itemPriceLabels[3]->setText("$499.99");
-   itemPrices.push_back(499.99);
-   itemPriceLabels[4]->setText("$339.99");
-   itemPrices.push_back(339.99);
-   itemPriceLabels[5]->setText("$179.99");
-   itemPrices.push_back(179.99);
+   itemPriceLabels[0]->setText("$399.99");
+   itemPrices.push_back(399.99);
+   itemPriceLabels[1]->setText("$299.99");
+   itemPrices.push_back(299.99);
+   itemPriceLabels[2]->setText("$102.00");
+   itemPrices.push_back(102.99);
+   itemPriceLabels[3]->setText("$169.99");
+   itemPrices.push_back(169.99);
+   itemPriceLabels[4]->setText("$34.99");
+   itemPrices.push_back(34.99);
+   itemPriceLabels[5]->setText("$69.99");
+   itemPrices.push_back(69.99);
    
-   boxOptions[0]->setText("High End AMD CPU");
-   boxOptions[1]->setText("Middle Range AMD CPU");
-   boxOptions[2]->setText("Low End AMD CPU");
-   boxOptions[3]->setText("High End Intel CPU");
-   boxOptions[4]->setText("Mid Range Intel CPU");
-   boxOptions[5]->setText("Low End Intel CPU");
+   boxOptions[0]->setText("High End RAM #1");
+   boxOptions[1]->setText("High End RAM #2");
+   boxOptions[2]->setText("Mid Range RAM #1");
+   boxOptions[3]->setText("Mid Range RAM #2");
+   boxOptions[4]->setText("Low Range RAM #1");
+   boxOptions[5]->setText("Low Range RAM #1");
    
    this->setLayout(mainLayout);
    
@@ -99,11 +99,11 @@ ProcessorWindow::ProcessorWindow()
    connect(expandableButtons[5], SIGNAL(clicked()), this, SLOT(openWindowSix()));
 }
 
-ProcessorWindow::~ProcessorWindow()
+RamWindow::~RamWindow()
 {
 }
 
-void ProcessorWindow::updateBoxOne(int newState)
+void RamWindow::updateBoxOne(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -125,7 +125,7 @@ void ProcessorWindow::updateBoxOne(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxTwo(int newState)
+void RamWindow::updateBoxTwo(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -147,7 +147,7 @@ void ProcessorWindow::updateBoxTwo(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxThree(int newState)
+void RamWindow::updateBoxThree(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -169,7 +169,7 @@ void ProcessorWindow::updateBoxThree(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxFour(int newState)
+void RamWindow::updateBoxFour(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -191,7 +191,7 @@ void ProcessorWindow::updateBoxFour(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxFive(int newState)
+void RamWindow::updateBoxFive(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -213,7 +213,7 @@ void ProcessorWindow::updateBoxFive(int newState)
    }
 }
 
-void ProcessorWindow::updateBoxSix(int newState)
+void RamWindow::updateBoxSix(int newState)
 {
    // Remove currently checked box and update pricing
    if (newState == 2)
@@ -235,7 +235,7 @@ void ProcessorWindow::updateBoxSix(int newState)
    }
 }
 
-void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
+void RamWindow::resizeEvent(QResizeEvent* resizeEvent)
 {
    // Handle the resize of the window for the assets
    for (int i = 0; i < 6; ++i)
@@ -243,7 +243,7 @@ void ProcessorWindow::resizeEvent(QResizeEvent* resizeEvent)
          productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 6, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-void ProcessorWindow::loadAssets()
+void RamWindow::loadAssets()
 {
    // Let's get the location of our images
    QDir workingDirectory(QApplication::applicationFilePath());
@@ -254,18 +254,18 @@ void ProcessorWindow::loadAssets()
    // Instantiate our images and put them in pixmaps
    std::vector<QImage> images;
    
-   images.push_back(QImage(imagesDirectory + "HighEndAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeAmdCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "HighEndIntelCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeIntelCpu.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeIntelCpu.jpeg"));
+   images.push_back(QImage(imagesDirectory + "high_range_hyperx_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "high_range_Corsair_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "mid_range_hyperx_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "Mid_range_Corsair_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "low_range_hyperx_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "Low_range_Corsair_RAM.jpeg"));
    
    for (int i = 0; i < 6; ++i)
       pixMaps.push_back(QPixmap(QPixmap::fromImage(images[i])));
 }
 
-void ProcessorWindow::openWindowOne()
+void RamWindow::openWindowOne()
 {
    if (specWindows[0]->isHidden())
       specWindows[0]->show();
@@ -273,7 +273,7 @@ void ProcessorWindow::openWindowOne()
       specWindows[0]->hide();
 }
 
-void ProcessorWindow::openWindowTwo()
+void RamWindow::openWindowTwo()
 {
    if (specWindows[1]->isHidden())
       specWindows[1]->show();
@@ -281,7 +281,7 @@ void ProcessorWindow::openWindowTwo()
       specWindows[1]->hide();
 }
 
-void ProcessorWindow::openWindowThree()
+void RamWindow::openWindowThree()
 {
    if (specWindows[2]->isHidden())
       specWindows[2]->show();
@@ -289,7 +289,7 @@ void ProcessorWindow::openWindowThree()
       specWindows[2]->hide();
 }
 
-void ProcessorWindow::openWindowFour()
+void RamWindow::openWindowFour()
 {
    if (specWindows[3]->isHidden())
       specWindows[3]->show();
@@ -297,7 +297,7 @@ void ProcessorWindow::openWindowFour()
       specWindows[3]->hide();
 }
 
-void ProcessorWindow::openWindowFive()
+void RamWindow::openWindowFive()
 {
    if (specWindows[4]->isHidden())
       specWindows[4]->show();
@@ -305,7 +305,7 @@ void ProcessorWindow::openWindowFive()
       specWindows[4]->hide();
 }
 
-void ProcessorWindow::openWindowSix()
+void RamWindow::openWindowSix()
 {
    if (specWindows[5]->isHidden())
       specWindows[5]->show();

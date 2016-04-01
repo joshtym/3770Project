@@ -1,5 +1,4 @@
 #include <QtGui>
-#include <iostream>
 #include "PartPickerWindow.h"
 
 PartPickerWindow::PartPickerWindow()
@@ -45,18 +44,26 @@ PartPickerWindow::PartPickerWindow()
    // Create our widgets for our parts
    cpuWindow = new ProcessorWindow();
    mbWindow = new MotherboardWindow();
+   ramWindow = new RamWindow();
+   hddWindow = new HardDriveWindow();
    
    // Set the scroll area widgets
    tabPages[0]->setWidget(cpuWindow);
    tabPages[1]->setWidget(mbWindow);
+   tabPages[2]->setWidget(ramWindow);
+   tabPages[3]->setWidget(hddWindow);
    
    // Ensure resizability
    tabPages[0]->setWidgetResizable(true);
    tabPages[1]->setWidgetResizable(true);
+   tabPages[2]->setWidgetResizable(true);
+   tabPages[3]->setWidgetResizable(true);
    
    // Let's name those tabs and add the scroll areas
    tabBar->addTab(tabPages[0], "CPU");
    tabBar->addTab(tabPages[1], "Motherboard");
+   tabBar->addTab(tabPages[2], "RAM");
+   tabBar->addTab(tabPages[3], "HDD");
    
    // Set the layouts
    budgetLayout->addWidget(budget);
@@ -70,6 +77,8 @@ PartPickerWindow::PartPickerWindow()
    
    connect(cpuWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
    connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
+   connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
+   connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)
