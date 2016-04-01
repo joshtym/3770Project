@@ -3,10 +3,14 @@
 
 #include <QWidget>
 #include <vector>
+#include "SpecificationWindow.h"
 
 // Forward Declarations
+class QHBoxLayout;
 class QCheckBox;
 class QLabel;
+class QPushButton;
+class QPixMap;
 
 class MotherboardWindow : public QWidget
 {
@@ -19,7 +23,7 @@ class MotherboardWindow : public QWidget
       
       // Destructor of class
       ~MotherboardWindow();
-      
+   
    private slots:
       void updateBoxOne(int);
       void updateBoxTwo(int);
@@ -27,10 +31,25 @@ class MotherboardWindow : public QWidget
       void updateBoxFour(int);
       void updateBoxFive(int);
       void updateBoxSix(int);
+      void openWindowOne();
+      void openWindowTwo();
+      void openWindowThree();
+      void openWindowFour();
+      void openWindowFive();
+      void openWindowSix();
+   
+   public slots:
+      void resizeEvent(QResizeEvent*);
    
    private:
+      void loadAssets();
+      
+      std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
-      std::vector<QLabel*> boxNames;
+      std::vector<QPushButton*> expandableButtons;
       std::vector<QLabel*> itemPrices;
+      std::vector<QLabel*> productImages;
+      std::vector<QPixmap> pixMaps;
+      std::vector<SpecificationWindow*> specWindows;
 };
 #endif

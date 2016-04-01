@@ -27,11 +27,12 @@ ProcessorWindow::ProcessorWindow()
       itemPrices.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
+      specWindows[i]->addWidget(new QLabel("Test"));
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setFixedWidth(200);
+      boxOptions[i]->setFixedWidth(250);
       specWindows[i]->hide();
    }
    

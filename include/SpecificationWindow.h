@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+// Forward Declarations
+class QVBoxLayout;
+
 class SpecificationWindow : public QWidget
 {
    Q_OBJECT
@@ -10,7 +13,10 @@ class SpecificationWindow : public QWidget
    public:
       SpecificationWindow();
       ~SpecificationWindow();
+      void addWidget(QWidget*);
+      
    private:
+      QVBoxLayout* mainLayout;
 };
 
 #endif
