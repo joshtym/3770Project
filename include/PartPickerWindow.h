@@ -9,6 +9,7 @@
 class QTabWidget;
 class QScrollArea;
 class QString;
+class QLabel;
 
 class PartPickerWindow : public QMainWindow
 {
@@ -18,6 +19,9 @@ class PartPickerWindow : public QMainWindow
    public:
       /// Constructor for the mainWindow
       PartPickerWindow();
+   
+   private slots:
+      void receiveAmountUpdate(double, double);
       
    private:
       bool parseBudgetAmount(QString);
@@ -26,6 +30,7 @@ class PartPickerWindow : public QMainWindow
       ProcessorWindow* cpuWindow;
       MotherboardWindow* mbWindow;
       std::vector<QScrollArea*> tabPages;
+      QLabel* currentSpent;
       double budgetAmount;
       double totalAmount;
 };

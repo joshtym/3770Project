@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <iostream>
 #include "PartPickerWindow.h"
 
 PartPickerWindow::PartPickerWindow()
@@ -10,9 +11,12 @@ PartPickerWindow::PartPickerWindow()
    QHBoxLayout* budgetLayout = new QHBoxLayout();
    QWidget* centralWidget = new QWidget();
    QLabel* budget = new QLabel();
-   QLabel* currentSpent = new QLabel("Current Cost: $0");
+   
+   // Variable instantiations
+   currentSpent = new QLabel("Current Cost: $0");
    budget->setAlignment(Qt::AlignLeft);
    currentSpent->setAlignment(Qt::AlignRight);
+   totalAmount = 0;
    
    // Instantiate our tabBar and ensure an empty vector
    tabBar = new QTabWidget();
@@ -43,8 +47,8 @@ PartPickerWindow::PartPickerWindow()
    mbWindow = new MotherboardWindow();
    
    // Set the scroll area widgets
-   tabPages[0]->setWidget(new ProcessorWindow());
-   tabPages[1]->setWidget(new MotherboardWindow());
+   tabPages[0]->setWidget(cpuWindow);
+   tabPages[1]->setWidget(mbWindow);
    
    // Ensure resizability
    tabPages[0]->setWidgetResizable(true);
@@ -63,6 +67,9 @@ PartPickerWindow::PartPickerWindow()
    // Set this to be the central widget and assign our layout
    setCentralWidget(centralWidget);
    centralWidget->setLayout(mainLayout);
+   
+   connect(cpuWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
+   connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)
@@ -70,4 +77,10 @@ bool PartPickerWindow::parseBudgetAmount(QString budgetString)
    bool success = false;
    budgetAmount = budgetString.toDouble(&success);
    return success;
+}
+
+void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount)
+{
+   totalAmount = totalAmount + newAmount - oldAmount;
+   currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
 }

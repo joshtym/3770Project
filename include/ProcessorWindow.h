@@ -24,6 +24,9 @@ class ProcessorWindow : public QWidget
       // Destructor of class
       ~ProcessorWindow();
    
+   signals:
+      void sendNewBoxUpdate(double, double);
+      
    private slots:
       void updateBoxOne(int);
       void updateBoxTwo(int);
@@ -47,9 +50,11 @@ class ProcessorWindow : public QWidget
       std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
       std::vector<QPushButton*> expandableButtons;
-      std::vector<QLabel*> itemPrices;
+      std::vector<QLabel*> itemPriceLabels;
+      std::vector<double> itemPrices;
       std::vector<QLabel*> productImages;
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
+      int currentlyCheckedBox;
 };
 #endif

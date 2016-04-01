@@ -6,14 +6,18 @@ MotherboardWindow::MotherboardWindow()
    // The main layout
    QVBoxLayout* mainLayout = new QVBoxLayout();
    
+   // Variable instantiations
+   currentlyCheckedBox = -1;
+   
    // Ensure a starting empty vector
    layouts.clear();
    boxOptions.clear();
    expandableButtons.clear();
-   itemPrices.clear();
+   itemPriceLabels.clear();
    productImages.clear();
    pixMaps.clear();
    specWindows.clear();
+   itemPrices.clear();
    
    // Load our assets
    loadAssets();
@@ -23,7 +27,7 @@ MotherboardWindow::MotherboardWindow()
    {
       boxOptions.push_back(new QCheckBox());
       expandableButtons.push_back(new QPushButton());
-      itemPrices.push_back(new QLabel());
+      itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
       specWindows[i]->addWidget(new QLabel("Test"));
@@ -44,7 +48,7 @@ MotherboardWindow::MotherboardWindow()
       {
          layouts[i]->addWidget(productImages[i/2]);
          layouts[i]->addWidget(boxOptions[i/2]);
-         layouts[i]->addWidget(itemPrices[i/2]);
+         layouts[i]->addWidget(itemPriceLabels[i/2]);
          layouts[i]->addWidget(expandableButtons[i/2]);
       }
       else
@@ -56,12 +60,18 @@ MotherboardWindow::MotherboardWindow()
    /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
-   itemPrices[0]->setText("$209.99");
-   itemPrices[1]->setText("$144.99");
-   itemPrices[2]->setText("$84.99");
-   itemPrices[3]->setText("$219.99");
-   itemPrices[4]->setText("$149.99");
-   itemPrices[5]->setText("$99.99");
+   itemPriceLabels[0]->setText("$209.99");
+   itemPrices.push_back(209.99);
+   itemPriceLabels[1]->setText("$144.99");
+   itemPrices.push_back(144.99);
+   itemPriceLabels[2]->setText("$84.99");
+   itemPrices.push_back(84.99);
+   itemPriceLabels[3]->setText("$219.99");
+   itemPrices.push_back(219.99);
+   itemPriceLabels[4]->setText("$149.99");
+   itemPrices.push_back(149.99);
+   itemPriceLabels[5]->setText("$99.99");
+   itemPrices.push_back(99.99);
    
    boxOptions[0]->setText("High End AMD Motherboard");
    boxOptions[1]->setText("Middle Range AMD Motherboard");
@@ -95,79 +105,133 @@ MotherboardWindow::~MotherboardWindow()
 
 void MotherboardWindow::updateBoxOne(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[1]->setCheckState(Qt::Unchecked);
-      boxOptions[2]->setCheckState(Qt::Unchecked);
-      boxOptions[3]->setCheckState(Qt::Unchecked);
-      boxOptions[4]->setCheckState(Qt::Unchecked);
-      boxOptions[5]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[0], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[0], 0);
+         
+      currentlyCheckedBox = 0;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[0]);
+      currentlyCheckedBox = -1;
    }
 }
 
 void MotherboardWindow::updateBoxTwo(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[0]->setCheckState(Qt::Unchecked);
-      boxOptions[2]->setCheckState(Qt::Unchecked);
-      boxOptions[3]->setCheckState(Qt::Unchecked);
-      boxOptions[4]->setCheckState(Qt::Unchecked);
-      boxOptions[5]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[1], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[1], 0);
+         
+      currentlyCheckedBox = 1;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[1]);
+      currentlyCheckedBox = -1;
    }
 }
 
 void MotherboardWindow::updateBoxThree(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[0]->setCheckState(Qt::Unchecked);
-      boxOptions[1]->setCheckState(Qt::Unchecked);
-      boxOptions[3]->setCheckState(Qt::Unchecked);
-      boxOptions[4]->setCheckState(Qt::Unchecked);
-      boxOptions[5]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[2], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[2], 0);
+         
+      currentlyCheckedBox = 2;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[2]);
+      currentlyCheckedBox = -1;
    }
 }
 
 void MotherboardWindow::updateBoxFour(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[0]->setCheckState(Qt::Unchecked);
-      boxOptions[1]->setCheckState(Qt::Unchecked);
-      boxOptions[2]->setCheckState(Qt::Unchecked);
-      boxOptions[4]->setCheckState(Qt::Unchecked);
-      boxOptions[5]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[3], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[3], 0);
+         
+      currentlyCheckedBox = 3;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[3]);
+      currentlyCheckedBox = -1;
    }
 }
 
 void MotherboardWindow::updateBoxFive(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[0]->setCheckState(Qt::Unchecked);
-      boxOptions[1]->setCheckState(Qt::Unchecked);
-      boxOptions[2]->setCheckState(Qt::Unchecked);
-      boxOptions[3]->setCheckState(Qt::Unchecked);
-      boxOptions[5]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[4], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[4], 0);
+         
+      currentlyCheckedBox = 4;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[4]);
+      currentlyCheckedBox = -1;
    }
 }
 
 void MotherboardWindow::updateBoxSix(int newState)
 {
-   // Ensure removal of all other check marks
+   // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      boxOptions[0]->setCheckState(Qt::Unchecked);
-      boxOptions[1]->setCheckState(Qt::Unchecked);
-      boxOptions[2]->setCheckState(Qt::Unchecked);
-      boxOptions[3]->setCheckState(Qt::Unchecked);
-      boxOptions[4]->setCheckState(Qt::Unchecked);
+      if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
+      {
+         boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+         emit sendNewBoxUpdate(itemPrices[5], 0);
+      }
+      else
+         emit sendNewBoxUpdate(itemPrices[5], 0);
+         
+      currentlyCheckedBox = 5;
+   }
+   else if (newState == 0)
+   {
+      emit sendNewBoxUpdate(0, itemPrices[5]);
+      currentlyCheckedBox = -1;
    }
 }
 
