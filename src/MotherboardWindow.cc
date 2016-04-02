@@ -54,8 +54,6 @@ MotherboardWindow::MotherboardWindow()
       mainLayout->addLayout(layouts[i]);
    }
    
-   /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
-   
    // Set our values
    itemPriceLabels[0]->setText("$259.99");
    itemPrices.push_back(259.99);

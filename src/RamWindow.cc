@@ -16,10 +16,10 @@ RamWindow::RamWindow()
    boxOptions.clear();
    expandableButtons.clear();
    itemPriceLabels.clear();
+   itemPrices.clear();
    productImages.clear();
    pixMaps.clear();
    specWindows.clear();
-   itemPrices.clear();
    
    // Load our assets
    loadAssets();
@@ -32,46 +32,39 @@ RamWindow::RamWindow()
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
-      specWindows[i]->addWidget(new QLabel("Test"));
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setFixedWidth(250);
-      specWindows[i]->hide();
+      boxOptions[i]->setMinimumWidth(200);
    }
    
+   // Load specs
+   loadSpecs();
+   
    // Make our layouts. Odd layouts not initially visible since widgets hidden
-   for (int i = 0; i < 12; ++i)
+   for (int i = 0; i < 6; ++i)
    {
       layouts.push_back(new QHBoxLayout());
-      
-      if ((i % 2) == 0)
-      {
-         layouts[i]->addWidget(productImages[i/2]);
-         layouts[i]->addWidget(boxOptions[i/2]);
-         layouts[i]->addWidget(itemPriceLabels[i/2]);
-         layouts[i]->addWidget(expandableButtons[i/2]);
-      }
-      else
-         layouts[i]->addWidget(specWindows[i/2]);
+      layouts[i]->addWidget(productImages[i]);
+      layouts[i]->addWidget(boxOptions[i]);
+      layouts[i]->addWidget(itemPriceLabels[i]);
+      layouts[i]->addWidget(expandableButtons[i]);
          
       mainLayout->addLayout(layouts[i]);
    }
    
-   /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
-   
    // Set our values
-   itemPriceLabels[0]->setText("$399.99");
-   itemPrices.push_back(399.99);
-   itemPriceLabels[1]->setText("$299.99");
-   itemPrices.push_back(299.99);
-   itemPriceLabels[2]->setText("$102.00");
+   itemPriceLabels[0]->setText("$219.99");
+   itemPrices.push_back(219.99);
+   itemPriceLabels[1]->setText("$129.99");
+   itemPrices.push_back(129.99);
+   itemPriceLabels[2]->setText("$69.00");
+   itemPrices.push_back(69.99);
+   itemPriceLabels[3]->setText("$239.99");
+   itemPrices.push_back(239.99);
+   itemPriceLabels[4]->setText("$102.99");
    itemPrices.push_back(102.99);
-   itemPriceLabels[3]->setText("$169.99");
-   itemPrices.push_back(169.99);
-   itemPriceLabels[4]->setText("$34.99");
-   itemPrices.push_back(34.99);
    itemPriceLabels[5]->setText("$69.99");
    itemPrices.push_back(69.99);
    
@@ -412,12 +405,12 @@ void RamWindow::loadAssets()
    // Instantiate our images and put them in pixmaps
    std::vector<QImage> images;
    
-   images.push_back(QImage(imagesDirectory + "high_range_hyperx_RAM.jpeg"));
-   images.push_back(QImage(imagesDirectory + "high_range_Corsair_RAM.jpeg"));
-   images.push_back(QImage(imagesDirectory + "mid_range_hyperx_RAM.jpeg"));
-   images.push_back(QImage(imagesDirectory + "Mid_range_Corsair_RAM.jpeg"));
-   images.push_back(QImage(imagesDirectory + "low_range_hyperx_RAM.jpeg"));
-   images.push_back(QImage(imagesDirectory + "Low_range_Corsair_RAM.jpeg"));
+   images.push_back(QImage(imagesDirectory + "HighEndGSkillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeGSkillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeGskillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "HighEndCorsairRam.jpg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeCorsairRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeCorsairRam.jpeg"));
    
    for (int i = 0; i < 6; ++i)
       pixMaps.push_back(QPixmap(QPixmap::fromImage(images[i])));
@@ -473,4 +466,88 @@ void RamWindow::updateCurrentAmount(double givenAmount)
 void RamWindow::updateBudgetAmount(double givenAmount)
 {
    budgetAmount = givenAmount;
+}
+
+void RamWindow::loadSpecs()
+{
+   specWindows[0]->addWidget(new QLabel("G.SKILL F3-2400C11Q-32GXM"));
+   specWindows[0]->addWidget(new QLabel("Model"));
+   specWindows[0]->addWidget(new QLabel("Brand: G.SKILL"));
+   specWindows[0]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specWindows[0]->addWidget(new QLabel("Details"));
+   specWindows[0]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
+   specWindows[0]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[0]->addWidget(new QLabel("Speed: DDR3 2400 (PC3 19200)"));
+   specWindows[0]->addWidget(new QLabel("Cas Latency: 11"));
+   specWindows[0]->addWidget(new QLabel("Timing: 11-13-13-31"));
+   specWindows[0]->addWidget(new QLabel("Voltage: 1.65V"));
+   specWindows[0]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
+   
+   specWindows[1]->addWidget(new QLabel("G.SKILL F3-1600C9D-16GXM"));
+   specWindows[1]->addWidget(new QLabel("Model"));
+   specWindows[1]->addWidget(new QLabel("Brand: G.SKILL"));
+   specWindows[1]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specWindows[1]->addWidget(new QLabel("Details"));
+   specWindows[1]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
+   specWindows[1]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[1]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specWindows[1]->addWidget(new QLabel("Cas Latency: 9"));
+   specWindows[1]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specWindows[1]->addWidget(new QLabel("Voltage: 1.5V"));
+   specWindows[1]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   
+   specWindows[2]->addWidget(new QLabel("G.SKILL F3-12800CL9D-8GBXL"));
+   specWindows[3]->addWidget(new QLabel("Model"));
+   specWindows[3]->addWidget(new QLabel("Brand: G.SKILL"));
+   specWindows[3]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specWindows[3]->addWidget(new QLabel("Details"));
+   specWindows[3]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
+   specWindows[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[3]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specWindows[3]->addWidget(new QLabel("Cas Latency: 9"));
+   specWindows[3]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specWindows[3]->addWidget(new QLabel("Voltage: 1.5V"));
+   specWindows[3]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   
+   specWindows[3]->addWidget(new QLabel("Corsair CMZ32GX3M4X1866C10"));
+   specWindows[3]->addWidget(new QLabel("Model"));
+   specWindows[3]->addWidget(new QLabel("Brand: CORSAIR"));
+   specWindows[3]->addWidget(new QLabel("Series: Vengeance"));
+   specWindows[3]->addWidget(new QLabel("Details"));
+   specWindows[3]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
+   specWindows[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[3]->addWidget(new QLabel("Speed: DDR3 1866 (PC3 14900)"));
+   specWindows[3]->addWidget(new QLabel("Cas Latency: 10"));
+   specWindows[3]->addWidget(new QLabel("Timing: 10-11-10-30"));
+   specWindows[3]->addWidget(new QLabel("Voltage: 1.5V"));
+   specWindows[3]->addWidget(new QLabel("Multi-chanel Kit: Quad Channel Kit"));
+   specWindows[3]->addWidget(new QLabel("Heat Spreader: Yes"));
+   
+   specWindows[4]->addWidget(new QLabel("Corsair CMZ16GX3M2A1600C9"));
+   specWindows[4]->addWidget(new QLabel("Model"));
+   specWindows[4]->addWidget(new QLabel("Brand: CORSAIR"));
+   specWindows[4]->addWidget(new QLabel("Series: Vengeance"));
+   specWindows[4]->addWidget(new QLabel("Details"));
+   specWindows[4]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
+   specWindows[4]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[4]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specWindows[4]->addWidget(new QLabel("Cas Latency: 9"));
+   specWindows[4]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specWindows[4]->addWidget(new QLabel("Voltage: 1.5V"));
+   specWindows[4]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   specWindows[4]->addWidget(new QLabel("Heat Spreader: Yes"));
+   
+   specWindows[5]->addWidget(new QLabel("Corsair CML8GX3M2A1600C9"));
+   specWindows[5]->addWidget(new QLabel("Model"));
+   specWindows[5]->addWidget(new QLabel("Brand: CORSAIR"));
+   specWindows[5]->addWidget(new QLabel("Series: Vengeance LP"));
+   specWindows[5]->addWidget(new QLabel("Details"));
+   specWindows[5]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
+   specWindows[5]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specWindows[5]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specWindows[5]->addWidget(new QLabel("Cas Latency: 9"));
+   specWindows[5]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specWindows[5]->addWidget(new QLabel("Voltage: 1.5V"));
+   specWindows[5]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
+   specWindows[5]->addWidget(new QLabel("Heat Spreader: Yes"));
 }

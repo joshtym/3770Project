@@ -50,6 +50,7 @@ class HardDriveWindow : public QWidget
    
    private:
       void loadAssets();
+      void loadSpecs();
       
       std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
