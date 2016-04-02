@@ -1,15 +1,15 @@
 #include <QtGui>
 #include "PartPickerWindow.h"
+#include <iostream>
 
 PartPickerWindow::PartPickerWindow()
 {
    // Some variable declarations
    bool goodInput = false;
-   QString budgetAmountString;
    QVBoxLayout* mainLayout = new QVBoxLayout();
    QHBoxLayout* budgetLayout = new QHBoxLayout();
    QWidget* centralWidget = new QWidget();
-   QLabel* budget = new QLabel();
+   budget = new QLabel();
    
    // Variable instantiations
    currentSpent = new QLabel("Current Cost: $0");
@@ -55,6 +55,7 @@ PartPickerWindow::PartPickerWindow()
       mbWindow->updateBudgetAmount(10000000000);
       hddWindow->updateBudgetAmount(10000000000);
       ramWindow->updateBudgetAmount(10000000000);
+      infoWindow->updateBudget(-1);
    }
    else
    {
@@ -63,6 +64,8 @@ PartPickerWindow::PartPickerWindow()
       mbWindow->updateBudgetAmount(budgetAmount);
       hddWindow->updateBudgetAmount(budgetAmount);
       ramWindow->updateBudgetAmount(budgetAmount);
+      infoWindow->updateBudget(budgetAmount);
+      
    }
    
    // Create some tab pages to be used
@@ -104,12 +107,15 @@ PartPickerWindow::PartPickerWindow()
    connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
+   connect(infoWindow, SIGNAL(budgetupdated(double)), this, SLOT(budget_updated(double)));
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)
 {
    bool success = false;
    budgetAmount = budgetString.toDouble(&success);
+   if (budgetAmount < 0)
+      success = false;
    return success;
 }
 
@@ -129,3 +135,30 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
       productSelectionPrices[tabBar->currentIndex() - 1] = newAmount;
    }
 }
+
+
+void PartPickerWindow::budget_updated(double budget_input)
+{
+   std::cout << "success: " << budget_input << "\n"; 
+   budgetAmount = budget_input;
+   budgetAmountString = QString::number(budgetAmount);
+   budget->setText("Budget: $" + budgetAmountString);
+   cpuWindow->updateBudgetAmount(budgetAmount);
+   mbWindow->updateBudgetAmount(budgetAmount);
+   hddWindow->updateBudgetAmount(budgetAmount);
+   ramWindow->updateBudgetAmount(budgetAmount);
+   infoWindow->updateBudget(budgetAmount);
+   
+   // reset_selection();
+   
+} 
+
+//void PartPickerWindow::reset_selection()
+//{
+//   cpuWindow->reset_selection(budgetAmount);
+//   mbWindow->reset_selection(budgetAmount);
+//   hddWindow->reset_selection(budgetAmount);
+//   ramWindow->reset_selection(budgetAmount);
+
+
+//}

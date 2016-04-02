@@ -9,27 +9,41 @@
 class QHBoxLayout;
 class QLabel;
 class QPushButton;
-class QPixMap;
+class QLineEdit;
 
 class InfoTab : public QWidget
 {
    // Meta object compiler macro
    Q_OBJECT
-   
-   public:
-      // Default constructor
+      
+      public:
+   // Default constructor
    InfoTab();
+   void updateBudget(double);
    
    // Destructor of class
    ~InfoTab();
    
-   void budgetupdated(double); 
-
-   public slots:
-      void resizeEvent(QResizeEvent*);
+  signals:
    
-   private:
-      std::vector<QHBoxLayout*> layouts;
-      std::vector<QLabel*> information;
+   void budgetupdated(double); 
+   
+   public slots:
+   void resizeEvent(QResizeEvent*);
+   void budget_submission();
+   void text_change(const QString &);
+   
+   
+  private:
+   std::vector<QHBoxLayout*> layouts;
+   std::vector<QLabel*> information;
+   QPushButton* update_budget;
+   QLineEdit* budget_in;
+   double budget;
+   bool parseBudgetAmount(QString);
+   
+   
+   
+   
 };
 #endif

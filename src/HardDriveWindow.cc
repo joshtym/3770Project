@@ -470,11 +470,11 @@ void HardDriveWindow::updateBudgetAmount(double givenAmount)
 
 void HardDriveWindow::loadSpecs()
 {
-   specWindows[0]->addWidget(new QLabel("Seagate ST4000VN000"));
-   specWindows[0]->addWidget(new QLabel("Model"));
+   specWindows[0]->addWidget(new QLabel("<b>Seagate ST4000VN000</b>"));
+   specWindows[0]->addWidget(new QLabel("<font color=red>Model </font>"));
    specWindows[0]->addWidget(new QLabel("Brand: Seagate"));
    specWindows[0]->addWidget(new QLabel("Series: NAS HDD"));
-   specWindows[0]->addWidget(new QLabel("Performance"));
+   specWindows[0]->addWidget(new QLabel("<font color=red>Performance </font>"));
    specWindows[0]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
    specWindows[0]->addWidget(new QLabel("Capacity: 4TB"));
    specWindows[0]->addWidget(new QLabel("Cache: 64MB"));
@@ -498,7 +498,7 @@ void HardDriveWindow::loadSpecs()
    specWindows[2]->addWidget(new QLabel("Performance"));
    specWindows[2]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
    specWindows[2]->addWidget(new QLabel("Capacity: 1TB"));
-   specWindows[2]->addWidget(new QLabel("Flash Memory Capicity: 8GB"));
+   specWindows[2]->addWidget(new QLabel("Flash Memory Capacity: 8GB"));
    specWindows[2]->addWidget(new QLabel("Cache: 64MB"));
    specWindows[2]->addWidget(new QLabel("Form Factor: 3.5\""));
    

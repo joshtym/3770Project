@@ -27,6 +27,7 @@ class PartPickerWindow : public QMainWindow
       
    private slots:
       void receiveAmountUpdate(double, double, QString);
+      void budget_updated(double);
       
    private:
       bool parseBudgetAmount(QString);
@@ -43,6 +44,8 @@ class PartPickerWindow : public QMainWindow
       QLabel* currentSpent;
       double budgetAmount;
       double totalAmount;
+      QString budgetAmountString;
+       QLabel* budget;
 };
 
 #endif
