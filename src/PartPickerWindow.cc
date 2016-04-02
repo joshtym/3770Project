@@ -1,6 +1,6 @@
 #include <QtGui>
 #include "PartPickerWindow.h"
-#include <iostream>
+
 
 PartPickerWindow::PartPickerWindow()
 {
@@ -126,6 +126,7 @@ bool PartPickerWindow::parseBudgetAmount(QString budgetString)
 
 void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, QString deviceName)
 {
+
    totalAmount = totalAmount + newAmount - oldAmount;
    currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
    
@@ -134,20 +135,24 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
    hddWindow->updateCurrentAmount(totalAmount);
    ramWindow->updateCurrentAmount(totalAmount);
    confWindow->updateCurrentAmount(totalAmount);
-   confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
+
+   // confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
    
    if (newAmount != 0 && oldAmount == 0)
    {
+      
       productSelectionNames[tabBar->currentIndex() - 1] = deviceName;
       productSelectionPrices[tabBar->currentIndex() - 1] = newAmount;
    }
+      
 }
 
 
 void PartPickerWindow::budget_updated(double budget_input)
 {
-   std::cout << "success: " << budget_input << "\n"; 
+  
    budgetAmount = budget_input;
+   reset_selection();
    budgetAmountString = QString::number(budgetAmount);
    budget->setText("Budget: $" + budgetAmountString);
    cpuWindow->updateBudgetAmount(budgetAmount);
@@ -156,16 +161,16 @@ void PartPickerWindow::budget_updated(double budget_input)
    ramWindow->updateBudgetAmount(budgetAmount);
    infoWindow->updateBudget(budgetAmount);
    
-   // reset_selection();
+
    
 } 
 
-//void PartPickerWindow::reset_selection()
-//{
-//   cpuWindow->reset_selection(budgetAmount);
-//   mbWindow->reset_selection(budgetAmount);
-//   hddWindow->reset_selection(budgetAmount);
-//   ramWindow->reset_selection(budgetAmount);
+void PartPickerWindow::reset_selection()
+{
+   cpuWindow->reset_selection();
+   mbWindow->reset_selection();
+   hddWindow->reset_selection();
+   ramWindow->reset_selection();
 
 
-//}
+}

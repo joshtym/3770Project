@@ -560,3 +560,9 @@ void RamWindow::loadSpecs()
    specLayouts[5]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
    specLayouts[5]->addWidget(new QLabel("Heat Spreader: Yes"));
 }
+
+void RamWindow::reset_selection()
+{
+   if (currentlyCheckedBox != -1)
+      boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+}

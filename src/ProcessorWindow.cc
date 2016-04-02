@@ -1,6 +1,7 @@
 #include <QtGui>
 #include "ProcessorWindow.h"
 
+
 ProcessorWindow::ProcessorWindow()
 {
    // The main layout
@@ -711,4 +712,17 @@ void ProcessorWindow::updateCurrentAmount(double givenAmount)
 void ProcessorWindow::updateBudgetAmount(double givenAmount)
 {
    budgetAmount = givenAmount;
+}
+
+
+
+void ProcessorWindow::reset_selection()
+{
+   
+   if (currentlyCheckedBox != -1)
+   {
+
+      boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+
+   }
 }

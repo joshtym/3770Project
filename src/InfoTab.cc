@@ -88,8 +88,29 @@ void InfoTab::updateBudget(double budg)
 
 void InfoTab::budget_submission()
 {
+   QMessageBox msgBox;
+   msgBox.setText("The Budget has been modified.");
+   msgBox.setInformativeText("This will remove all part selections present. Continue?");
+   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+   msgBox.setDefaultButton(QMessageBox::Cancel);
+   int ret = msgBox.exec();
+   switch (ret){
+      case QMessageBox::Ok:
+      {
+	 emit budgetupdated(budget);
+	 break;
+      }
+      case QMessageBox::Cancel:
+      {
+	 break;
+      }
+      defualt:
+      break;
+   }
+      
+	 
    // emit signal to update budget throughout the program
-   emit budgetupdated(budget);
+   
    
    
 }

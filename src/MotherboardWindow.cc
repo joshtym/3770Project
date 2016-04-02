@@ -726,3 +726,9 @@ void MotherboardWindow::loadSpecs()
    specLayouts[5]->addWidget(new QLabel("Form Factor: Mini ITX"));
    specLayouts[5]->addWidget(new QLabel("Power Pin: 24 Pin"));
 }
+
+void MotherboardWindow::reset_selection()
+{
+   if (currentlyCheckedBox != -1)
+      boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+}

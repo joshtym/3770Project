@@ -544,3 +544,9 @@ void HardDriveWindow::loadSpecs()
    specLayouts[5]->addWidget(new QLabel("RPM: 7200 RPM"));
    specLayouts[5]->addWidget(new QLabel("Form Factor: 3.5\""));
 }
+
+void HardDriveWindow::reset_selection()
+{
+   if (currentlyCheckedBox != -1)
+      boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+}

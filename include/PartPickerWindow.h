@@ -32,6 +32,8 @@ class PartPickerWindow : public QMainWindow
       
    private:
       bool parseBudgetAmount(QString);
+      void reset_selection();
+      
       
       QTabWidget* tabBar;
       ProcessorWindow* cpuWindow;
