@@ -30,29 +30,24 @@ ProcessorWindow::ProcessorWindow()
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
-      specWindows[i]->addWidget(new QLabel("Test"));
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
       boxOptions[i]->setMinimumWidth(200);
-      specWindows[i]->hide();
    }
    
+   // Load specs
+   loadSpecs();
+   
    // Make our layouts. Odd layouts not initially visible since widgets hidden
-   for (int i = 0; i < 12; ++i)
+   for (int i = 0; i < 6; ++i)
    {
       layouts.push_back(new QHBoxLayout());
-      
-      if ((i % 2) == 0)
-      {
-         layouts[i]->addWidget(productImages[i/2]);
-         layouts[i]->addWidget(boxOptions[i/2]);
-         layouts[i]->addWidget(itemPriceLabels[i/2]);
-         layouts[i]->addWidget(expandableButtons[i/2]);
-      }
-      else
-         layouts[i]->addWidget(specWindows[i/2]);
+      layouts[i]->addWidget(productImages[i]);
+      layouts[i]->addWidget(boxOptions[i]);
+      layouts[i]->addWidget(itemPriceLabels[i]);
+      layouts[i]->addWidget(expandableButtons[i]);
          
       mainLayout->addLayout(layouts[i]);
    }
@@ -73,12 +68,12 @@ ProcessorWindow::ProcessorWindow()
    itemPriceLabels[5]->setText("$179.99");
    itemPrices.push_back(179.99);
    
-   boxOptions[0]->setText("High End AMD CPU");
-   boxOptions[1]->setText("Middle Range AMD CPU");
-   boxOptions[2]->setText("Low End AMD CPU");
-   boxOptions[3]->setText("High End Intel CPU");
-   boxOptions[4]->setText("Mid Range Intel CPU");
-   boxOptions[5]->setText("Low End Intel CPU");
+   boxOptions[0]->setText("AMD FX-8350");
+   boxOptions[1]->setText("AMD FX-6300");
+   boxOptions[2]->setText("AMD Athlon X4");
+   boxOptions[3]->setText("Intel Core i7-4790K");
+   boxOptions[4]->setText("Intel Core i5-4690K");
+   boxOptions[5]->setText("Intel Core i3-6100");
    
    this->setLayout(mainLayout);
    
@@ -111,16 +106,16 @@ void ProcessorWindow::updateBoxOne(int newState)
       if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
          
       currentlyCheckedBox = 0;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[0]);
+      emit sendNewBoxUpdate(0, itemPrices[0], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -133,16 +128,16 @@ void ProcessorWindow::updateBoxTwo(int newState)
       if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
       currentlyCheckedBox = 1;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1]);
+      emit sendNewBoxUpdate(0, itemPrices[1],"");
       currentlyCheckedBox = -1;
    }
 }
@@ -155,16 +150,16 @@ void ProcessorWindow::updateBoxThree(int newState)
       if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
       currentlyCheckedBox = 2;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2]);
+      emit sendNewBoxUpdate(0, itemPrices[2],"");
       currentlyCheckedBox = -1;
    }
 }
@@ -177,16 +172,16 @@ void ProcessorWindow::updateBoxFour(int newState)
       if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
       currentlyCheckedBox = 3;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[3]);
+      emit sendNewBoxUpdate(0, itemPrices[3], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -199,16 +194,16 @@ void ProcessorWindow::updateBoxFive(int newState)
       if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
       currentlyCheckedBox = 4;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[4]);
+      emit sendNewBoxUpdate(0, itemPrices[4], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -221,16 +216,16 @@ void ProcessorWindow::updateBoxSix(int newState)
       if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
       currentlyCheckedBox = 5;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[5]);
+      emit sendNewBoxUpdate(0, itemPrices[5], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -267,48 +262,58 @@ void ProcessorWindow::loadAssets()
 
 void ProcessorWindow::openWindowOne()
 {
-   if (specWindows[0]->isHidden())
-      specWindows[0]->show();
-   else
-      specWindows[0]->hide();
+	specWindows[0]->setWindowTitle(boxOptions[0]->text());
+	specWindows[0]->show();
+	specWindows[0]->activateWindow();
 }
 
 void ProcessorWindow::openWindowTwo()
 {
-   if (specWindows[1]->isHidden())
-      specWindows[1]->show();
-   else
-      specWindows[1]->hide();
+	specWindows[1]->setWindowTitle(boxOptions[1]->text());
+	specWindows[1]->show();
+	specWindows[1]->activateWindow();
 }
 
 void ProcessorWindow::openWindowThree()
 {
-   if (specWindows[2]->isHidden())
-      specWindows[2]->show();
-   else
-      specWindows[2]->hide();
+	specWindows[2]->setWindowTitle(boxOptions[2]->text());
+	specWindows[2]->show();
+	specWindows[2]->activateWindow();
 }
 
 void ProcessorWindow::openWindowFour()
 {
-   if (specWindows[3]->isHidden())
-      specWindows[3]->show();
-   else
-      specWindows[3]->hide();
+	specWindows[3]->setWindowTitle(boxOptions[3]->text());
+	specWindows[3]->show();
+	specWindows[3]->activateWindow();
 }
 
 void ProcessorWindow::openWindowFive()
 {
-   if (specWindows[4]->isHidden())
-      specWindows[4]->show();
-   else
-      specWindows[4]->hide();
+	specWindows[4]->setWindowTitle(boxOptions[4]->text());
+	specWindows[4]->show();
+	specWindows[4]->activateWindow();
 }
 
 void ProcessorWindow::openWindowSix()
 {
-   if (specWindows[5]->isHidden())
-      specWindows[5]->show();
-   else
-      specWindows[5]->hide();
+	specWindows[5]->setWindowTitle(boxOptions[5]->text());
+	specWindows[5]->show();
+	specWindows[5]->activateWindow();
+}
+
+void ProcessorWindow::loadSpecs()
+{
+	specWindows[0]->addWidget(new QLabel("AMD FX-8350 Black Edition Vishera 8-core 4.0 GHz"));
+	specWindows[0]->addWidget(new QLabel("Model"));
+	specWindows[0]->addWidget(new QLabel("Brand: AMD"));
+	specWindows[0]->addWidget(new QLabel("Series: FX-Series"));
+	specWindows[0]->addWidget(new QLabel("Name: FX-8350 Black Edition"));
+	specWindows[0]->addWidget(new QLabel("CPU Socket Type: Socket AM3+"));
+	specWindows[0]->addWidget(new QLabel("Core Name: Vishera"));
+	specWindows[0]->addWidget(new QLabel("# of Cores: 8-Core"));
+	specWindows[0]->addWidget(new QLabel("# of Threads: 8"));
+	specWindows[0]->addWidget(new QLabel("Operating Frequency: 4.0 GHz (4.2Ghz Turbo"));
+	specWindows[0]->addWidget(new QLabel("L2 Cache: 4 x 2MB"));
+	specWindows[0]->addWidget(new QLabel("L3 Cache: 8MB"));
 }

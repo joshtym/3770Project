@@ -1,12 +1,12 @@
 #ifndef SPECIFICATIONWINDOW_H
 #define SPECIFICATIONWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
 
 // Forward Declarations
 class QVBoxLayout;
 
-class SpecificationWindow : public QWidget
+class SpecificationWindow : public QDialog
 {
    Q_OBJECT
    

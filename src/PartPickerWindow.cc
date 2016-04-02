@@ -16,6 +16,15 @@ PartPickerWindow::PartPickerWindow()
    budget->setAlignment(Qt::AlignLeft);
    currentSpent->setAlignment(Qt::AlignRight);
    totalAmount = 0;
+   productSelectionNames.clear();
+   productSelectionPrices.clear();
+   
+   // Load up them guns
+   for (int i = 0; i < 4; ++i)
+   {
+      productSelectionNames.push_back("");
+      productSelectionPrices.push_back(0);
+   }
    
    // Instantiate our tabBar and ensure an empty vector
    tabBar = new QTabWidget();
@@ -79,10 +88,10 @@ PartPickerWindow::PartPickerWindow()
    setCentralWidget(centralWidget);
    centralWidget->setLayout(mainLayout);
    
-   connect(cpuWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
-   connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
-   connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
-   connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double)), this, SLOT(receiveAmountUpdate(double, double)));
+   connect(cpuWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
+   connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
+   connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
+   connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)
@@ -92,8 +101,14 @@ bool PartPickerWindow::parseBudgetAmount(QString budgetString)
    return success;
 }
 
-void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount)
+void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, QString deviceName)
 {
    totalAmount = totalAmount + newAmount - oldAmount;
    currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
+   
+   if (newAmount != 0 && oldAmount == 0)
+   {
+      productSelectionNames[tabBar->currentIndex() - 1] = deviceName;
+      productSelectionPrices[tabBar->currentIndex() - 1] = newAmount;
+   }
 }

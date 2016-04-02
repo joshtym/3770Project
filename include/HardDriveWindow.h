@@ -11,6 +11,7 @@ class QCheckBox;
 class QLabel;
 class QPushButton;
 class QPixMap;
+class QString;
 
 class HardDriveWindow : public QWidget
 {
@@ -25,7 +26,7 @@ class HardDriveWindow : public QWidget
       ~HardDriveWindow();
    
    signals:
-      void sendNewBoxUpdate(double, double);
+      void sendNewBoxUpdate(double, double, QString);
       
    private slots:
       void updateBoxOne(int);

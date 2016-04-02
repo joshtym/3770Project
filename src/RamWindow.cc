@@ -111,16 +111,16 @@ void RamWindow::updateBoxOne(int newState)
       if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
          
       currentlyCheckedBox = 0;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[0]);
+      emit sendNewBoxUpdate(0, itemPrices[0], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -133,16 +133,16 @@ void RamWindow::updateBoxTwo(int newState)
       if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
       currentlyCheckedBox = 1;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1]);
+      emit sendNewBoxUpdate(0, itemPrices[1], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -155,16 +155,16 @@ void RamWindow::updateBoxThree(int newState)
       if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
       currentlyCheckedBox = 2;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2]);
+      emit sendNewBoxUpdate(0, itemPrices[2], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -177,16 +177,16 @@ void RamWindow::updateBoxFour(int newState)
       if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
       currentlyCheckedBox = 3;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[3]);
+      emit sendNewBoxUpdate(0, itemPrices[3], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -199,16 +199,16 @@ void RamWindow::updateBoxFive(int newState)
       if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
       currentlyCheckedBox = 4;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[4]);
+      emit sendNewBoxUpdate(0, itemPrices[4], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -221,16 +221,16 @@ void RamWindow::updateBoxSix(int newState)
       if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
       currentlyCheckedBox = 5;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[5]);
+      emit sendNewBoxUpdate(0, itemPrices[5], "");
       currentlyCheckedBox = -1;
    }
 }

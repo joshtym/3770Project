@@ -111,16 +111,16 @@ void MotherboardWindow::updateBoxOne(int newState)
       if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[0], 0);
+         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
          
       currentlyCheckedBox = 0;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[0]);
+      emit sendNewBoxUpdate(0, itemPrices[0], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -133,16 +133,16 @@ void MotherboardWindow::updateBoxTwo(int newState)
       if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[1], 0);
+         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
       currentlyCheckedBox = 1;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1]);
+      emit sendNewBoxUpdate(0, itemPrices[1], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -155,16 +155,16 @@ void MotherboardWindow::updateBoxThree(int newState)
       if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[2], 0);
+         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
       currentlyCheckedBox = 2;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2]);
+      emit sendNewBoxUpdate(0, itemPrices[2], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -177,16 +177,16 @@ void MotherboardWindow::updateBoxFour(int newState)
       if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[3], 0);
+         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
       currentlyCheckedBox = 3;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[3]);
+      emit sendNewBoxUpdate(0, itemPrices[3], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -199,16 +199,16 @@ void MotherboardWindow::updateBoxFive(int newState)
       if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[4], 0);
+         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
       currentlyCheckedBox = 4;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[4]);
+      emit sendNewBoxUpdate(0, itemPrices[4], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -221,16 +221,16 @@ void MotherboardWindow::updateBoxSix(int newState)
       if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
       }
       else
-         emit sendNewBoxUpdate(itemPrices[5], 0);
+         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
       currentlyCheckedBox = 5;
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[5]);
+      emit sendNewBoxUpdate(0, itemPrices[5], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -267,48 +267,42 @@ void MotherboardWindow::loadAssets()
 
 void MotherboardWindow::openWindowOne()
 {
-   if (specWindows[0]->isHidden())
-      specWindows[0]->show();
-   else
-      specWindows[0]->hide();
+	specWindows[0]->setWindowTitle("Test Window 1");
+	specWindows[0]->show();
+	specWindows[0]->activateWindow();
 }
 
 void MotherboardWindow::openWindowTwo()
 {
-   if (specWindows[1]->isHidden())
-      specWindows[1]->show();
-   else
-      specWindows[1]->hide();
+	specWindows[1]->setWindowTitle("Test Window 1");
+	specWindows[1]->show();
+	specWindows[1]->activateWindow();
 }
 
 void MotherboardWindow::openWindowThree()
 {
-   if (specWindows[2]->isHidden())
-      specWindows[2]->show();
-   else
-      specWindows[2]->hide();
+	specWindows[2]->setWindowTitle("Test Window 1");
+	specWindows[2]->show();
+	specWindows[2]->activateWindow();
 }
 
 void MotherboardWindow::openWindowFour()
 {
-   if (specWindows[3]->isHidden())
-      specWindows[3]->show();
-   else
-      specWindows[3]->hide();
+	specWindows[3]->setWindowTitle("Test Window 1");
+	specWindows[3]->show();
+	specWindows[3]->activateWindow();
 }
 
 void MotherboardWindow::openWindowFive()
 {
-   if (specWindows[4]->isHidden())
-      specWindows[4]->show();
-   else
-      specWindows[4]->hide();
+	specWindows[4]->setWindowTitle("Test Window 1");
+	specWindows[4]->show();
+	specWindows[4]->activateWindow();
 }
 
 void MotherboardWindow::openWindowSix()
 {
-   if (specWindows[5]->isHidden())
-      specWindows[5]->show();
-   else
-      specWindows[5]->hide();
+	specWindows[5]->setWindowTitle("Test Window 1");
+	specWindows[5]->show();
+	specWindows[5]->activateWindow();
 }

@@ -5,6 +5,7 @@ SpecificationWindow::SpecificationWindow()
 {
    mainLayout = new QVBoxLayout;
    this->setLayout(mainLayout);
+   //this->setWidgetResizable(true);
 }
 
 SpecificationWindow::~SpecificationWindow()

@@ -2,6 +2,7 @@
 #define PARTPICKERWINDOW_H
 
 #include <QMainWindow>
+#include <vector>
 #include "ProcessorWindow.h"
 #include "MotherboardWindow.h"
 #include "RamWindow.h"
@@ -13,6 +14,7 @@ class QTabWidget;
 class QScrollArea;
 class QString;
 class QLabel;
+class QString;
 
 class PartPickerWindow : public QMainWindow
 {
@@ -24,7 +26,7 @@ class PartPickerWindow : public QMainWindow
       PartPickerWindow();
    
    private slots:
-      void receiveAmountUpdate(double, double);
+      void receiveAmountUpdate(double, double, QString);
       
    private:
       bool parseBudgetAmount(QString);
@@ -36,6 +38,8 @@ class PartPickerWindow : public QMainWindow
       HardDriveWindow* hddWindow;
       InfoTab* infoWindow;
       std::vector<QScrollArea*> tabPages;
+      std::vector<QString> productSelectionNames;
+      std::vector<double> productSelectionPrices;
       QLabel* currentSpent;
       double budgetAmount;
       double totalAmount;

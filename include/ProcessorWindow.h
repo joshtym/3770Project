@@ -11,6 +11,7 @@ class QCheckBox;
 class QLabel;
 class QPushButton;
 class QPixMap;
+class QString;
 
 class ProcessorWindow : public QWidget
 {
@@ -25,7 +26,7 @@ class ProcessorWindow : public QWidget
       ~ProcessorWindow();
    
    signals:
-      void sendNewBoxUpdate(double, double);
+      void sendNewBoxUpdate(double, double, QString);
       
    private slots:
       void updateBoxOne(int);
@@ -46,6 +47,7 @@ class ProcessorWindow : public QWidget
    
    private:
       void loadAssets();
+      void loadSpecs();
       
       std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
