@@ -24,6 +24,9 @@ class MotherboardWindow : public QWidget
       
       // Destructor of class
       ~MotherboardWindow();
+      
+      void updateCurrentAmount(double);
+      void updateBudgetAmount(double);
    
    signals:
       void sendNewBoxUpdate(double, double, QString);
@@ -47,6 +50,7 @@ class MotherboardWindow : public QWidget
    
    private:
       void loadAssets();
+      void loadSpecs();
       
       std::vector<QHBoxLayout*> layouts;
       std::vector<QCheckBox*> boxOptions;
@@ -57,5 +61,7 @@ class MotherboardWindow : public QWidget
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
       int currentlyCheckedBox;
+      double currentAmount;
+      double budgetAmount;
 };
 #endif

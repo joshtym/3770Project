@@ -24,6 +24,9 @@ class HardDriveWindow : public QWidget
       
       // Destructor of class
       ~HardDriveWindow();
+      
+      void updateCurrentAmount(double);
+      void updateBudgetAmount(double);
    
    signals:
       void sendNewBoxUpdate(double, double, QString);
@@ -57,5 +60,7 @@ class HardDriveWindow : public QWidget
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
       int currentlyCheckedBox;
+      double currentAmount;
+      double budgetAmount;
 };
 #endif

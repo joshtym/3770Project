@@ -52,11 +52,17 @@ PartPickerWindow::PartPickerWindow()
    {
       budget->setText("No budget!");
       cpuWindow->updateBudgetAmount(10000000000);
+      mbWindow->updateBudgetAmount(10000000000);
+      hddWindow->updateBudgetAmount(10000000000);
+      ramWindow->updateBudgetAmount(10000000000);
    }
    else
    {
       budget->setText("Budget: $" + budgetAmountString);
       cpuWindow->updateBudgetAmount(budgetAmount);
+      mbWindow->updateBudgetAmount(budgetAmount);
+      hddWindow->updateBudgetAmount(budgetAmount);
+      ramWindow->updateBudgetAmount(budgetAmount);
    }
    
    // Create some tab pages to be used
@@ -113,6 +119,9 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
    currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
    
    cpuWindow->updateCurrentAmount(totalAmount);
+   mbWindow->updateCurrentAmount(totalAmount);
+   hddWindow->updateCurrentAmount(totalAmount);
+   ramWindow->updateCurrentAmount(totalAmount);
    
    if (newAmount != 0 && oldAmount == 0)
    {

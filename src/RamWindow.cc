@@ -8,6 +8,8 @@ RamWindow::RamWindow()
    
    // Variable instantiations
    currentlyCheckedBox = -1;
+   currentAmount = 0;
+   budgetAmount = 0;
    
    // Ensure a starting empty vector
    layouts.clear();
@@ -108,15 +110,41 @@ void RamWindow::updateBoxOne(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
          
-      currentlyCheckedBox = 0;
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -130,15 +158,41 @@ void RamWindow::updateBoxTwo(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
+      else if (currentlyCheckedBox != 1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
-      currentlyCheckedBox = 1;
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -152,15 +206,41 @@ void RamWindow::updateBoxThree(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
+      else if (currentlyCheckedBox != 2)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
-      currentlyCheckedBox = 2;
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -174,15 +254,41 @@ void RamWindow::updateBoxFour(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
+      else if (currentlyCheckedBox != 3)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
-      currentlyCheckedBox = 3;
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -196,15 +302,41 @@ void RamWindow::updateBoxFive(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
+      else if (currentlyCheckedBox != 4)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
-      currentlyCheckedBox = 4;
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -218,15 +350,41 @@ void RamWindow::updateBoxSix(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
-      currentlyCheckedBox = 5;
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -267,48 +425,52 @@ void RamWindow::loadAssets()
 
 void RamWindow::openWindowOne()
 {
-   if (specWindows[0]->isHidden())
-      specWindows[0]->show();
-   else
-      specWindows[0]->hide();
+	specWindows[0]->setWindowTitle("Test Window 1");
+	specWindows[0]->show();
+	specWindows[0]->activateWindow();
 }
 
 void RamWindow::openWindowTwo()
 {
-   if (specWindows[1]->isHidden())
-      specWindows[1]->show();
-   else
-      specWindows[1]->hide();
+	specWindows[1]->setWindowTitle("Test Window 1");
+	specWindows[1]->show();
+	specWindows[1]->activateWindow();
 }
 
 void RamWindow::openWindowThree()
 {
-   if (specWindows[2]->isHidden())
-      specWindows[2]->show();
-   else
-      specWindows[2]->hide();
+	specWindows[2]->setWindowTitle("Test Window 1");
+	specWindows[2]->show();
+	specWindows[2]->activateWindow();
 }
 
 void RamWindow::openWindowFour()
 {
-   if (specWindows[3]->isHidden())
-      specWindows[3]->show();
-   else
-      specWindows[3]->hide();
+	specWindows[3]->setWindowTitle("Test Window 1");
+	specWindows[3]->show();
+	specWindows[3]->activateWindow();
 }
 
 void RamWindow::openWindowFive()
 {
-   if (specWindows[4]->isHidden())
-      specWindows[4]->show();
-   else
-      specWindows[4]->hide();
+	specWindows[4]->setWindowTitle("Test Window 1");
+	specWindows[4]->show();
+	specWindows[4]->activateWindow();
 }
 
 void RamWindow::openWindowSix()
 {
-   if (specWindows[5]->isHidden())
-      specWindows[5]->show();
-   else
-      specWindows[5]->hide();
+	specWindows[5]->setWindowTitle("Test Window 1");
+	specWindows[5]->show();
+	specWindows[5]->activateWindow();
+}
+
+void RamWindow::updateCurrentAmount(double givenAmount)
+{
+   currentAmount = givenAmount;
+}
+
+void RamWindow::updateBudgetAmount(double givenAmount)
+{
+   budgetAmount = givenAmount;
 }

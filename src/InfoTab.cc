@@ -57,8 +57,6 @@ void InfoTab::resizeEvent(QResizeEvent* resizeEvent)
   
 }
 
-void InfoTab::budgetupdated(double budg)
+void InfoTab::budgetupdated(double budget)
 {
-
-
 }

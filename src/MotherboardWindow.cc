@@ -8,16 +8,18 @@ MotherboardWindow::MotherboardWindow()
    
    // Variable instantiations
    currentlyCheckedBox = -1;
+   currentAmount = 0;
+   budgetAmount = 0;
    
    // Ensure a starting empty vector
    layouts.clear();
    boxOptions.clear();
    expandableButtons.clear();
    itemPriceLabels.clear();
+   itemPrices.clear();
    productImages.clear();
    pixMaps.clear();
    specWindows.clear();
-   itemPrices.clear();
    
    // Load our assets
    loadAssets();
@@ -30,29 +32,24 @@ MotherboardWindow::MotherboardWindow()
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
-      specWindows[i]->addWidget(new QLabel("Test"));
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setFixedWidth(250);
-      specWindows[i]->hide();
+      boxOptions[i]->setMinimumWidth(200);
    }
    
+   // Load specs
+   loadSpecs();
+   
    // Make our layouts. Odd layouts not initially visible since widgets hidden
-   for (int i = 0; i < 12; ++i)
+   for (int i = 0; i < 6; ++i)
    {
       layouts.push_back(new QHBoxLayout());
-      
-      if ((i % 2) == 0)
-      {
-         layouts[i]->addWidget(productImages[i/2]);
-         layouts[i]->addWidget(boxOptions[i/2]);
-         layouts[i]->addWidget(itemPriceLabels[i/2]);
-         layouts[i]->addWidget(expandableButtons[i/2]);
-      }
-      else
-         layouts[i]->addWidget(specWindows[i/2]);
+      layouts[i]->addWidget(productImages[i]);
+      layouts[i]->addWidget(boxOptions[i]);
+      layouts[i]->addWidget(itemPriceLabels[i]);
+      layouts[i]->addWidget(expandableButtons[i]);
          
       mainLayout->addLayout(layouts[i]);
    }
@@ -60,25 +57,25 @@ MotherboardWindow::MotherboardWindow()
    /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
-   itemPriceLabels[0]->setText("$209.99");
-   itemPrices.push_back(209.99);
-   itemPriceLabels[1]->setText("$144.99");
-   itemPrices.push_back(144.99);
-   itemPriceLabels[2]->setText("$84.99");
-   itemPrices.push_back(84.99);
-   itemPriceLabels[3]->setText("$219.99");
-   itemPrices.push_back(219.99);
-   itemPriceLabels[4]->setText("$149.99");
-   itemPrices.push_back(149.99);
-   itemPriceLabels[5]->setText("$99.99");
-   itemPrices.push_back(99.99);
+   itemPriceLabels[0]->setText("$259.99");
+   itemPrices.push_back(259.99);
+   itemPriceLabels[1]->setText("$159.99");
+   itemPrices.push_back(159.99);
+   itemPriceLabels[2]->setText("$109.99");
+   itemPrices.push_back(109.99);
+   itemPriceLabels[3]->setText("$499.99");
+   itemPrices.push_back(499.99);
+   itemPriceLabels[4]->setText("$339.99");
+   itemPrices.push_back(339.99);
+   itemPriceLabels[5]->setText("$179.99");
+   itemPrices.push_back(179.99);
    
-   boxOptions[0]->setText("High End AMD Motherboard");
-   boxOptions[1]->setText("Middle Range AMD Motherboard");
-   boxOptions[2]->setText("Low End AMD Motherboard");
-   boxOptions[3]->setText("High End Intel Motherboard");
-   boxOptions[4]->setText("Mid Range Intel Motherboard");
-   boxOptions[5]->setText("Low End Intel Motherboard");
+   boxOptions[0]->setText("MSI Gaming 990FX-A AMD Motherboard");
+   boxOptions[1]->setText("ASUS m5A97 AMD Motherboard");
+   boxOptions[2]->setText("Gigabyte Micro ATX AMD Motherboard");
+   boxOptions[3]->setText("MSI Gaming Z97 ATX Intel Motherboard");
+   boxOptions[4]->setText("ASRock H97M Micro ATX Intel Motherboard");
+   boxOptions[5]->setText("ASRock H81M Mini ITX Intel Motherboard");
    
    this->setLayout(mainLayout);
    
@@ -108,15 +105,41 @@ void MotherboardWindow::updateBoxOne(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
          
-      currentlyCheckedBox = 0;
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -130,15 +153,41 @@ void MotherboardWindow::updateBoxTwo(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
+      else if (currentlyCheckedBox != 1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
-      currentlyCheckedBox = 1;
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -152,15 +201,41 @@ void MotherboardWindow::updateBoxThree(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
+      else if (currentlyCheckedBox != 2)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
-      currentlyCheckedBox = 2;
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -174,15 +249,41 @@ void MotherboardWindow::updateBoxFour(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
+      else if (currentlyCheckedBox != 3)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
-      currentlyCheckedBox = 3;
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -196,15 +297,41 @@ void MotherboardWindow::updateBoxFive(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
+      else if (currentlyCheckedBox != 4)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
-      currentlyCheckedBox = 4;
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -218,15 +345,41 @@ void MotherboardWindow::updateBoxSix(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
-      currentlyCheckedBox = 5;
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -267,42 +420,302 @@ void MotherboardWindow::loadAssets()
 
 void MotherboardWindow::openWindowOne()
 {
-	specWindows[0]->setWindowTitle("Test Window 1");
+	specWindows[0]->setWindowTitle(boxOptions[0]->text());
 	specWindows[0]->show();
 	specWindows[0]->activateWindow();
 }
 
 void MotherboardWindow::openWindowTwo()
 {
-	specWindows[1]->setWindowTitle("Test Window 1");
+	specWindows[1]->setWindowTitle(boxOptions[1]->text());
 	specWindows[1]->show();
 	specWindows[1]->activateWindow();
 }
 
 void MotherboardWindow::openWindowThree()
 {
-	specWindows[2]->setWindowTitle("Test Window 1");
+	specWindows[2]->setWindowTitle(boxOptions[2]->text());
 	specWindows[2]->show();
 	specWindows[2]->activateWindow();
 }
 
 void MotherboardWindow::openWindowFour()
 {
-	specWindows[3]->setWindowTitle("Test Window 1");
+	specWindows[3]->setWindowTitle(boxOptions[3]->text());
 	specWindows[3]->show();
 	specWindows[3]->activateWindow();
 }
 
 void MotherboardWindow::openWindowFive()
 {
-	specWindows[4]->setWindowTitle("Test Window 1");
+	specWindows[4]->setWindowTitle(boxOptions[4]->text());
 	specWindows[4]->show();
 	specWindows[4]->activateWindow();
 }
 
 void MotherboardWindow::openWindowSix()
 {
-	specWindows[5]->setWindowTitle("Test Window 1");
+	specWindows[5]->setWindowTitle(boxOptions[5]->text());
 	specWindows[5]->show();
 	specWindows[5]->activateWindow();
+}
+
+void MotherboardWindow::updateCurrentAmount(double givenAmount)
+{
+   currentAmount = givenAmount;
+}
+
+void MotherboardWindow::updateBudgetAmount(double givenAmount)
+{
+   budgetAmount = givenAmount;
+}
+
+void MotherboardWindow::loadSpecs()
+{
+   specWindows[0]->addWidget(new QLabel("MSI Gaming 990FXA-GAMING AMD Motherboard"));
+   specWindows[0]->addWidget(new QLabel("Model"));
+   specWindows[0]->addWidget(new QLabel("Brand: MSI"));
+   specWindows[0]->addWidget(new QLabel("Series: MSI Gaming"));
+   specWindows[0]->addWidget(new QLabel("Model: 990FXA-GAMING"));
+   specWindows[0]->addWidget(new QLabel("Supported CPU"));
+   specWindows[0]->addWidget(new QLabel("CPU Socket Type: AM3+/AM3"));
+   specWindows[0]->addWidget(new QLabel("CPU Type: AMD FX / Phenom II / Athlon II and Sempron"));
+   specWindows[0]->addWidget(new QLabel("Chipset: AMD 990FX & SB950"));
+   specWindows[0]->addWidget(new QLabel("Memory"));
+   specWindows[0]->addWidget(new QLabel("Number of Memory Slots: 4x240pin"));
+   specWindows[0]->addWidget(new QLabel("Memory Standard: DDR3 2133(OC)/ 1866/ 1600/ 1333/ 1066"));
+   specWindows[0]->addWidget(new QLabel("Maximum Memory Supported: 32GB"));
+   specWindows[0]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[0]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[0]->addWidget(new QLabel("PCI Express 2.0 x 16: 3 x PCIe 2.0 x 16 slots"));
+   specWindows[0]->addWidget(new QLabel("PCI Express x1: 2 x PCIe 2.0 x1 slots"));
+   specWindows[0]->addWidget(new QLabel("PCI Slots: 1 x PCI Slot"));
+   specWindows[0]->addWidget(new QLabel("Storage Devices"));
+   specWindows[0]->addWidget(new QLabel("SATA 6Gb/s: 6xSATA 6Gb/s"));
+   specWindows[0]->addWidget(new QLabel("SATA RAID: 0/1/5/10"));
+   specWindows[0]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[0]->addWidget(new QLabel("LAN Chipset: Killer E2205 Gigabit LAN controller"));
+   specWindows[0]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[0]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[0]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard / Mouse Port"));
+   specWindows[0]->addWidget(new QLabel("RJ45: 1 x RJ45"));
+   specWindows[0]->addWidget(new QLabel("USB 3.1: 2 x USB 3.1"));
+   specWindows[0]->addWidget(new QLabel("USB 1.1/2.0: 8 x USB 2.0"));
+   specWindows[0]->addWidget(new QLabel("S/PDIIF Out: 1 x Optical"));
+   specWindows[0]->addWidget(new QLabel("Audio Ports: 6 x OFC audio jacks"));
+   specWindows[0]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[0]->addWidget(new QLabel("Onboard USB: 3 x USB 2.0 connectors, 1 x USB 3.0 connector"));
+   specWindows[0]->addWidget(new QLabel("Other connectors: 1 x 24-pin ATX maiin power connector, 1 x 8-pin ATX 12V power connector, 1 x 4-pin CPU fan connector, 2 x 4-pin system fan connectors, 2 x 3-pin system fan connectors, 1 x Front panel audio connector, 2 x Front panel connectors, 1 x Chassis Intrusion connector, 1 x TPM module connector, 1 x Serial port connector, 1 x S/PDIF-Out connector, 1 x Clear CMOS jumper, 1 x Slow mod booting switch"));
+   specWindows[0]->addWidget(new QLabel("Physical Spec"));
+   specWindows[0]->addWidget(new QLabel("Form Factor: ATX"));
+   specWindows[0]->addWidget(new QLabel("Dimensions (W x L): 12.0\" x 9.6\""));
+   specWindows[0]->addWidget(new QLabel("Power Pin: 24 Pin"));
+   
+   specWindows[1]->addWidget(new QLabel("ASUS M5a97 R2.0 ATX AMD Motherboard"));
+   specWindows[1]->addWidget(new QLabel("Model"));
+   specWindows[1]->addWidget(new QLabel("Brand: ASUS"));
+   specWindows[1]->addWidget(new QLabel("Model: M5A97 R2.0"));
+   specWindows[1]->addWidget(new QLabel("Supported CPU"));
+   specWindows[1]->addWidget(new QLabel("CPU Socket Type: AM3+"));
+   specWindows[1]->addWidget(new QLabel("CPU Type: AMD FX / Phenom II / Athlon II and Sempron 100 Series"));
+   specWindows[1]->addWidget(new QLabel("FSB: 2400 MHz Hyper Transport (4800 MT/s)"));
+   specWindows[1]->addWidget(new QLabel("Chipset: AMD 970 + SB 950"));
+   specWindows[1]->addWidget(new QLabel("Memory"));
+   specWindows[1]->addWidget(new QLabel("Number of Memory Slots: 4x240pin"));
+   specWindows[1]->addWidget(new QLabel("Memory Standard: DDR3 2133(OC)/ 1866/ 1600/ 1333/ 1066"));
+   specWindows[1]->addWidget(new QLabel("Maximum Memory Supported: 32GB"));
+   specWindows[1]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[1]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[1]->addWidget(new QLabel("PCI Express 2.0 x 16: 1 x PCIe 2.0 x 16 (blue), 1 x PCIe 2.0 x16 (x4 mode, black)"));
+   specWindows[1]->addWidget(new QLabel("PCI Express x1: 2 x PCIe 2.0 x 1 slots"));
+   specWindows[1]->addWidget(new QLabel("PCI Slots:21 x PCI Slot"));
+   specWindows[1]->addWidget(new QLabel("Storage Devices"));
+   specWindows[1]->addWidget(new QLabel("SATA 6Gb/s: 6xSATA 6Gb/s Ports"));
+   specWindows[1]->addWidget(new QLabel("SATA RAID: 0/1/5/10"));
+   specWindows[1]->addWidget(new QLabel("Onboard Audio"));
+   specWindows[1]->addWidget(new QLabel("Audio Chipset: Realtek ALC887"));
+   specWindows[1]->addWidget(new QLabel("Audio Channels: 8 Channels"));
+   specWindows[1]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[1]->addWidget(new QLabel("LAN Chipset: Realtek 8111F"));
+   specWindows[1]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[1]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[1]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard, 1 x PS/2 Mouse"));
+   specWindows[1]->addWidget(new QLabel("RJ45: 1 x LAN (RJ45) port"));
+   specWindows[1]->addWidget(new QLabel("USB 3.0: 2 x USB 3.0"));
+   specWindows[1]->addWidget(new QLabel("USB 1.1/2.0: 6 x USB 2.0"));
+   specWindows[1]->addWidget(new QLabel("Audio Ports: 6 Ports"));
+   specWindows[1]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[1]->addWidget(new QLabel("Onboard USB: 3 x USB 2.0 connectors, 1 x USB 3.0 connector"));
+   specWindows[1]->addWidget(new QLabel("Other Connectors: 1 x TPM connector, 1 x COM port connector, 1 x CPU Fan connector, 3 x Chassis Fan connectors, 1 x S/PDIF out header, 1 x 24-pin EATX Power connector, 1 x 8-pin ATX 12V Power connector, 1 x Front panel audio connector, 1 x Sytem panel, 1 x DirectKey Button, 1 x DRCT header, 1 x MemOK! button, 1 x Clear CMOS jumper, 1 x USB BIOS Flashback button"));
+   specWindows[1]->addWidget(new QLabel("Physical Spec"));
+   specWindows[1]->addWidget(new QLabel("Form Factor: ATX"));
+   specWindows[1]->addWidget(new QLabel("Dimensions (W x L): 12.0\" x 9.6\""));
+   specWindows[1]->addWidget(new QLabel("Power Pin: 24 Pin"));
+   
+   specWindows[2]->addWidget(new QLabel("Gigabyte GA-78LMT ATX AMD Motherboard"));
+   specWindows[2]->addWidget(new QLabel("Model"));
+   specWindows[2]->addWidget(new QLabel("Brand: GigaByte"));
+   specWindows[2]->addWidget(new QLabel("Model: GA-78LMT-USB3 (rev 6.0)"));
+   specWindows[2]->addWidget(new QLabel("Supported CPU"));
+   specWindows[2]->addWidget(new QLabel("CPU Socket Type: AM3+"));
+   specWindows[2]->addWidget(new QLabel("CPU Type: AM3+ / Phenom II / Athlon II processor"));
+   specWindows[2]->addWidget(new QLabel("FSB: 2200 MHz Hyper Transport (4400 MT/s)"));
+   specWindows[2]->addWidget(new QLabel("Chipset: AMD 760G + SB 710"));
+   specWindows[2]->addWidget(new QLabel("Memory"));
+   specWindows[2]->addWidget(new QLabel("Number of Memory Slots: 4x240pin"));
+   specWindows[2]->addWidget(new QLabel("Memory Standard: DDR3 1600(O.C)/ 1333/ 1066"));
+   specWindows[2]->addWidget(new QLabel("Maximum Memory Supported: 32GB"));
+   specWindows[2]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[2]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[2]->addWidget(new QLabel("PCI Express 2.0 x 16: 1 x PCIe 2.0 x 16 "));
+   specWindows[2]->addWidget(new QLabel("PCI Express x1: 1 x PCI Express x 1 slots"));
+   specWindows[2]->addWidget(new QLabel("PCI Slots:2 x PCI Slot"));
+   specWindows[2]->addWidget(new QLabel("Storage Devices"));
+   specWindows[2]->addWidget(new QLabel("PATA: 1 x ATA133 2 Dev. Max"));
+   specWindows[2]->addWidget(new QLabel("SATA 3Gb/s: 6xSATA 3Gb/s Ports"));
+   specWindows[2]->addWidget(new QLabel("SATA RAID: 0/1/10/JBOD"));
+   specWindows[2]->addWidget(new QLabel("Onboard Audio"));
+   specWindows[2]->addWidget(new QLabel("Audio Chipset: Realtek ALC892"));
+   specWindows[2]->addWidget(new QLabel("Audio Channels: 2/4/5.1/7.1-channel"));
+   specWindows[2]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[2]->addWidget(new QLabel("LAN Chipset: Realtek GbE LAN chip"));
+   specWindows[2]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[2]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[2]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard / Mouse port"));
+   specWindows[2]->addWidget(new QLabel("Video Ports: 1 x D-Sub port, 1 x DVI-D port"));
+   specWindows[2]->addWidget(new QLabel("HDMI: 1 x HDMI"));
+   specWindows[2]->addWidget(new QLabel("RJ45: 1 x LAN (RJ45) port"));
+   specWindows[2]->addWidget(new QLabel("USB 3.0: 2 x USB 3.0/2.0 ports"));
+   specWindows[2]->addWidget(new QLabel("USB 1.1/2.0: 4 x USB 2.0/1.1 ports"));
+   specWindows[2]->addWidget(new QLabel("Audio Ports: 3 x audio jacks"));
+   specWindows[2]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[2]->addWidget(new QLabel("Onboard USB: 3 x USB 2.0 connectors, 1 x USB 3.0 connector"));
+   specWindows[2]->addWidget(new QLabel("Other Connectors: 1 x 24-pin ATX main power connector, 1 x 8-pin ATX 12V power connector, 1 x CPU fan header, 1 x system fan header, 1 x front header, 1 x front panel audio header, 1 x S/PDIF Out header, 1 x serial port header, 1 x parallel port header, 1 x Clear CMOS jumper"));
+   specWindows[2]->addWidget(new QLabel("Physical Spec"));
+   specWindows[2]->addWidget(new QLabel("Form Factor: Micro ATX"));
+   specWindows[2]->addWidget(new QLabel("Dimensions (W x L): 9.6\" x 9.6\""));
+   specWindows[2]->addWidget(new QLabel("Power Pin: 24 Pin"));
+   
+   specWindows[3]->addWidget(new QLabel("MSI Z97 GAMING 5"));
+   specWindows[3]->addWidget(new QLabel("Model"));
+   specWindows[3]->addWidget(new QLabel("Brand: MSI"));
+   specWindows[3]->addWidget(new QLabel("Series: MSI Gaming"));
+   specWindows[3]->addWidget(new QLabel("Model: Z97 GAMING 5"));
+   specWindows[3]->addWidget(new QLabel("Supported CPU"));
+   specWindows[3]->addWidget(new QLabel("CPU Socket Type: LGA 1150"));
+   specWindows[3]->addWidget(new QLabel("CPU Type: Core i7 / i5 / i3 / Pentium / Celeron"));
+   specWindows[3]->addWidget(new QLabel("Chipset: Intel Z97"));
+   specWindows[3]->addWidget(new QLabel("Memory"));
+   specWindows[3]->addWidget(new QLabel("Number of Memory Slots: 4x240pin"));
+   specWindows[3]->addWidget(new QLabel("Memory Standard: DDR3 3300*(*OC)/ 3200*/ 3100*/ 3000*/ 2800*/ 2666*/ 2600*/ 2400*/ 2200*/ 2133*/ 2000*/ 1866*/ 1600/ 1333/ 1066"));
+   specWindows[3]->addWidget(new QLabel("Maximum Memory Supported: 32GB"));
+   specWindows[3]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[3]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[3]->addWidget(new QLabel("PCI Express 3.0 x 16: 3 x PCIe 3.0 x 16 "));
+   specWindows[3]->addWidget(new QLabel("M.2: 1xM.2 port"));
+   specWindows[3]->addWidget(new QLabel("PCI Express x1: 4 x PCI PCIe 2.0 x 1 slots"));
+   specWindows[3]->addWidget(new QLabel("Storage Devices"));
+   specWindows[3]->addWidget(new QLabel("SATA 6Gb/s: 6xSATA 6Gb/s Ports"));
+   specWindows[3]->addWidget(new QLabel("SATA RAID: 0/1/5/10"));
+   specWindows[3]->addWidget(new QLabel("Onboard Audio"));
+   specWindows[3]->addWidget(new QLabel("Audio Chipset: Realtek ALC1150"));
+   specWindows[3]->addWidget(new QLabel("Audio Channels: 7.1-Channels"));
+   specWindows[3]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[3]->addWidget(new QLabel("LAN Chipset: Killer E2205"));
+   specWindows[3]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[3]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[3]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard / Mouse port"));
+   specWindows[3]->addWidget(new QLabel("Video Ports: 1 x VGA port, 1 x DVI-D port"));
+   specWindows[3]->addWidget(new QLabel("HDMI: 1 x HDMI"));
+   specWindows[3]->addWidget(new QLabel("RJ45: 1 x LAN (RJ45) port"));
+   specWindows[3]->addWidget(new QLabel("USB 3.0: 4 x USB 3.0"));
+   specWindows[3]->addWidget(new QLabel("USB 1.1/2.0: 4 x USB 2.0 ports"));
+   specWindows[3]->addWidget(new QLabel("Audio Ports: 6 x OFC audio jacks"));
+   specWindows[3]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[3]->addWidget(new QLabel("Onboard USB: 2 x USB 2.0 connectors, 1 x USB 3.0 connector"));
+   specWindows[3]->addWidget(new QLabel("Other Connectors: 1 x 24-pin ATX main power connector, 1 x 8-pin ATX 12V power connector, 2 x 4-pin CPU fan connectors, 3 x 4-pin system fan connectors, 1 x TPM module connector, 1 x Serial port connector, 1 x Front panel audio connector, 1 x Direct audio power connector, 2 x System panel connectors, 1 x Chassis Intrusion connector, 1 x Clear CMOS jumper, 1 x Audio power switch, 1 x 2-Digit Debug Code LED"));
+   specWindows[3]->addWidget(new QLabel("Physical Spec"));
+   specWindows[3]->addWidget(new QLabel("Form Factor: ATX"));
+   specWindows[3]->addWidget(new QLabel("Dimensions (W x L): 12.0\" x 9.6\""));
+   specWindows[3]->addWidget(new QLabel("Power Pin: 24 Pin"));
+   
+   specWindows[4]->addWidget(new QLabel("ASRock"));
+   specWindows[4]->addWidget(new QLabel("Model"));
+   specWindows[4]->addWidget(new QLabel("Brand: ASRock"));
+   specWindows[4]->addWidget(new QLabel("Model: H97M Pro4"));
+   specWindows[4]->addWidget(new QLabel("Supported CPU"));
+   specWindows[4]->addWidget(new QLabel("CPU Socket Type: LGA 1150"));
+   specWindows[4]->addWidget(new QLabel("CPU Type: Core i7 / i5 / i3 / Pentium / Celeron"));
+   specWindows[4]->addWidget(new QLabel("Chipset: Intel H97"));
+   specWindows[4]->addWidget(new QLabel("Memory"));
+   specWindows[4]->addWidget(new QLabel("Number of Memory Slots: 4x240pin"));
+   specWindows[4]->addWidget(new QLabel("Memory Standard: DDR3/DDR3L 1600/ 1333/ 1066"));
+   specWindows[4]->addWidget(new QLabel("Maximum Memory Supported: 32GB"));
+   specWindows[4]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[4]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[4]->addWidget(new QLabel("PCI Express 3.0 x 16: 1 x PCIe 3.0 x 16"));
+   specWindows[4]->addWidget(new QLabel("PCI Express 2.0 x 16: 1 x PCIe 2.0 x 16"));
+   specWindows[4]->addWidget(new QLabel("PCI Slots: 2 x PCI Slots"));
+   specWindows[4]->addWidget(new QLabel("Storage Devices"));
+   specWindows[4]->addWidget(new QLabel("SATA 6Gb/s: 6xSATA 6Gb/s Ports"));
+   specWindows[4]->addWidget(new QLabel("SATA RAID: 0/1/5/10"));
+   specWindows[4]->addWidget(new QLabel("Onboard Video: Intel HD Graphics"));
+   specWindows[4]->addWidget(new QLabel("Onboard Audio"));
+   specWindows[4]->addWidget(new QLabel("Audio Chipset: Realtek ALC892"));
+   specWindows[4]->addWidget(new QLabel("Audio Channels: 7.1-Channels"));
+   specWindows[4]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[4]->addWidget(new QLabel("LAN Chipset: Intel l218V"));
+   specWindows[4]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[4]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[4]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard / Mouse port"));
+   specWindows[4]->addWidget(new QLabel("Video Ports: 1 x D-Sub port, 1 x DVI-D port"));
+   specWindows[4]->addWidget(new QLabel("HDMI: 1 x HDMI"));
+   specWindows[4]->addWidget(new QLabel("RJ45: 1 x LAN (RJ45) port"));
+   specWindows[4]->addWidget(new QLabel("USB 3.0: 4 x USB 3.0"));
+   specWindows[4]->addWidget(new QLabel("USB 1.1/2.0: 2 x USB 2.0 ports"));
+   specWindows[4]->addWidget(new QLabel("Audio Ports: HD Audio Jacks: Rear, Central, Bass, Line in, Front Speaker, Microphone"));
+   specWindows[4]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[4]->addWidget(new QLabel("Onboard USB: 2 x USB 2.0 connectors, 1 x USB 3.0 connector"));
+   specWindows[4]->addWidget(new QLabel("Other Connectors: 1 x Print Port Header, 1 x COM Port Header, 1 x Chassis Intrusion Header, 1 x TPM Header, 2 x CPU Fan Connectors (1 x 4-pin, 1 x 3-pin), 2 x Chassis Fan Connectors (1 x 4-pin, 1 x 3-pin), 1 x Power Fan Connector (3-pin), 1 x 24-pin ATX Power Connector, 1 x 8-pin 12V Power Connector, 1 x Front Panel Audio Connector, 1 x Thunderbolt AIC Connector*"));
+   specWindows[4]->addWidget(new QLabel("Physical Spec"));
+   specWindows[4]->addWidget(new QLabel("Form Factor: Micro ATX"));
+   specWindows[4]->addWidget(new QLabel("Power Pin: 24 Pin"));
+   
+   specWindows[5]->addWidget(new QLabel("ASRock H81M-ITX LGA 1150 Mini ITX Motherboard"));
+   specWindows[5]->addWidget(new QLabel("Model"));
+   specWindows[5]->addWidget(new QLabel("Brand: ASRock"));
+   specWindows[5]->addWidget(new QLabel("Model: H81M-ITX"));
+   specWindows[5]->addWidget(new QLabel("Supported CPU"));
+   specWindows[5]->addWidget(new QLabel("CPU Socket Type: LGA 1150"));
+   specWindows[5]->addWidget(new QLabel("CPU Type: Core i7 / i5 / i3 / Pentium / Celeron"));
+   specWindows[5]->addWidget(new QLabel("Chipset: Intel H81"));
+   specWindows[5]->addWidget(new QLabel("Memory"));
+   specWindows[5]->addWidget(new QLabel("Number of Memory Slots: 2x240pin"));
+   specWindows[5]->addWidget(new QLabel("Memory Standard: DDR3 1600/1333/1066"));
+   specWindows[5]->addWidget(new QLabel("Maximum Memory Supported: 16GB"));
+   specWindows[5]->addWidget(new QLabel("Channel Supported: Dual Channel"));
+   specWindows[5]->addWidget(new QLabel("Expansion Slots"));
+   specWindows[5]->addWidget(new QLabel("PCI Express 2.0 x 16: 1 x PCIe 3.0 x 16 "));
+   specWindows[5]->addWidget(new QLabel("Storage Devices"));
+   specWindows[5]->addWidget(new QLabel("SATA 6Gb/s: 2xSATA 6Gb/s Ports"));
+   specWindows[5]->addWidget(new QLabel("Onboard Audio"));
+   specWindows[5]->addWidget(new QLabel("Audio Chipset: Realtek ALC892"));
+   specWindows[5]->addWidget(new QLabel("Audio Channels: 7.1-Channels"));
+   specWindows[5]->addWidget(new QLabel("Onboard LAN"));
+   specWindows[5]->addWidget(new QLabel("LAN Chipset: Qualcomm Atheros AR8171"));
+   specWindows[5]->addWidget(new QLabel("Max LAN Speed: 10/100/1000Mbps"));
+   specWindows[5]->addWidget(new QLabel("Rear Panel Ports"));
+   specWindows[5]->addWidget(new QLabel("PS/2: 1 x PS/2 Keyboard / Mouse port"));
+   specWindows[5]->addWidget(new QLabel("Video Ports: 1 x D-Sub port, 1 x DVI-D port"));
+   specWindows[5]->addWidget(new QLabel("HDMI: 1 x HDMI"));
+   specWindows[5]->addWidget(new QLabel("USB 3.0: 2 x USB 3.0"));
+   specWindows[5]->addWidget(new QLabel("USB 1.1/2.0: 4 x USB 2.0 ports"));
+   specWindows[5]->addWidget(new QLabel("Audio Ports: 6 x OFC audio jacks"));
+   specWindows[5]->addWidget(new QLabel("eSATA: 1 x eSATA"));
+   specWindows[5]->addWidget(new QLabel("Internal I/O Connectors"));
+   specWindows[5]->addWidget(new QLabel("Onboard USB: 2 x USB 2.0 connectors"));
+   specWindows[5]->addWidget(new QLabel("Other Connectors: 1 x Chassis Intrusion Header, 1 x TPM Header, 1 x CPU Fan Connector (4-pin), 1 x Chassis Fan Connector (4-pin), 1 x 24 pin ATX Power Connector, 1 x 4 pin 12V Power Connector, 1 x Front Panel Audio Connector"));
+   specWindows[5]->addWidget(new QLabel("Physical Spec"));
+   specWindows[5]->addWidget(new QLabel("Form Factor: Mini ITX"));
+   specWindows[5]->addWidget(new QLabel("Power Pin: 24 Pin"));
 }

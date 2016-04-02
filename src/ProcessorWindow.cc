@@ -107,38 +107,38 @@ void ProcessorWindow::updateBoxOne(int newState)
    {
       if (currentlyCheckedBox == -1)
       {
-	 if ((currentAmount + itemPrices[0]) > budgetAmount)
-	 {
-	    QMessageBox msgBox;
-	    msgBox.setText("Did you look at your budget?");
-	    msgBox.exec();
-	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-	    boxOptions[0]->setCheckState(Qt::Unchecked);
-	 }
-	 else
-	 {
-	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-	    currentlyCheckedBox = 0;
-	 }
-	    
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
       }
       else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-	 
-	 if ((currentAmount + itemPrices[0]) > budgetAmount)
-	 {
-	    QMessageBox msgBox;
-	    msgBox.setText("Did you look at your budget?");
-	    msgBox.exec();
-	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-	    boxOptions[0]->setCheckState(Qt::Unchecked);
-	 }
-	 else
-	 {
-	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-	    currentlyCheckedBox = 0;
-	 }
+         
+         if ((currentAmount + itemPrices[0]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            boxOptions[0]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+            currentlyCheckedBox = 0;
+         }
       }
    }
    else if (newState == 0)
@@ -153,19 +153,45 @@ void ProcessorWindow::updateBoxTwo(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 1 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
+      else if (currentlyCheckedBox != 1)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
          
-      currentlyCheckedBox = 1;
+         if ((currentAmount + itemPrices[1]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            boxOptions[1]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
+            currentlyCheckedBox = 1;
+         }
+      }
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1],"");
+      emit sendNewBoxUpdate(0, itemPrices[1], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -175,19 +201,45 @@ void ProcessorWindow::updateBoxThree(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 2 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
+      else if (currentlyCheckedBox != 2)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
          
-      currentlyCheckedBox = 2;
+         if ((currentAmount + itemPrices[2]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            boxOptions[2]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
+            currentlyCheckedBox = 2;
+         }
+      }
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2],"");
+      emit sendNewBoxUpdate(0, itemPrices[2], "");
       currentlyCheckedBox = -1;
    }
 }
@@ -197,15 +249,41 @@ void ProcessorWindow::updateBoxFour(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 3 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
+      else if (currentlyCheckedBox != 3)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
          
-      currentlyCheckedBox = 3;
+         if ((currentAmount + itemPrices[3]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            boxOptions[3]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
+            currentlyCheckedBox = 3;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -219,15 +297,41 @@ void ProcessorWindow::updateBoxFive(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 4 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
+      else if (currentlyCheckedBox != 4)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
          
-      currentlyCheckedBox = 4;
+         if ((currentAmount + itemPrices[4]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            boxOptions[4]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
+            currentlyCheckedBox = 4;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -241,15 +345,41 @@ void ProcessorWindow::updateBoxSix(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 5 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            // Logic to stop overriding the budget
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
-      }
-      else
-         emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
          
-      currentlyCheckedBox = 5;
+         if ((currentAmount + itemPrices[5]) > budgetAmount)
+         {
+            QMessageBox msgBox;
+            msgBox.setText("Did you look at your budget?");
+            msgBox.exec();
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            boxOptions[5]->setCheckState(Qt::Unchecked);
+         }
+         else
+         {
+            emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
+            currentlyCheckedBox = 5;
+         }
+      }
    }
    else if (newState == 0)
    {
@@ -338,12 +468,113 @@ void ProcessorWindow::loadSpecs()
 	specWindows[0]->addWidget(new QLabel("Series: FX-Series"));
 	specWindows[0]->addWidget(new QLabel("Name: FX-8350 Black Edition"));
 	specWindows[0]->addWidget(new QLabel("CPU Socket Type: Socket AM3+"));
+   specWindows[0]->addWidget(new QLabel("Details"));
 	specWindows[0]->addWidget(new QLabel("Core Name: Vishera"));
-	specWindows[0]->addWidget(new QLabel("# of Cores: 8-Core"));
-	specWindows[0]->addWidget(new QLabel("# of Threads: 8"));
+	specWindows[0]->addWidget(new QLabel("Number of Cores: 8-Core"));
+	specWindows[0]->addWidget(new QLabel("Number of Threads: 8"));
 	specWindows[0]->addWidget(new QLabel("Operating Frequency: 4.0 GHz (4.2Ghz Turbo"));
 	specWindows[0]->addWidget(new QLabel("L2 Cache: 4 x 2MB"));
 	specWindows[0]->addWidget(new QLabel("L3 Cache: 8MB"));
+   specWindows[0]->addWidget(new QLabel("Manufacturing Tech: 32nm"));
+   specWindows[0]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[0]->addWidget(new QLabel("Thermal Design Power: 125W"));
+   
+   specWindows[1]->addWidget(new QLabel("AMD FX-6300 Vishera 6-Core 3.5 GHz"));
+	specWindows[1]->addWidget(new QLabel("Model"));
+	specWindows[1]->addWidget(new QLabel("Brand: AMD"));
+	specWindows[1]->addWidget(new QLabel("Series: FX-Series"));
+	specWindows[1]->addWidget(new QLabel("Name: FX-6300"));
+	specWindows[1]->addWidget(new QLabel("CPU Socket Type: Socket AM3+"));
+   specWindows[1]->addWidget(new QLabel("Details"));
+	specWindows[1]->addWidget(new QLabel("Core Name: Vishera"));
+	specWindows[1]->addWidget(new QLabel("Number of Cores: 6-Core"));
+	specWindows[1]->addWidget(new QLabel("Number of Threads: 6"));
+	specWindows[1]->addWidget(new QLabel("Operating Frequency: 3.5 GHz (4.1Ghz Turbo"));
+	specWindows[1]->addWidget(new QLabel("L3 Cache: 8MB"));
+   specWindows[1]->addWidget(new QLabel("Manufacturing Tech: 32nm"));
+   specWindows[1]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[1]->addWidget(new QLabel("Thermal Design Power: 95W"));
+   
+   specWindows[2]->addWidget(new QLabel("AMD Athlon X4 860k"));
+	specWindows[2]->addWidget(new QLabel("Model"));
+	specWindows[2]->addWidget(new QLabel("Brand: AMD"));
+	specWindows[2]->addWidget(new QLabel("Series: Athlon X4"));
+	specWindows[2]->addWidget(new QLabel("Name: Athlon X4 860k"));
+	specWindows[2]->addWidget(new QLabel("CPU Socket Type: Socket FM2+"));
+   specWindows[2]->addWidget(new QLabel("Details"));
+	specWindows[2]->addWidget(new QLabel("Core Name: Kaveri"));
+	specWindows[2]->addWidget(new QLabel("Number of Cores: Quad-Core"));
+	specWindows[2]->addWidget(new QLabel("Number of Threads: 4"));
+	specWindows[2]->addWidget(new QLabel("Operating Frequency: 3.7 GHz"));
+   specWindows[2]->addWidget(new QLabel("Max Turbo Frequency: 4.0 GHz"));
+	specWindows[2]->addWidget(new QLabel("L2 Cache: 2 x 2MB"));
+   specWindows[2]->addWidget(new QLabel("Manufacturing Tech: 28nm"));
+   specWindows[2]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[2]->addWidget(new QLabel("Integrated Memory Controller Speed: 2133 MHz"));
+   specWindows[2]->addWidget(new QLabel("Thermal Design Power: 95W"));
+   
+   specWindows[3]->addWidget(new QLabel("Intel Core i7-4790K Devil's Canyon Quad-Core"));
+	specWindows[3]->addWidget(new QLabel("Model"));
+	specWindows[3]->addWidget(new QLabel("Brand: Intel"));
+	specWindows[3]->addWidget(new QLabel("Series: Core i7"));
+	specWindows[3]->addWidget(new QLabel("Name: Core i7-4790K"));
+	specWindows[3]->addWidget(new QLabel("CPU Socket Type: LGA 1150"));
+   specWindows[3]->addWidget(new QLabel("Details"));
+	specWindows[3]->addWidget(new QLabel("Core Name: Devil's Canyon"));
+	specWindows[3]->addWidget(new QLabel("Number of Cores: Quad-Core"));
+	specWindows[3]->addWidget(new QLabel("Number of Threads: 8"));
+	specWindows[3]->addWidget(new QLabel("Operating Frequency: 4.0 GHz"));
+   specWindows[3]->addWidget(new QLabel("Max Turbo Frequency: 4.4 GHz"));
+	specWindows[3]->addWidget(new QLabel("L2 Cache: 4 x 256KB"));
+   specWindows[3]->addWidget(new QLabel("L3 Cache: 8MB"));
+   specWindows[3]->addWidget(new QLabel("Manufacturing Tech: 22nm"));
+   specWindows[3]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[4]->addWidget(new QLabel("Hyper-Threading Support: No"));
+   specWindows[3]->addWidget(new QLabel("Integrated Graphics: Intel HD Graphics 4600"));
+   specWindows[3]->addWidget(new QLabel("Graphics Base Frequency: 350 MHz"));
+   specWindows[3]->addWidget(new QLabel("Graphics Max Dynamic Frequency: 1.25 GHz"));
+   
+   specWindows[4]->addWidget(new QLabel("Intel Core i5-4690K Devil's Canyon Quad-Core"));
+	specWindows[4]->addWidget(new QLabel("Model"));
+	specWindows[4]->addWidget(new QLabel("Brand: Intel"));
+	specWindows[4]->addWidget(new QLabel("Series: Core i5"));
+	specWindows[4]->addWidget(new QLabel("Name: Core i5-4690K"));
+	specWindows[4]->addWidget(new QLabel("CPU Socket Type: LGA 1150"));
+   specWindows[4]->addWidget(new QLabel("Details"));
+	specWindows[4]->addWidget(new QLabel("Core Name: Devil's Canyon"));
+	specWindows[4]->addWidget(new QLabel("Number of Cores: Quad-Core"));
+	specWindows[4]->addWidget(new QLabel("Number of Threads: 4"));
+	specWindows[4]->addWidget(new QLabel("Operating Frequency: 3.5 GHz"));
+   specWindows[4]->addWidget(new QLabel("Max Turbo Frequency: 3.9 GHz"));
+	specWindows[4]->addWidget(new QLabel("L2 Cache: 4 x 256KB"));
+   specWindows[4]->addWidget(new QLabel("L3 Cache: 6MB"));
+   specWindows[4]->addWidget(new QLabel("Manufacturing Tech: 22nm"));
+   specWindows[4]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[4]->addWidget(new QLabel("Hyper-Threading Support: No"));
+   specWindows[4]->addWidget(new QLabel("Integrated Graphics: Intel HD Graphics 4600"));
+   specWindows[4]->addWidget(new QLabel("Graphics Base Frequency: 350 MHz"));
+   specWindows[4]->addWidget(new QLabel("Graphics Max Dynamic Frequency: 1.2 GHz"));
+   specWindows[4]->addWidget(new QLabel("Thermal Design Power: 88W"));
+   
+   specWindows[5]->addWidget(new QLabel("Intel Core i3-6100 3M 3.7 GHz"));
+	specWindows[5]->addWidget(new QLabel("Model"));
+	specWindows[5]->addWidget(new QLabel("Brand: Intel"));
+	specWindows[5]->addWidget(new QLabel("Series: Core i3"));
+	specWindows[5]->addWidget(new QLabel("Name: Core i3-6100"));
+	specWindows[5]->addWidget(new QLabel("CPU Socket Type: LGA 1151"));
+   specWindows[5]->addWidget(new QLabel("Details"));
+	specWindows[5]->addWidget(new QLabel("Core Name: Skylake"));
+	specWindows[5]->addWidget(new QLabel("Number of Cores: Dual-Core"));
+	specWindows[5]->addWidget(new QLabel("Number of Threads: 4"));
+	specWindows[5]->addWidget(new QLabel("Operating Frequency: 3.7 GHz"));
+	specWindows[5]->addWidget(new QLabel("L2 Cache: 2 x 256KB"));
+   specWindows[5]->addWidget(new QLabel("L3 Cache: 3MB"));
+   specWindows[5]->addWidget(new QLabel("Manufacturing Tech: 14nm"));
+   specWindows[5]->addWidget(new QLabel("64-Bit Support: Yes"));
+   specWindows[5]->addWidget(new QLabel("Hyper-Threading Support: Yes"));
+   specWindows[5]->addWidget(new QLabel("Integrated Graphics: Intel HD Graphics 530"));
+   specWindows[5]->addWidget(new QLabel("Graphics Max Dynamic Frequency: 1.05 GHz"));
+   specWindows[5]->addWidget(new QLabel("Thermal Design Power: 65W"));
 }
 
 void ProcessorWindow::updateCurrentAmount(double givenAmount)

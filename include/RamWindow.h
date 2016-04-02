@@ -24,7 +24,10 @@ class RamWindow : public QWidget
       
       // Destructor of class
       ~RamWindow();
-   
+      
+      void updateCurrentAmount(double);
+      void updateBudgetAmount(double);
+      
    signals:
       void sendNewBoxUpdate(double, double, QString);
       
@@ -57,5 +60,7 @@ class RamWindow : public QWidget
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
       int currentlyCheckedBox;
+      double currentAmount;
+      double budgetAmount;
 };
 #endif
