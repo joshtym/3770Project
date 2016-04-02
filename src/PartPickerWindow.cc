@@ -153,14 +153,27 @@ void PartPickerWindow::budget_updated(double budget_input)
   
    budgetAmount = budget_input;
    reset_selection();
-   budgetAmountString = QString::number(budgetAmount);
-   budget->setText("Budget: $" + budgetAmountString);
-   cpuWindow->updateBudgetAmount(budgetAmount);
-   mbWindow->updateBudgetAmount(budgetAmount);
-   hddWindow->updateBudgetAmount(budgetAmount);
-   ramWindow->updateBudgetAmount(budgetAmount);
-   infoWindow->updateBudget(budgetAmount);
-   confWindow->updateBudgetAmount(budgetAmount);
+   if (budget_input != -1)
+   {
+      budgetAmountString = QString::number(budgetAmount);
+      budget->setText("Budget: $" + budgetAmountString);
+      cpuWindow->updateBudgetAmount(budgetAmount);
+      mbWindow->updateBudgetAmount(budgetAmount);
+      hddWindow->updateBudgetAmount(budgetAmount);
+      ramWindow->updateBudgetAmount(budgetAmount);
+      infoWindow->updateBudget(budgetAmount);
+      confWindow->updateBudgetAmount(budgetAmount);
+   }
+   else
+   {
+      budget->setText("No budget!");
+      cpuWindow->updateBudgetAmount(10000000000);
+      mbWindow->updateBudgetAmount(10000000000);
+      hddWindow->updateBudgetAmount(10000000000);
+      ramWindow->updateBudgetAmount(10000000000);
+      confWindow->updateBudgetAmount(10000000000);
+      infoWindow->updateBudget(-1);
+   }
 } 
 
 void PartPickerWindow::reset_selection()

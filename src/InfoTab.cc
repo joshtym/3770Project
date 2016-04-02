@@ -133,7 +133,10 @@ bool InfoTab::parseBudgetAmount(QString budgetString)
 {
    bool success = false;
    budget = budgetString.toDouble(&success);
+   if (budgetString == "")
+      budget = -1;
    if (budget < 0)
       success = false;
    return success;
 }
+//
