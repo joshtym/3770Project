@@ -38,32 +38,36 @@ PartPickerWindow::PartPickerWindow()
       budget->setText("Budget: $" + budgetAmountString);
    
    // Create some tab pages to be used
-   for (int i = 0; i < 4; ++i)
+   for (int i = 0; i < 5; ++i)
       tabPages.push_back(new QScrollArea());
    
    // Create our widgets for our parts
+   infoWindow = new InfoTab();
    cpuWindow = new ProcessorWindow();
    mbWindow = new MotherboardWindow();
    ramWindow = new RamWindow();
    hddWindow = new HardDriveWindow();
    
    // Set the scroll area widgets
-   tabPages[0]->setWidget(cpuWindow);
-   tabPages[1]->setWidget(mbWindow);
-   tabPages[2]->setWidget(ramWindow);
-   tabPages[3]->setWidget(hddWindow);
+   tabPages[0]->setWidget(infoWindow);
+   tabPages[1]->setWidget(cpuWindow);
+   tabPages[2]->setWidget(mbWindow);
+   tabPages[3]->setWidget(ramWindow);
+   tabPages[4]->setWidget(hddWindow);
    
    // Ensure resizability
    tabPages[0]->setWidgetResizable(true);
    tabPages[1]->setWidgetResizable(true);
    tabPages[2]->setWidgetResizable(true);
    tabPages[3]->setWidgetResizable(true);
+   tabPages[4]->setWidgetResizable(true);
    
    // Let's name those tabs and add the scroll areas
-   tabBar->addTab(tabPages[0], "CPU");
-   tabBar->addTab(tabPages[1], "Motherboard");
-   tabBar->addTab(tabPages[2], "RAM");
-   tabBar->addTab(tabPages[3], "HDD");
+   tabBar->addTab(tabPages[0], "Information");
+   tabBar->addTab(tabPages[1], "CPU");
+   tabBar->addTab(tabPages[2], "Motherboard");
+   tabBar->addTab(tabPages[3], "RAM");
+   tabBar->addTab(tabPages[4], "HDD");
    
    // Set the layouts
    budgetLayout->addWidget(budget);

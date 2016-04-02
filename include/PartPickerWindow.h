@@ -6,6 +6,7 @@
 #include "MotherboardWindow.h"
 #include "RamWindow.h"
 #include "HardDriveWindow.h"
+#include "InfoTab.h"
 
 // Forward Declarations
 class QTabWidget;
@@ -33,6 +34,7 @@ class PartPickerWindow : public QMainWindow
       MotherboardWindow* mbWindow;
       RamWindow* ramWindow;
       HardDriveWindow* hddWindow;
+      InfoTab* infoWindow;
       std::vector<QScrollArea*> tabPages;
       QLabel* currentSpent;
       double budgetAmount;
