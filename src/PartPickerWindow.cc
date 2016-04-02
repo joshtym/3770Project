@@ -67,7 +67,7 @@ PartPickerWindow::PartPickerWindow()
       hddWindow->updateBudgetAmount(budgetAmount);
       ramWindow->updateBudgetAmount(budgetAmount);
       infoWindow->updateBudget(budgetAmount);
-      
+      confWindow->updateBudgetAmount(budgetAmount);
    }
    
    // Create some tab pages to be used
@@ -136,7 +136,7 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
    ramWindow->updateCurrentAmount(totalAmount);
    confWindow->updateCurrentAmount(totalAmount);
 
-   // confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
+   confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
    
    if (newAmount != 0 && oldAmount == 0)
    {
@@ -160,9 +160,7 @@ void PartPickerWindow::budget_updated(double budget_input)
    hddWindow->updateBudgetAmount(budgetAmount);
    ramWindow->updateBudgetAmount(budgetAmount);
    infoWindow->updateBudget(budgetAmount);
-   
-
-   
+   confWindow->updateBudgetAmount(budgetAmount);
 } 
 
 void PartPickerWindow::reset_selection()
@@ -171,6 +169,5 @@ void PartPickerWindow::reset_selection()
    mbWindow->reset_selection();
    hddWindow->reset_selection();
    ramWindow->reset_selection();
-
-
+   confWindow->resetSelection();
 }

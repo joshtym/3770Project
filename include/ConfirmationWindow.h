@@ -24,6 +24,7 @@ class ConfirmationWindow : public QWidget
       void updateBudgetAmount(double);
       void updateCurrentAmount(double);
       void updateVectors(QString, double, int);
+      void resetSelection();
       
    signals:
       void sendReset();
@@ -34,6 +35,8 @@ class ConfirmationWindow : public QWidget
    private:
       std::vector<QLabel*> currentlySelectedObjects;
       std::vector<QLabel*> currentlySelectedObjectPrices;
+      QLabel* budgetLabel;
+      QLabel* amountLabel;
       double currentAmount;
       double budgetAmount;
 };
