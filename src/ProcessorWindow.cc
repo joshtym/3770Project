@@ -8,6 +8,8 @@ ProcessorWindow::ProcessorWindow()
    
    // Variable instantiations
    currentlyCheckedBox = -1;
+   currentAmount = 0;
+   budgetAmount = 0;
    
    // Ensure a starting empty vector
    layouts.clear();
@@ -103,15 +105,41 @@ void ProcessorWindow::updateBoxOne(int newState)
    // Remove currently checked box and update pricing
    if (newState == 2)
    {
-      if (currentlyCheckedBox != 0 && currentlyCheckedBox != -1)
+      if (currentlyCheckedBox == -1)
+      {
+	 if ((currentAmount + itemPrices[0]) > budgetAmount)
+	 {
+	    QMessageBox msgBox;
+	    msgBox.setText("Did you look at your budget?");
+	    msgBox.exec();
+	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+	    boxOptions[0]->setCheckState(Qt::Unchecked);
+	 }
+	 else
+	 {
+	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+	    currentlyCheckedBox = 0;
+	 }
+	    
+      }
+      else if (currentlyCheckedBox != 0)
       {
          boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+	 
+	 if ((currentAmount + itemPrices[0]) > budgetAmount)
+	 {
+	    QMessageBox msgBox;
+	    msgBox.setText("Did you look at your budget?");
+	    msgBox.exec();
+	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+	    boxOptions[0]->setCheckState(Qt::Unchecked);
+	 }
+	 else
+	 {
+	    emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
+	    currentlyCheckedBox = 0;
+	 }
       }
-      else
-         emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
-         
-      currentlyCheckedBox = 0;
    }
    else if (newState == 0)
    {
@@ -316,4 +344,14 @@ void ProcessorWindow::loadSpecs()
 	specWindows[0]->addWidget(new QLabel("Operating Frequency: 4.0 GHz (4.2Ghz Turbo"));
 	specWindows[0]->addWidget(new QLabel("L2 Cache: 4 x 2MB"));
 	specWindows[0]->addWidget(new QLabel("L3 Cache: 8MB"));
+}
+
+void ProcessorWindow::updateCurrentAmount(double givenAmount)
+{
+   currentAmount = givenAmount;
+}
+
+void ProcessorWindow::updateBudgetAmount(double givenAmount)
+{
+   budgetAmount = givenAmount;
 }

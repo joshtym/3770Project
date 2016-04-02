@@ -24,7 +24,7 @@ class PartPickerWindow : public QMainWindow
    public:
       /// Constructor for the mainWindow
       PartPickerWindow();
-   
+      
    private slots:
       void receiveAmountUpdate(double, double, QString);
       

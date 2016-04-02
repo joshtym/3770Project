@@ -19,6 +19,13 @@ PartPickerWindow::PartPickerWindow()
    productSelectionNames.clear();
    productSelectionPrices.clear();
    
+   // Create our widgets for our parts
+   infoWindow = new InfoTab();
+   cpuWindow = new ProcessorWindow();
+   mbWindow = new MotherboardWindow();
+   ramWindow = new RamWindow();
+   hddWindow = new HardDriveWindow();
+   
    // Load up them guns
    for (int i = 0; i < 4; ++i)
    {
@@ -42,20 +49,19 @@ PartPickerWindow::PartPickerWindow()
    
    // If the budget is empty, then we assume an unlimited budget. Assign the appropriate label
    if (budgetAmountString.isEmpty())
+   {
       budget->setText("No budget!");
+      cpuWindow->updateBudgetAmount(10000000000);
+   }
    else
+   {
       budget->setText("Budget: $" + budgetAmountString);
+      cpuWindow->updateBudgetAmount(budgetAmount);
+   }
    
    // Create some tab pages to be used
    for (int i = 0; i < 5; ++i)
       tabPages.push_back(new QScrollArea());
-   
-   // Create our widgets for our parts
-   infoWindow = new InfoTab();
-   cpuWindow = new ProcessorWindow();
-   mbWindow = new MotherboardWindow();
-   ramWindow = new RamWindow();
-   hddWindow = new HardDriveWindow();
    
    // Set the scroll area widgets
    tabPages[0]->setWidget(infoWindow);
@@ -105,6 +111,8 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
 {
    totalAmount = totalAmount + newAmount - oldAmount;
    currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
+   
+   cpuWindow->updateCurrentAmount(totalAmount);
    
    if (newAmount != 0 && oldAmount == 0)
    {

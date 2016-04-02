@@ -2,6 +2,7 @@
 #define PROCESSORWINDOW_H
 
 #include <QWidget>
+#include <QMainWindow>
 #include <vector>
 #include "SpecificationWindow.h"
 
@@ -24,6 +25,9 @@ class ProcessorWindow : public QWidget
       
       // Destructor of class
       ~ProcessorWindow();
+      
+      void updateCurrentAmount(double);
+      void updateBudgetAmount(double);
    
    signals:
       void sendNewBoxUpdate(double, double, QString);
@@ -58,5 +62,7 @@ class ProcessorWindow : public QWidget
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
       int currentlyCheckedBox;
+      double currentAmount;
+      double budgetAmount;
 };
 #endif
