@@ -8,6 +8,7 @@
 #include "RamWindow.h"
 #include "HardDriveWindow.h"
 #include "InfoTab.h"
+#include "ConfirmationWindow.h"
 
 // Forward Declarations
 class QTabWidget;
@@ -38,6 +39,7 @@ class PartPickerWindow : public QMainWindow
       RamWindow* ramWindow;
       HardDriveWindow* hddWindow;
       InfoTab* infoWindow;
+      ConfirmationWindow* confWindow;
       std::vector<QScrollArea*> tabPages;
       std::vector<QString> productSelectionNames;
       std::vector<double> productSelectionPrices;

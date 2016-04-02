@@ -13,6 +13,8 @@ class QLabel;
 class QPushButton;
 class QPixMap;
 class QString;
+class QScrollArea;
+class QVBoxLayout;
 
 class ProcessorWindow : public QWidget
 {
@@ -61,6 +63,9 @@ class ProcessorWindow : public QWidget
       std::vector<QLabel*> productImages;
       std::vector<QPixmap> pixMaps;
       std::vector<SpecificationWindow*> specWindows;
+      std::vector<QScrollArea*> specScrollAreas;
+      std::vector<QWidget*> specCentralWidgets;
+      std::vector<QVBoxLayout*> specLayouts;
       int currentlyCheckedBox;
       double currentAmount;
       double budgetAmount;

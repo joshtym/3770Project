@@ -32,6 +32,15 @@ RamWindow::RamWindow()
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
+      specScrollAreas.push_back(new QScrollArea());
+      specCentralWidgets.push_back(new QWidget());
+      specLayouts.push_back(new QVBoxLayout());
+      
+      specCentralWidgets[i]->setLayout(specLayouts[i]);
+      specScrollAreas[i]->setWidget(specCentralWidgets[i]);
+      specScrollAreas[i]->setWidgetResizable(true);
+      
+      specWindows[i]->addWidget(specScrollAreas[i]);
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
@@ -68,12 +77,12 @@ RamWindow::RamWindow()
    itemPriceLabels[5]->setText("$69.99");
    itemPrices.push_back(69.99);
    
-   boxOptions[0]->setText("High End RAM #1");
-   boxOptions[1]->setText("High End RAM #2");
-   boxOptions[2]->setText("Mid Range RAM #1");
-   boxOptions[3]->setText("Mid Range RAM #2");
-   boxOptions[4]->setText("Low Range RAM #1");
-   boxOptions[5]->setText("Low Range RAM #1");
+   boxOptions[0]->setText("G.SKILL RipJaws X Series (4 x 8GB)");
+   boxOptions[1]->setText("G.SKILL RipJaws X Series (2 x 8GB)");
+   boxOptions[2]->setText("G.SKILL RipJaws X Series (2 x 4GB)");
+   boxOptions[3]->setText("Corsair Vengeance (4 x 8GB)");
+   boxOptions[4]->setText("Corsair Vengeance (2 x 8GB)");
+   boxOptions[5]->setText("Corsair Vengeance (2 x 4GB)");
    
    this->setLayout(mainLayout);
    
@@ -418,42 +427,42 @@ void RamWindow::loadAssets()
 
 void RamWindow::openWindowOne()
 {
-	specWindows[0]->setWindowTitle("Test Window 1");
+	specWindows[0]->setWindowTitle(boxOptions[0]->text());
 	specWindows[0]->show();
 	specWindows[0]->activateWindow();
 }
 
 void RamWindow::openWindowTwo()
 {
-	specWindows[1]->setWindowTitle("Test Window 1");
+	specWindows[1]->setWindowTitle(boxOptions[1]->text());
 	specWindows[1]->show();
 	specWindows[1]->activateWindow();
 }
 
 void RamWindow::openWindowThree()
 {
-	specWindows[2]->setWindowTitle("Test Window 1");
+	specWindows[2]->setWindowTitle(boxOptions[2]->text());
 	specWindows[2]->show();
 	specWindows[2]->activateWindow();
 }
 
 void RamWindow::openWindowFour()
 {
-	specWindows[3]->setWindowTitle("Test Window 1");
+	specWindows[3]->setWindowTitle(boxOptions[3]->text());
 	specWindows[3]->show();
 	specWindows[3]->activateWindow();
 }
 
 void RamWindow::openWindowFive()
 {
-	specWindows[4]->setWindowTitle("Test Window 1");
+	specWindows[4]->setWindowTitle(boxOptions[4]->text());
 	specWindows[4]->show();
 	specWindows[4]->activateWindow();
 }
 
 void RamWindow::openWindowSix()
 {
-	specWindows[5]->setWindowTitle("Test Window 1");
+	specWindows[5]->setWindowTitle(boxOptions[5]->text());
 	specWindows[5]->show();
 	specWindows[5]->activateWindow();
 }
@@ -470,84 +479,84 @@ void RamWindow::updateBudgetAmount(double givenAmount)
 
 void RamWindow::loadSpecs()
 {
-   specWindows[0]->addWidget(new QLabel("G.SKILL F3-2400C11Q-32GXM"));
-   specWindows[0]->addWidget(new QLabel("Model"));
-   specWindows[0]->addWidget(new QLabel("Brand: G.SKILL"));
-   specWindows[0]->addWidget(new QLabel("Series: Ripjaws X Series"));
-   specWindows[0]->addWidget(new QLabel("Details"));
-   specWindows[0]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
-   specWindows[0]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[0]->addWidget(new QLabel("Speed: DDR3 2400 (PC3 19200)"));
-   specWindows[0]->addWidget(new QLabel("Cas Latency: 11"));
-   specWindows[0]->addWidget(new QLabel("Timing: 11-13-13-31"));
-   specWindows[0]->addWidget(new QLabel("Voltage: 1.65V"));
-   specWindows[0]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
+   specLayouts[0]->addWidget(new QLabel("G.SKILL F3-2400C11Q-32GXM"));
+   specLayouts[0]->addWidget(new QLabel("Model"));
+   specLayouts[0]->addWidget(new QLabel("Brand: G.SKILL"));
+   specLayouts[0]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specLayouts[0]->addWidget(new QLabel("Details"));
+   specLayouts[0]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
+   specLayouts[0]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[0]->addWidget(new QLabel("Speed: DDR3 2400 (PC3 19200)"));
+   specLayouts[0]->addWidget(new QLabel("Cas Latency: 11"));
+   specLayouts[0]->addWidget(new QLabel("Timing: 11-13-13-31"));
+   specLayouts[0]->addWidget(new QLabel("Voltage: 1.65V"));
+   specLayouts[0]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
    
-   specWindows[1]->addWidget(new QLabel("G.SKILL F3-1600C9D-16GXM"));
-   specWindows[1]->addWidget(new QLabel("Model"));
-   specWindows[1]->addWidget(new QLabel("Brand: G.SKILL"));
-   specWindows[1]->addWidget(new QLabel("Series: Ripjaws X Series"));
-   specWindows[1]->addWidget(new QLabel("Details"));
-   specWindows[1]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
-   specWindows[1]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[1]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
-   specWindows[1]->addWidget(new QLabel("Cas Latency: 9"));
-   specWindows[1]->addWidget(new QLabel("Timing: 9-9-9-24"));
-   specWindows[1]->addWidget(new QLabel("Voltage: 1.5V"));
-   specWindows[1]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   specLayouts[1]->addWidget(new QLabel("G.SKILL F3-1600C9D-16GXM"));
+   specLayouts[1]->addWidget(new QLabel("Model"));
+   specLayouts[1]->addWidget(new QLabel("Brand: G.SKILL"));
+   specLayouts[1]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specLayouts[1]->addWidget(new QLabel("Details"));
+   specLayouts[1]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
+   specLayouts[1]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[1]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specLayouts[1]->addWidget(new QLabel("Cas Latency: 9"));
+   specLayouts[1]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specLayouts[1]->addWidget(new QLabel("Voltage: 1.5V"));
+   specLayouts[1]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
    
-   specWindows[2]->addWidget(new QLabel("G.SKILL F3-12800CL9D-8GBXL"));
-   specWindows[3]->addWidget(new QLabel("Model"));
-   specWindows[3]->addWidget(new QLabel("Brand: G.SKILL"));
-   specWindows[3]->addWidget(new QLabel("Series: Ripjaws X Series"));
-   specWindows[3]->addWidget(new QLabel("Details"));
-   specWindows[3]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
-   specWindows[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[3]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
-   specWindows[3]->addWidget(new QLabel("Cas Latency: 9"));
-   specWindows[3]->addWidget(new QLabel("Timing: 9-9-9-24"));
-   specWindows[3]->addWidget(new QLabel("Voltage: 1.5V"));
-   specWindows[3]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   specLayouts[2]->addWidget(new QLabel("G.SKILL F3-12800CL9D-8GBXL"));
+   specLayouts[3]->addWidget(new QLabel("Model"));
+   specLayouts[3]->addWidget(new QLabel("Brand: G.SKILL"));
+   specLayouts[3]->addWidget(new QLabel("Series: Ripjaws X Series"));
+   specLayouts[3]->addWidget(new QLabel("Details"));
+   specLayouts[3]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
+   specLayouts[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[3]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specLayouts[3]->addWidget(new QLabel("Cas Latency: 9"));
+   specLayouts[3]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specLayouts[3]->addWidget(new QLabel("Voltage: 1.5V"));
+   specLayouts[3]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
    
-   specWindows[3]->addWidget(new QLabel("Corsair CMZ32GX3M4X1866C10"));
-   specWindows[3]->addWidget(new QLabel("Model"));
-   specWindows[3]->addWidget(new QLabel("Brand: CORSAIR"));
-   specWindows[3]->addWidget(new QLabel("Series: Vengeance"));
-   specWindows[3]->addWidget(new QLabel("Details"));
-   specWindows[3]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
-   specWindows[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[3]->addWidget(new QLabel("Speed: DDR3 1866 (PC3 14900)"));
-   specWindows[3]->addWidget(new QLabel("Cas Latency: 10"));
-   specWindows[3]->addWidget(new QLabel("Timing: 10-11-10-30"));
-   specWindows[3]->addWidget(new QLabel("Voltage: 1.5V"));
-   specWindows[3]->addWidget(new QLabel("Multi-chanel Kit: Quad Channel Kit"));
-   specWindows[3]->addWidget(new QLabel("Heat Spreader: Yes"));
+   specLayouts[3]->addWidget(new QLabel("Corsair CMZ32GX3M4X1866C10"));
+   specLayouts[3]->addWidget(new QLabel("Model"));
+   specLayouts[3]->addWidget(new QLabel("Brand: CORSAIR"));
+   specLayouts[3]->addWidget(new QLabel("Series: Vengeance"));
+   specLayouts[3]->addWidget(new QLabel("Details"));
+   specLayouts[3]->addWidget(new QLabel("Capacity: 32GB (4 x 8GB)"));
+   specLayouts[3]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[3]->addWidget(new QLabel("Speed: DDR3 1866 (PC3 14900)"));
+   specLayouts[3]->addWidget(new QLabel("Cas Latency: 10"));
+   specLayouts[3]->addWidget(new QLabel("Timing: 10-11-10-30"));
+   specLayouts[3]->addWidget(new QLabel("Voltage: 1.5V"));
+   specLayouts[3]->addWidget(new QLabel("Multi-chanel Kit: Quad Channel Kit"));
+   specLayouts[3]->addWidget(new QLabel("Heat Spreader: Yes"));
    
-   specWindows[4]->addWidget(new QLabel("Corsair CMZ16GX3M2A1600C9"));
-   specWindows[4]->addWidget(new QLabel("Model"));
-   specWindows[4]->addWidget(new QLabel("Brand: CORSAIR"));
-   specWindows[4]->addWidget(new QLabel("Series: Vengeance"));
-   specWindows[4]->addWidget(new QLabel("Details"));
-   specWindows[4]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
-   specWindows[4]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[4]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
-   specWindows[4]->addWidget(new QLabel("Cas Latency: 9"));
-   specWindows[4]->addWidget(new QLabel("Timing: 9-9-9-24"));
-   specWindows[4]->addWidget(new QLabel("Voltage: 1.5V"));
-   specWindows[4]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
-   specWindows[4]->addWidget(new QLabel("Heat Spreader: Yes"));
+   specLayouts[4]->addWidget(new QLabel("Corsair CMZ16GX3M2A1600C9"));
+   specLayouts[4]->addWidget(new QLabel("Model"));
+   specLayouts[4]->addWidget(new QLabel("Brand: CORSAIR"));
+   specLayouts[4]->addWidget(new QLabel("Series: Vengeance"));
+   specLayouts[4]->addWidget(new QLabel("Details"));
+   specLayouts[4]->addWidget(new QLabel("Capacity: 16GB (2 x 8GB)"));
+   specLayouts[4]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[4]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specLayouts[4]->addWidget(new QLabel("Cas Latency: 9"));
+   specLayouts[4]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specLayouts[4]->addWidget(new QLabel("Voltage: 1.5V"));
+   specLayouts[4]->addWidget(new QLabel("Multi-chanel Kit: Dual Channel Kit"));
+   specLayouts[4]->addWidget(new QLabel("Heat Spreader: Yes"));
    
-   specWindows[5]->addWidget(new QLabel("Corsair CML8GX3M2A1600C9"));
-   specWindows[5]->addWidget(new QLabel("Model"));
-   specWindows[5]->addWidget(new QLabel("Brand: CORSAIR"));
-   specWindows[5]->addWidget(new QLabel("Series: Vengeance LP"));
-   specWindows[5]->addWidget(new QLabel("Details"));
-   specWindows[5]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
-   specWindows[5]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
-   specWindows[5]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
-   specWindows[5]->addWidget(new QLabel("Cas Latency: 9"));
-   specWindows[5]->addWidget(new QLabel("Timing: 9-9-9-24"));
-   specWindows[5]->addWidget(new QLabel("Voltage: 1.5V"));
-   specWindows[5]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
-   specWindows[5]->addWidget(new QLabel("Heat Spreader: Yes"));
+   specLayouts[5]->addWidget(new QLabel("Corsair CML8GX3M2A1600C9"));
+   specLayouts[5]->addWidget(new QLabel("Model"));
+   specLayouts[5]->addWidget(new QLabel("Brand: CORSAIR"));
+   specLayouts[5]->addWidget(new QLabel("Series: Vengeance LP"));
+   specLayouts[5]->addWidget(new QLabel("Details"));
+   specLayouts[5]->addWidget(new QLabel("Capacity: 8GB (2 x 4GB)"));
+   specLayouts[5]->addWidget(new QLabel("Type: 240-pin DDR3 SDRAM"));
+   specLayouts[5]->addWidget(new QLabel("Speed: DDR3 1600 (PC3 12800)"));
+   specLayouts[5]->addWidget(new QLabel("Cas Latency: 9"));
+   specLayouts[5]->addWidget(new QLabel("Timing: 9-9-9-24"));
+   specLayouts[5]->addWidget(new QLabel("Voltage: 1.5V"));
+   specLayouts[5]->addWidget(new QLabel("Multi-chanel Kit: Dual / Quad Channel Kit"));
+   specLayouts[5]->addWidget(new QLabel("Heat Spreader: Yes"));
 }

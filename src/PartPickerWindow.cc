@@ -25,6 +25,7 @@ PartPickerWindow::PartPickerWindow()
    mbWindow = new MotherboardWindow();
    ramWindow = new RamWindow();
    hddWindow = new HardDriveWindow();
+   confWindow = new ConfirmationWindow();
    
    // Load up them guns
    for (int i = 0; i < 4; ++i)
@@ -55,6 +56,7 @@ PartPickerWindow::PartPickerWindow()
       mbWindow->updateBudgetAmount(10000000000);
       hddWindow->updateBudgetAmount(10000000000);
       ramWindow->updateBudgetAmount(10000000000);
+      confWindow->updateBudgetAmount(10000000000);
       infoWindow->updateBudget(-1);
    }
    else
@@ -69,7 +71,7 @@ PartPickerWindow::PartPickerWindow()
    }
    
    // Create some tab pages to be used
-   for (int i = 0; i < 5; ++i)
+   for (int i = 0; i < 6; ++i)
       tabPages.push_back(new QScrollArea());
    
    // Set the scroll area widgets
@@ -78,6 +80,7 @@ PartPickerWindow::PartPickerWindow()
    tabPages[2]->setWidget(mbWindow);
    tabPages[3]->setWidget(ramWindow);
    tabPages[4]->setWidget(hddWindow);
+   tabPages[5]->setWidget(confWindow);
    
    // Ensure resizability
    tabPages[0]->setWidgetResizable(true);
@@ -85,6 +88,7 @@ PartPickerWindow::PartPickerWindow()
    tabPages[2]->setWidgetResizable(true);
    tabPages[3]->setWidgetResizable(true);
    tabPages[4]->setWidgetResizable(true);
+   tabPages[5]->setWidgetResizable(true);
    
    // Let's name those tabs and add the scroll areas
    tabBar->addTab(tabPages[0], "Information");
@@ -92,6 +96,7 @@ PartPickerWindow::PartPickerWindow()
    tabBar->addTab(tabPages[2], "Motherboard");
    tabBar->addTab(tabPages[3], "RAM");
    tabBar->addTab(tabPages[4], "HDD");
+   tabBar->addTab(tabPages[5], "Confirmation");
    
    // Set the layouts
    budgetLayout->addWidget(budget);
@@ -128,6 +133,8 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
    mbWindow->updateCurrentAmount(totalAmount);
    hddWindow->updateCurrentAmount(totalAmount);
    ramWindow->updateCurrentAmount(totalAmount);
+   confWindow->updateCurrentAmount(totalAmount);
+   confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
    
    if (newAmount != 0 && oldAmount == 0)
    {

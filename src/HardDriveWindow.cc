@@ -32,6 +32,15 @@ HardDriveWindow::HardDriveWindow()
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
       specWindows.push_back(new SpecificationWindow());
+      specScrollAreas.push_back(new QScrollArea());
+      specCentralWidgets.push_back(new QWidget());
+      specLayouts.push_back(new QVBoxLayout());
+      
+      specCentralWidgets[i]->setLayout(specLayouts[i]);
+      specScrollAreas[i]->setWidget(specCentralWidgets[i]);
+      specScrollAreas[i]->setWidgetResizable(true);
+      
+      specWindows[i]->addWidget(specScrollAreas[i]);
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
       expandableButtons[i]->setText("View Now");
@@ -470,68 +479,68 @@ void HardDriveWindow::updateBudgetAmount(double givenAmount)
 
 void HardDriveWindow::loadSpecs()
 {
-   specWindows[0]->addWidget(new QLabel("<b>Seagate ST4000VN000</b>"));
-   specWindows[0]->addWidget(new QLabel("<font color=red>Model </font>"));
-   specWindows[0]->addWidget(new QLabel("Brand: Seagate"));
-   specWindows[0]->addWidget(new QLabel("Series: NAS HDD"));
-   specWindows[0]->addWidget(new QLabel("<font color=red>Performance </font>"));
-   specWindows[0]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[0]->addWidget(new QLabel("Capacity: 4TB"));
-   specWindows[0]->addWidget(new QLabel("Cache: 64MB"));
-   specWindows[0]->addWidget(new QLabel("Form Factor: 3.5\""));
+   specLayouts[0]->addWidget(new QLabel("Seagate ST4000VN000"));
+   specLayouts[0]->addWidget(new QLabel("Model"));
+   specLayouts[0]->addWidget(new QLabel("Brand: Seagate"));
+   specLayouts[0]->addWidget(new QLabel("Series: NAS HDD"));
+   specLayouts[0]->addWidget(new QLabel("Performance"));
+   specLayouts[0]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[0]->addWidget(new QLabel("Capacity: 4TB"));
+   specLayouts[0]->addWidget(new QLabel("Cache: 64MB"));
+   specLayouts[0]->addWidget(new QLabel("Form Factor: 3.5\""));
    
-   specWindows[1]->addWidget(new QLabel("Western Digital WD20EFRX"));
-   specWindows[1]->addWidget(new QLabel("Model"));
-   specWindows[1]->addWidget(new QLabel("Brand: WD"));
-   specWindows[1]->addWidget(new QLabel("Series: Red"));
-   specWindows[1]->addWidget(new QLabel("Performance"));
-   specWindows[1]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[1]->addWidget(new QLabel("Capacity: 2TB"));
-   specWindows[1]->addWidget(new QLabel("RPM: 5400 RPM"));
-   specWindows[1]->addWidget(new QLabel("Cache: 64MB"));
-   specWindows[1]->addWidget(new QLabel("Form Factor: 3.5\""));
+   specLayouts[1]->addWidget(new QLabel("Western Digital WD20EFRX"));
+   specLayouts[1]->addWidget(new QLabel("Model"));
+   specLayouts[1]->addWidget(new QLabel("Brand: WD"));
+   specLayouts[1]->addWidget(new QLabel("Series: Red"));
+   specLayouts[1]->addWidget(new QLabel("Performance"));
+   specLayouts[1]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[1]->addWidget(new QLabel("Capacity: 2TB"));
+   specLayouts[1]->addWidget(new QLabel("RPM: 5400 RPM"));
+   specLayouts[1]->addWidget(new QLabel("Cache: 64MB"));
+   specLayouts[1]->addWidget(new QLabel("Form Factor: 3.5\""));
    
-   specWindows[2]->addWidget(new QLabel("Seagate ST1000DX001"));
-   specWindows[2]->addWidget(new QLabel("Model"));
-   specWindows[2]->addWidget(new QLabel("Brand: Seagate"));
-   specWindows[2]->addWidget(new QLabel("Series: Desktop SSHD"));
-   specWindows[2]->addWidget(new QLabel("Performance"));
-   specWindows[2]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[2]->addWidget(new QLabel("Capacity: 1TB"));
-   specWindows[2]->addWidget(new QLabel("Flash Memory Capacity: 8GB"));
-   specWindows[2]->addWidget(new QLabel("Cache: 64MB"));
-   specWindows[2]->addWidget(new QLabel("Form Factor: 3.5\""));
+   specLayouts[2]->addWidget(new QLabel("Seagate ST1000DX001"));
+   specLayouts[2]->addWidget(new QLabel("Model"));
+   specLayouts[2]->addWidget(new QLabel("Brand: Seagate"));
+   specLayouts[2]->addWidget(new QLabel("Series: Desktop SSHD"));
+   specLayouts[2]->addWidget(new QLabel("Performance"));
+   specLayouts[2]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[2]->addWidget(new QLabel("Capacity: 1TB"));
+   specLayouts[2]->addWidget(new QLabel("Flash Memory Capacity: 8GB"));
+   specLayouts[2]->addWidget(new QLabel("Cache: 64MB"));
+   specLayouts[2]->addWidget(new QLabel("Form Factor: 3.5\""));
    
-   specWindows[3]->addWidget(new QLabel("Western Digital WD10JPVX"));
-   specWindows[3]->addWidget(new QLabel("Model"));
-   specWindows[3]->addWidget(new QLabel("Brand: WD"));
-   specWindows[3]->addWidget(new QLabel("Series: Blue"));
-   specWindows[3]->addWidget(new QLabel("Performance"));
-   specWindows[3]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[3]->addWidget(new QLabel("Capacity: 1TB"));
-   specWindows[3]->addWidget(new QLabel("Cache: 8MB"));
-   specWindows[3]->addWidget(new QLabel("RPM: 5400 RPM"));
-   specWindows[3]->addWidget(new QLabel("Form Factor: 2.5\""));
+   specLayouts[3]->addWidget(new QLabel("Western Digital WD10JPVX"));
+   specLayouts[3]->addWidget(new QLabel("Model"));
+   specLayouts[3]->addWidget(new QLabel("Brand: WD"));
+   specLayouts[3]->addWidget(new QLabel("Series: Blue"));
+   specLayouts[3]->addWidget(new QLabel("Performance"));
+   specLayouts[3]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[3]->addWidget(new QLabel("Capacity: 1TB"));
+   specLayouts[3]->addWidget(new QLabel("Cache: 8MB"));
+   specLayouts[3]->addWidget(new QLabel("RPM: 5400 RPM"));
+   specLayouts[3]->addWidget(new QLabel("Form Factor: 2.5\""));
    
-   specWindows[4]->addWidget(new QLabel("Western Digital WD5000LPCX"));
-   specWindows[4]->addWidget(new QLabel("Model"));
-   specWindows[4]->addWidget(new QLabel("Brand: WD"));
-   specWindows[4]->addWidget(new QLabel("Series: Blue"));
-   specWindows[4]->addWidget(new QLabel("Performance"));
-   specWindows[4]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[4]->addWidget(new QLabel("Capacity: 500GB"));
-   specWindows[4]->addWidget(new QLabel("Cache: 16MB"));
-   specWindows[4]->addWidget(new QLabel("RPM: 5400 RPM"));
-   specWindows[4]->addWidget(new QLabel("Form Factor: 2.5\""));
+   specLayouts[4]->addWidget(new QLabel("Western Digital WD5000LPCX"));
+   specLayouts[4]->addWidget(new QLabel("Model"));
+   specLayouts[4]->addWidget(new QLabel("Brand: WD"));
+   specLayouts[4]->addWidget(new QLabel("Series: Blue"));
+   specLayouts[4]->addWidget(new QLabel("Performance"));
+   specLayouts[4]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[4]->addWidget(new QLabel("Capacity: 500GB"));
+   specLayouts[4]->addWidget(new QLabel("Cache: 16MB"));
+   specLayouts[4]->addWidget(new QLabel("RPM: 5400 RPM"));
+   specLayouts[4]->addWidget(new QLabel("Form Factor: 2.5\""));
    
-   specWindows[5]->addWidget(new QLabel("Western Digital WD2500AAKX"));
-   specWindows[5]->addWidget(new QLabel("Model"));
-   specWindows[5]->addWidget(new QLabel("Brand: WD"));
-   specWindows[5]->addWidget(new QLabel("Series: Blue"));
-   specWindows[5]->addWidget(new QLabel("Performance"));
-   specWindows[5]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
-   specWindows[5]->addWidget(new QLabel("Capacity: 250GB"));
-   specWindows[5]->addWidget(new QLabel("Cache: 16MB"));
-   specWindows[5]->addWidget(new QLabel("RPM: 7200 RPM"));
-   specWindows[5]->addWidget(new QLabel("Form Factor: 3.5\""));
+   specLayouts[5]->addWidget(new QLabel("Western Digital WD2500AAKX"));
+   specLayouts[5]->addWidget(new QLabel("Model"));
+   specLayouts[5]->addWidget(new QLabel("Brand: WD"));
+   specLayouts[5]->addWidget(new QLabel("Series: Blue"));
+   specLayouts[5]->addWidget(new QLabel("Performance"));
+   specLayouts[5]->addWidget(new QLabel("Interface: SATA 6.0Gb/s"));
+   specLayouts[5]->addWidget(new QLabel("Capacity: 250GB"));
+   specLayouts[5]->addWidget(new QLabel("Cache: 16MB"));
+   specLayouts[5]->addWidget(new QLabel("RPM: 7200 RPM"));
+   specLayouts[5]->addWidget(new QLabel("Form Factor: 3.5\""));
 }
