@@ -1,7 +1,7 @@
 #include <QtGui>
 #include "SpecificationWindow.h"
 
-SpecificationWindow::SpecificationWindow()
+SpecificationWindow::SpecificationWindow(QWidget* parent) : QDialog(parent)
 {
    mainLayout = new QVBoxLayout;
    this->setLayout(mainLayout);

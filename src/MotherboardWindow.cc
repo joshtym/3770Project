@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <iostream>
 #include "MotherboardWindow.h"
 
 MotherboardWindow::MotherboardWindow()
@@ -31,7 +32,7 @@ MotherboardWindow::MotherboardWindow()
       expandableButtons.push_back(new QPushButton());
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
-      specWindows.push_back(new SpecificationWindow());
+      specWindows.push_back(new SpecificationWindow(this));
       specScrollAreas.push_back(new QScrollArea());
       specCentralWidgets.push_back(new QWidget());
       specLayouts.push_back(new QVBoxLayout());
@@ -43,9 +44,9 @@ MotherboardWindow::MotherboardWindow()
       specWindows[i]->addWidget(specScrollAreas[i]);
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-      expandableButtons[i]->setText("View Now");
+      expandableButtons[i]->setText("More Info");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setMinimumWidth(200);
+      boxOptions[i]->setMinimumWidth(325);
    }
    
    // Load specs
@@ -150,7 +151,7 @@ void MotherboardWindow::updateBoxOne(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[0], "");
+      emit sendNewBoxUpdate(0, itemPrices[0], "AMD Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -198,7 +199,7 @@ void MotherboardWindow::updateBoxTwo(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1], "");
+      emit sendNewBoxUpdate(0, itemPrices[1], "AMD Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -246,7 +247,7 @@ void MotherboardWindow::updateBoxThree(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2], "");
+      emit sendNewBoxUpdate(0, itemPrices[2], "AMD Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -294,7 +295,7 @@ void MotherboardWindow::updateBoxFour(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[3], "");
+      emit sendNewBoxUpdate(0, itemPrices[3], "Intel Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -342,7 +343,7 @@ void MotherboardWindow::updateBoxFive(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[4], "");
+      emit sendNewBoxUpdate(0, itemPrices[4], "Intel Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -390,7 +391,7 @@ void MotherboardWindow::updateBoxSix(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[5], "");
+      emit sendNewBoxUpdate(0, itemPrices[5], "Intel Motherboard");
       currentlyCheckedBox = -1;
    }
 }
@@ -747,4 +748,15 @@ void MotherboardWindow::reset_selection()
 {
    if (currentlyCheckedBox != -1)
       boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+}
+
+void MotherboardWindow::updateAvailableOptions(QString type, bool disable)
+{
+   if (!(disable))
+      for (int i = 0; i < 6; ++i)
+         boxOptions[i]->setEnabled(true); 
+	else
+		for (int  i = 0; i < 6; ++i)
+			if (!(boxOptions[i]->text().contains(type)))
+            boxOptions[i]->setEnabled(false);
 }

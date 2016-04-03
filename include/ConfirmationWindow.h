@@ -24,7 +24,6 @@ class ConfirmationWindow : public QWidget
       void updateBudgetAmount(double);
       void updateCurrentAmount(double);
       void updateVectors(QString, double, int);
-      void resetSelection();
       
    signals:
       void sendReset();

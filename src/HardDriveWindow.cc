@@ -31,7 +31,7 @@ HardDriveWindow::HardDriveWindow()
       expandableButtons.push_back(new QPushButton());
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
-      specWindows.push_back(new SpecificationWindow());
+      specWindows.push_back(new SpecificationWindow(this));
       specScrollAreas.push_back(new QScrollArea());
       specCentralWidgets.push_back(new QWidget());
       specLayouts.push_back(new QVBoxLayout());
@@ -43,9 +43,9 @@ HardDriveWindow::HardDriveWindow()
       specWindows[i]->addWidget(specScrollAreas[i]);
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-      expandableButtons[i]->setText("View Now");
+      expandableButtons[i]->setText("More Info");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
-      boxOptions[i]->setMinimumWidth(200);
+      boxOptions[i]->setMinimumWidth(250);
    }
    
    // Load specs

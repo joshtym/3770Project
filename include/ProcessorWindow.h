@@ -31,6 +31,7 @@ class ProcessorWindow : public QWidget
       void updateCurrentAmount(double);
       void updateBudgetAmount(double);
       void reset_selection();
+      void updateAvailableOptions(QString, bool);
    
    signals:
       void sendNewBoxUpdate(double, double, QString);

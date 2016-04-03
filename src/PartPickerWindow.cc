@@ -41,7 +41,16 @@ PartPickerWindow::PartPickerWindow()
    // Get the budget from the user
    while (!(goodInput))
    {
-      budgetAmountString = QInputDialog::getText(this, tr("Budget Amount"), tr("Please enter your budget for your PC (empty for no budget):"), QLineEdit::Normal, "1000.00", &goodInput);
+      bool ok;
+      budgetAmountString = QInputDialog::getText(this, tr("Budget Amount"), tr("Please enter your budget for your PC (empty for no budget):"), QLineEdit::Normal, "1000.00", &ok);
+      
+      if (!(ok))
+      {
+	 close();
+	 break;
+      }
+	 
+      goodInput = ok;
       
       // Check that it is indeed a good input
       if (goodInput && !(budgetAmountString.isEmpty()))
@@ -113,6 +122,7 @@ PartPickerWindow::PartPickerWindow()
    connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(infoWindow, SIGNAL(budgetupdated(double)), this, SLOT(budget_updated(double)));
+   connect(confWindow, SIGNAL(sendReset()), this, SLOT(reset_selection()));
 }
 
 bool PartPickerWindow::parseBudgetAmount(QString budgetString)
@@ -144,7 +154,11 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
       productSelectionNames[tabBar->currentIndex() - 1] = deviceName;
       productSelectionPrices[tabBar->currentIndex() - 1] = newAmount;
    }
-      
+   
+   if (newAmount == 0)
+      adjustAvailableOptions(deviceName, false);
+   else
+      adjustAvailableOptions(deviceName, true);
 }
 
 
@@ -182,5 +196,16 @@ void PartPickerWindow::reset_selection()
    mbWindow->reset_selection();
    hddWindow->reset_selection();
    ramWindow->reset_selection();
-   confWindow->resetSelection();
+}
+
+void PartPickerWindow::adjustAvailableOptions(QString deviceName, bool disable)
+{
+   if (deviceName.contains("AMD") && (!(deviceName.contains("Motherboard"))))
+      mbWindow->updateAvailableOptions("AMD", disable);
+   else if ((deviceName.contains("Intel")) && (!(deviceName.contains("Motherboard"))))
+      mbWindow->updateAvailableOptions("Intel", disable);
+   else if (deviceName.contains("AMD"))
+      cpuWindow->updateAvailableOptions("AMD", disable);
+   else if (deviceName.contains("Intel"))
+      cpuWindow->updateAvailableOptions("Intel", disable);
 }

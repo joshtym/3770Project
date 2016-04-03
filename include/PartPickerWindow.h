@@ -29,11 +29,12 @@ class PartPickerWindow : public QMainWindow
    private slots:
       void receiveAmountUpdate(double, double, QString);
       void budget_updated(double);
+      void reset_selection();
       
    private:
       bool parseBudgetAmount(QString);
-      void reset_selection();
       
+      void adjustAvailableOptions(QString, bool);
       
       QTabWidget* tabBar;
       ProcessorWindow* cpuWindow;

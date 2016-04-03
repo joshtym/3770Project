@@ -11,7 +11,7 @@ class SpecificationWindow : public QDialog
    Q_OBJECT
    
    public:
-      SpecificationWindow();
+      SpecificationWindow(QWidget* parent = 0);
       ~SpecificationWindow();
       void addWidget(QWidget*);
       

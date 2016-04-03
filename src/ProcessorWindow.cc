@@ -35,11 +35,10 @@ ProcessorWindow::ProcessorWindow()
       expandableButtons.push_back(new QPushButton());
       itemPriceLabels.push_back(new QLabel());
       productImages.push_back(new QLabel());
-      specWindows.push_back(new SpecificationWindow());
+      specWindows.push_back(new SpecificationWindow(this));
       specScrollAreas.push_back(new QScrollArea());
       specCentralWidgets.push_back(new QWidget());
       specLayouts.push_back(new QVBoxLayout());
-      
       specCentralWidgets[i]->setLayout(specLayouts[i]);
       specScrollAreas[i]->setWidget(specCentralWidgets[i]);
       specScrollAreas[i]->setWidgetResizable(true);
@@ -47,7 +46,7 @@ ProcessorWindow::ProcessorWindow()
       specWindows[i]->addWidget(specScrollAreas[i]);
       
       productImages[i]->setPixmap(pixMaps[i].scaled(this->size().width() / 6, this->size().height() / 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-      expandableButtons[i]->setText("View Now");
+      expandableButtons[i]->setText("More Info");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
       boxOptions[i]->setMinimumWidth(200);
    }
@@ -66,8 +65,6 @@ ProcessorWindow::ProcessorWindow()
          
       mainLayout->addLayout(layouts[i]);
    }
-   
-   /// TODO : Double the amount of layouts and add inner versions for specifications (Maybe reviews)?
    
    // Set our values
    itemPriceLabels[0]->setText("$259.99");
@@ -156,7 +153,7 @@ void ProcessorWindow::updateBoxOne(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[0], "");
+      emit sendNewBoxUpdate(0, itemPrices[0], "AMD Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -204,7 +201,7 @@ void ProcessorWindow::updateBoxTwo(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[1], "");
+      emit sendNewBoxUpdate(0, itemPrices[1], "AMD Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -252,7 +249,7 @@ void ProcessorWindow::updateBoxThree(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[2], "");
+      emit sendNewBoxUpdate(0, itemPrices[2], "AMD Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -300,7 +297,7 @@ void ProcessorWindow::updateBoxFour(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[3], "");
+      emit sendNewBoxUpdate(0, itemPrices[3], "Intel Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -348,7 +345,7 @@ void ProcessorWindow::updateBoxFive(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[4], "");
+      emit sendNewBoxUpdate(0, itemPrices[4], "Intel Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -396,7 +393,7 @@ void ProcessorWindow::updateBoxSix(int newState)
    }
    else if (newState == 0)
    {
-      emit sendNewBoxUpdate(0, itemPrices[5], "");
+      emit sendNewBoxUpdate(0, itemPrices[5], "Intel Processor");
       currentlyCheckedBox = -1;
    }
 }
@@ -604,11 +601,17 @@ void ProcessorWindow::updateBudgetAmount(double givenAmount)
 
 void ProcessorWindow::reset_selection()
 {
-   
    if (currentlyCheckedBox != -1)
-   {
-
       boxOptions[currentlyCheckedBox]->setCheckState(Qt::Unchecked);
+}
 
-   }
+void ProcessorWindow::updateAvailableOptions(QString type, bool disable)
+{
+	if (!(disable))
+		for (int i = 0; i < 6; ++i)
+			boxOptions[i]->setEnabled(true); 
+	else
+		for (int  i = 0; i < 6; ++i)
+			if (!(boxOptions[i]->text().contains(type)))
+				boxOptions[i]->setEnabled(false);
 }
