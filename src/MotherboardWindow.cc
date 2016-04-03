@@ -47,6 +47,7 @@ MotherboardWindow::MotherboardWindow()
       expandableButtons[i]->setText("More Info");
       expandableButtons[i]->setStyleSheet("text-align:right; border:0px;");
       boxOptions[i]->setMinimumWidth(325);
+      itemPriceLabels[i]->setMinimumWidth(125);
    }
    
    // Load specs
@@ -119,7 +120,7 @@ void MotherboardWindow::updateBoxOne(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
             boxOptions[0]->setCheckState(Qt::Unchecked);
@@ -137,7 +138,7 @@ void MotherboardWindow::updateBoxOne(int newState)
          if ((currentAmount + itemPrices[0]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[0], 0, boxOptions[0]->text());
             boxOptions[0]->setCheckState(Qt::Unchecked);
@@ -167,7 +168,7 @@ void MotherboardWindow::updateBoxTwo(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
             boxOptions[1]->setCheckState(Qt::Unchecked);
@@ -185,7 +186,7 @@ void MotherboardWindow::updateBoxTwo(int newState)
          if ((currentAmount + itemPrices[1]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[1], 0, boxOptions[1]->text());
             boxOptions[1]->setCheckState(Qt::Unchecked);
@@ -215,7 +216,7 @@ void MotherboardWindow::updateBoxThree(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
             boxOptions[2]->setCheckState(Qt::Unchecked);
@@ -233,7 +234,7 @@ void MotherboardWindow::updateBoxThree(int newState)
          if ((currentAmount + itemPrices[2]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[2], 0, boxOptions[2]->text());
             boxOptions[2]->setCheckState(Qt::Unchecked);
@@ -263,7 +264,7 @@ void MotherboardWindow::updateBoxFour(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
             boxOptions[3]->setCheckState(Qt::Unchecked);
@@ -281,7 +282,7 @@ void MotherboardWindow::updateBoxFour(int newState)
          if ((currentAmount + itemPrices[3]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[3], 0, boxOptions[3]->text());
             boxOptions[3]->setCheckState(Qt::Unchecked);
@@ -311,7 +312,7 @@ void MotherboardWindow::updateBoxFive(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
             boxOptions[4]->setCheckState(Qt::Unchecked);
@@ -329,7 +330,7 @@ void MotherboardWindow::updateBoxFive(int newState)
          if ((currentAmount + itemPrices[4]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[4], 0, boxOptions[4]->text());
             boxOptions[4]->setCheckState(Qt::Unchecked);
@@ -359,7 +360,7 @@ void MotherboardWindow::updateBoxSix(int newState)
          {
             // Logic to stop overriding the budget
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
             boxOptions[5]->setCheckState(Qt::Unchecked);
@@ -377,7 +378,7 @@ void MotherboardWindow::updateBoxSix(int newState)
          if ((currentAmount + itemPrices[5]) > budgetAmount)
          {
             QMessageBox msgBox;
-            msgBox.setText("Did you look at your budget?");
+            msgBox.setText("Item cannot fit into budget.");
             msgBox.exec();
             emit sendNewBoxUpdate(itemPrices[5], 0, boxOptions[5]->text());
             boxOptions[5]->setCheckState(Qt::Unchecked);
