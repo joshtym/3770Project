@@ -25,11 +25,11 @@ InfoTab::InfoTab()
    
 
    
-   information[0]->setText("Budget is shown in the bottom left corner as well as the current amount spent is shown in the bottom right. Individual part selections will be limited based on the budget set and those products whose selection will exceed the set budget will not be dislpayed in the selection tabs");
+   information[0]->setText("Budget is shown in the bottom left corner as well as the current amount spent is shown in the bottom right. Individual part selections will be limited based on the budget set and those products whose selection will exceeed the budget will display a message and will not be able to be selected. The budget may be updated through the below form. Updating the budget will clear all prior selections.");
    
-   information[1]->setText("Displayed parts will be limited based on compatibility with parts selected prior.This particularly concerns the CPU and Mother board components of the selection ");
+   information[1]->setText("Displayed parts will be limited based on compatibility with parts selected prior. Those parts that are incompatible with prior selected parts will be greyed out and unable to be selected. This particularly concerns the CPU and Mother board components of the selection process.");
    
-   information[2] ->setText("When all parts have been selected they may be confirmed within the confirmation tab. This clears the selected components within each of the tabs and resets the program to its initial state.");
+   information[2] ->setText("When all parts have been selected they may be viewed within the confirmation tab. This tab also allows for confirmation of the selected parts and finalization the order. Finalizing the order clears the selected components within each of the tabs.");
    // set word wrap for the labels
    information[0]->setWordWrap(true);
    information[1]->setWordWrap(true);

@@ -79,8 +79,8 @@ HardDriveWindow::HardDriveWindow()
    
    boxOptions[0]->setText("Seagate 4TB Internal HDD");
    boxOptions[1]->setText("WD Red 2TB Internal HDD");
-   boxOptions[2]->setText("WD Blue 1TB Internal HDD");
-   boxOptions[3]->setText("Seagate Hybrid 1TB HDD");
+   boxOptions[3]->setText("WD Blue 1TB Internal HDD");
+   boxOptions[2]->setText("Seagate Hybrid 1TB HDD");
    boxOptions[4]->setText("WD Blue 500GB Internal HDD");
    boxOptions[5]->setText("WD Blue 250GB Internal HDD");
    
