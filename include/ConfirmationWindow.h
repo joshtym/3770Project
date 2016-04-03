@@ -32,6 +32,8 @@ class ConfirmationWindow : public QWidget
       void confirmPurchase();
       
    private:
+      void resetValues();
+      
       std::vector<QLabel*> currentlySelectedObjects;
       std::vector<QLabel*> currentlySelectedObjectPrices;
       QLabel* budgetLabel;

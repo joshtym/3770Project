@@ -21,14 +21,19 @@ ConfirmationWindow::ConfirmationWindow()
    currentlySelectedObjects.clear();
    currentlySelectedObjectPrices.clear();
    
-   // Load up our vectors
+   currentlySelectedObjects.push_back(new QLabel("No CPU Selected."));
+   currentlySelectedObjects.push_back(new QLabel("No Motherboard Selected"));
+   currentlySelectedObjects.push_back(new QLabel("NO RAM Selected"));
+   currentlySelectedObjects.push_back(new QLabel("No HDD Selected"));
+   currentlySelectedObjects.push_back(new QLabel("Current Budget Amount"));
+   currentlySelectedObjects.push_back(new QLabel("Cost"));
+   
+   // Add some more details
    for (int i = 0; i < 4; ++i)
-   {
-      currentlySelectedObjects.push_back(new QLabel("No item selected!"));
       currentlySelectedObjectPrices.push_back(new QLabel("$0"));
-      leftLayout->addWidget(currentlySelectedObjects[i]);
-      rightLayout->addWidget(currentlySelectedObjectPrices[i]);
-   }
+   
+   currentlySelectedObjectPrices.push_back(new QLabel("$" + QString::number(budgetAmount)));
+   currentlySelectedObjectPrices.push_back(new QLabel("$" + QString::number(currentAmount)));
    
    // Set fixed size for our button
    confirmationButton->setFixedHeight(25);
@@ -41,15 +46,14 @@ ConfirmationWindow::ConfirmationWindow()
    buttonLayout->addWidget(confirmationButton);
    buttonLayout->addWidget(dudButtonTwo);
    
-   // Add some more details
-   currentlySelectedObjects.push_back(new QLabel("Current Budget Amount"));
-   currentlySelectedObjects.push_back(new QLabel("Cost"));
-   currentlySelectedObjectPrices.push_back(new QLabel("$" + QString::number(budgetAmount)));
-   currentlySelectedObjectPrices.push_back(new QLabel("$" + QString::number(currentAmount)));
-   leftLayout->addWidget(currentlySelectedObjects[4]);
-   rightLayout->addWidget(currentlySelectedObjectPrices[4]);
-   leftLayout->addWidget(currentlySelectedObjects[5]);
-   rightLayout->addWidget(currentlySelectedObjectPrices[5]);
+   for (int i = 0; i < 6; ++i)
+   {
+      if (i < 4)
+	 currentlySelectedObjectPrices.push_back(new QLabel("$0"));
+      
+      leftLayout->addWidget(currentlySelectedObjects[i]);
+      rightLayout->addWidget(currentlySelectedObjectPrices[i]);
+   }
    
    // Finish our layout management
    innerLayout->addLayout(leftLayout);
@@ -84,36 +88,85 @@ void ConfirmationWindow::updateCurrentAmount(double givenAmount)
 
 void ConfirmationWindow::updateVectors(QString newName, double newAmount, int indexNumber)
 {
-   if (indexNumber >= 0 && indexNumber != 4)
+   switch(indexNumber)
    {
-      if (newName == "")
-	 currentlySelectedObjects[indexNumber]->setText("No item selected!");
-      else
-	 currentlySelectedObjects[indexNumber]->setText(newName);
-	 
-      currentlySelectedObjectPrices[indexNumber]->setText("$" + QString::number(newAmount));
-   }
-   else
-   {
-      for (int i = 0; i < 4; ++i)
+      case -1:
+	 resetValues();
+	 break;
+      case 0:
       {
-	 currentlySelectedObjects[i]->setText("No item selected!");
-	 currentlySelectedObjectPrices[i]->setText("$0");
+	 if (newName == "AMD Processor" || newName == "Intel Processor")
+	    currentlySelectedObjects[0]->setText("No CPU Selected");
+	 else
+	    currentlySelectedObjects[0]->setText(newName);
+	 currentlySelectedObjectPrices[0]->setText("$" + QString::number(newAmount));
+	 break;
       }
+      case 1:
+      {
+	 if (newName == "AMD Motherboard" || newName == "Intel Motherboard")
+	    currentlySelectedObjects[1]->setText("No Motherboard Selected");
+	 else
+	    currentlySelectedObjects[1]->setText(newName);
+	 currentlySelectedObjectPrices[1]->setText("$" + QString::number(newAmount));
+	 break;
+      }
+      case 2:
+      {
+	 if (newName == "")
+	    currentlySelectedObjects[2]->setText("No RAM Selected");
+	 else
+	    currentlySelectedObjects[2]->setText(newName);
+	 currentlySelectedObjectPrices[2]->setText("$" + QString::number(newAmount));
+	 break;
+      }
+      case 3:
+      {
+	 if (newName == "")
+	    currentlySelectedObjects[3]->setText("No HDD Selected");
+	 else
+	    currentlySelectedObjects[3]->setText(newName);
+	 currentlySelectedObjectPrices[3]->setText("$" + QString::number(newAmount));
+	 break;
+      }
+      case 4:
+	 resetValues();
+	 break;
    }
 }
 
 void ConfirmationWindow::confirmPurchase()
 {
    int optionSelected;
-   QMessageBox msgBox;
    
-   msgBox.setText("Confirm Purchase of Parts");
-   msgBox.setInformativeText("This will place your order to FakeCompany. Are you sure?");
-   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-   msgBox.setDefaultButton(QMessageBox::Cancel);
-   optionSelected = msgBox.exec();
+   if (currentAmount == 0)
+   {
+      QMessageBox msgBox;
+      msgBox.setText("You have not selected anything for purchase!");
+      msgBox.exec();
+   }
+   else
+   {
+      QMessageBox msgBox;
    
-   if (optionSelected == QMessageBox::Ok)
-      emit sendReset();
+      msgBox.setText("Confirm Purchase of Parts");
+      msgBox.setInformativeText("This will place your order to FakeCompany. Are you sure?");
+      msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+      msgBox.setDefaultButton(QMessageBox::Cancel);
+      optionSelected = msgBox.exec();
+   
+      if (optionSelected == QMessageBox::Ok)
+	 emit sendReset();
+   }
+}
+
+void ConfirmationWindow::resetValues()
+{
+   currentlySelectedObjects[0]->setText("No CPU Selected.");
+   currentlySelectedObjects[1]->setText("No Motherboard Selected.");
+   currentlySelectedObjects[2]->setText("No RAM Selected.");
+   currentlySelectedObjects[3]->setText("No HDD Selected.");
+   
+   for (int i = 0; i < 4; ++i)
+      currentlySelectedObjectPrices[i]->setText("$0");
 }
