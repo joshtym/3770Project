@@ -138,12 +138,12 @@ void RamWindow::loadAssets()
    // Instantiate our images and put them in pixmaps
    std::vector<QImage> images;
    
-   images.push_back(QImage(imagesDirectory + "HighEndAmdMobo.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeAmdMobo.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeAmdMobo.jpeg"));
-   images.push_back(QImage(imagesDirectory + "HighEndIntelMobo.jpeg"));
-   images.push_back(QImage(imagesDirectory + "MidRangeIntelMobo.jpeg"));
-   images.push_back(QImage(imagesDirectory + "LowRangeIntelMobo.jpeg"));
+   images.push_back(QImage(imagesDirectory + "HighEndGSkillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeGSkillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeGskillRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "HighEndCorsairRam.jpg"));
+   images.push_back(QImage(imagesDirectory + "MidRangeCorsairRam.jpeg"));
+   images.push_back(QImage(imagesDirectory + "LowRangeCorsairRam.jpeg"));
    
    // Create the pixmaps and put them on the vector. Then set the images to the pixmap
    for (int i = 0; i < 6; ++i)
