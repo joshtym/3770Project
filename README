@@ -1,0 +1,9 @@
+*************************************************************
+PC Part Picker Interface
+*************************************************************
+Authors: Joshua Tymburski, Jason Beaver
+
+Interface developed as part of an initiative for the 3770 project.
+Designed to allow users to pick and choose computer parts to purchase
+providing varying amounts of functionality from budget additions to
+compatability enforcement. Also provides specs for each item.
