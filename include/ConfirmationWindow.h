@@ -20,18 +20,24 @@ class ConfirmationWindow : public QWidget
       // Destructor of class
       ~ConfirmationWindow();
       
-      // Public function to update costs and our vectors
+      // Public function to update budget amount
       void updateBudgetAmount(double);
+      
+      // Public function to update our current amount
       void updateCurrentAmount(double);
+      
+      // Public function to update our vectors
       void updateVectors(QString, double, int);
       
    signals:
       void sendReset();
       
    private slots:
+      // Slot to confirm the purchase
       void confirmPurchase();
       
    private:
+      // Helper function to reset all values
       void resetValues();
       
       std::vector<QLabel*> currentlySelectedObjects;

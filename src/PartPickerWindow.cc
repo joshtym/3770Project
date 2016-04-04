@@ -1,6 +1,9 @@
 #include <QtGui>
 #include "PartPickerWindow.h"
-
+#include "ProcessorWindow.h"
+#include "MotherboardWindow.h"
+#include "RamWindow.h"
+#include "HardDriveWindow.h"
 
 PartPickerWindow::PartPickerWindow()
 {
@@ -9,30 +12,21 @@ PartPickerWindow::PartPickerWindow()
    QVBoxLayout* mainLayout = new QVBoxLayout();
    QHBoxLayout* budgetLayout = new QHBoxLayout();
    QWidget* centralWidget = new QWidget();
-   budget = new QLabel();
    
    // Variable instantiations
    currentSpent = new QLabel("Current Cost: $0");
+   budget = new QLabel();
    budget->setAlignment(Qt::AlignLeft);
    currentSpent->setAlignment(Qt::AlignRight);
    totalAmount = 0;
-   productSelectionNames.clear();
-   productSelectionPrices.clear();
    
    // Create our widgets for our parts
-   infoWindow = new InfoTab();
+   infoWindow = new InfoWindow();
    cpuWindow = new ProcessorWindow();
    mbWindow = new MotherboardWindow();
    ramWindow = new RamWindow();
    hddWindow = new HardDriveWindow();
    confWindow = new ConfirmationWindow();
-   
-   // Load up them guns
-   for (int i = 0; i < 4; ++i)
-   {
-      productSelectionNames.push_back("");
-      productSelectionPrices.push_back(0);
-   }
    
    // Instantiate our tabBar and ensure an empty vector
    tabBar = new QTabWidget();
@@ -41,13 +35,14 @@ PartPickerWindow::PartPickerWindow()
    // Get the budget from the user
    while (!(goodInput))
    {
+      // Get a budget input
       bool ok;
       budgetAmountString = QInputDialog::getText(this, tr("Budget Amount"), tr("Please enter your budget for your PC (empty for no budget):"), QLineEdit::Normal, "1000.00", &ok);
       
       if (!(ok))
       {
-	 close();
-	 break;
+         close();
+         break;
       }
 	 
       goodInput = ok;
@@ -117,44 +112,41 @@ PartPickerWindow::PartPickerWindow()
    setCentralWidget(centralWidget);
    centralWidget->setLayout(mainLayout);
    
+   // Create connectors to update costs
    connect(cpuWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(mbWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(ramWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
    connect(hddWindow, SIGNAL(sendNewBoxUpdate(double, double, QString)), this, SLOT(receiveAmountUpdate(double, double, QString)));
-   connect(infoWindow, SIGNAL(budgetupdated(double)), this, SLOT(budget_updated(double)));
-   connect(confWindow, SIGNAL(sendReset()), this, SLOT(reset_selection()));
-}
-
-bool PartPickerWindow::parseBudgetAmount(QString budgetString)
-{
-   bool success = false;
-   budgetAmount = budgetString.toDouble(&success);
-   if (budgetAmount < 0)
-      success = false;
-   return success;
+   connect(infoWindow, SIGNAL(budgetUpdated(double)), this, SLOT(budgetUpdated(double)));
+   connect(confWindow, SIGNAL(sendReset()), this, SLOT(resetSelection()));
 }
 
 void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, QString deviceName)
 {
-
+   // Update the total amount and set the current cost
    totalAmount = totalAmount + newAmount - oldAmount;
-   currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
    
+   // Ensure no weirdness with odd math
+   if (totalAmount < 0.0001)
+   {
+      totalAmount = 0;
+      currentSpent->setText("Current Cost: $0");
+   }
+   else
+      currentSpent->setText("Current Cost: $" + QString::number(totalAmount));
+   
+   // Update each widget with the totalAmount
    cpuWindow->updateCurrentAmount(totalAmount);
    mbWindow->updateCurrentAmount(totalAmount);
    hddWindow->updateCurrentAmount(totalAmount);
    ramWindow->updateCurrentAmount(totalAmount);
    confWindow->updateCurrentAmount(totalAmount);
 
+   // Update vectors in our confirmation window
    confWindow->updateVectors(deviceName, newAmount, tabBar->currentIndex() - 1);
    
-   if (newAmount != 0 && oldAmount == 0)
-   {
-      
-      productSelectionNames[tabBar->currentIndex() - 1] = deviceName;
-      productSelectionPrices[tabBar->currentIndex() - 1] = newAmount;
-   }
-   
+   // Let's ensure proper enablement / disablement of options in
+   // the mobo or CPU
    if (newAmount == 0)
       adjustAvailableOptions(deviceName, false);
    else
@@ -162,15 +154,19 @@ void PartPickerWindow::receiveAmountUpdate(double newAmount, double oldAmount, Q
 }
 
 
-void PartPickerWindow::budget_updated(double budget_input)
+void PartPickerWindow::budgetUpdated(double budgetInput)
 {
-  
-   budgetAmount = budget_input;
-   reset_selection();
-   if (budget_input != -1)
+   // Set the new budgetAmount and reset all our values
+   budgetAmount = budgetInput;
+   resetSelection();
+   
+   if (budgetInput != -1)
    {
+      // Update out text
       budgetAmountString = QString::number(budgetAmount);
       budget->setText("Budget: $" + budgetAmountString);
+      
+      // Update each widget
       cpuWindow->updateBudgetAmount(budgetAmount);
       mbWindow->updateBudgetAmount(budgetAmount);
       hddWindow->updateBudgetAmount(budgetAmount);
@@ -180,7 +176,10 @@ void PartPickerWindow::budget_updated(double budget_input)
    }
    else
    {
+      // Update our text
       budget->setText("No budget!");
+      
+      // Update each widget
       cpuWindow->updateBudgetAmount(10000000000);
       mbWindow->updateBudgetAmount(10000000000);
       hddWindow->updateBudgetAmount(10000000000);
@@ -190,16 +189,30 @@ void PartPickerWindow::budget_updated(double budget_input)
    }
 } 
 
-void PartPickerWindow::reset_selection()
+void PartPickerWindow::resetSelection()
 {
-   cpuWindow->reset_selection();
-   mbWindow->reset_selection();
-   hddWindow->reset_selection();
-   ramWindow->reset_selection();
+   // Reset each widget
+   cpuWindow->resetSelection();
+   mbWindow->resetSelection();
+   hddWindow->resetSelection();
+   ramWindow->resetSelection();
+}
+
+bool PartPickerWindow::parseBudgetAmount(QString budgetString)
+{
+   // Try to parse the budget amount
+   bool success = false;
+   budgetAmount = budgetString.toDouble(&success);
+   
+   if (budgetAmount < 0)
+      success = false;
+      
+   return success;
 }
 
 void PartPickerWindow::adjustAvailableOptions(QString deviceName, bool disable)
 {
+   // Logic to update the MOBO and CPU available options
    if (deviceName.contains("AMD") && (!(deviceName.contains("Motherboard"))))
       mbWindow->updateAvailableOptions("AMD", disable);
    else if ((deviceName.contains("Intel")) && (!(deviceName.contains("Motherboard"))))

@@ -3,12 +3,9 @@
 
 #include <QMainWindow>
 #include <vector>
-#include "ProcessorWindow.h"
-#include "MotherboardWindow.h"
-#include "RamWindow.h"
-#include "HardDriveWindow.h"
-#include "InfoTab.h"
+#include "InfoWindow.h"
 #include "ConfirmationWindow.h"
+#include "PartPageInterface.h"
 
 // Forward Declarations
 class QTabWidget;
@@ -23,34 +20,40 @@ class PartPickerWindow : public QMainWindow
    Q_OBJECT
    
    public:
-      /// Constructor for the mainWindow
+      // Constructor for the mainWindow
       PartPickerWindow();
       
    private slots:
+      // Private slot to update current costs
       void receiveAmountUpdate(double, double, QString);
-      void budget_updated(double);
-      void reset_selection();
+      
+      // Private slot to update the budget
+      void budgetUpdated(double);
+      
+      // Private slot to reset the entire board
+      void resetSelection();
       
    private:
+      // Private helper function to parse the QString from initial input
       bool parseBudgetAmount(QString);
       
+      // Private helper function to adjust available options for MOBO and CPU
       void adjustAvailableOptions(QString, bool);
       
+      // Private Variables
       QTabWidget* tabBar;
-      ProcessorWindow* cpuWindow;
-      MotherboardWindow* mbWindow;
-      RamWindow* ramWindow;
-      HardDriveWindow* hddWindow;
-      InfoTab* infoWindow;
+      PartPageInterface* cpuWindow;
+      PartPageInterface* mbWindow;
+      PartPageInterface* ramWindow;
+      PartPageInterface* hddWindow;
+      InfoWindow* infoWindow;
       ConfirmationWindow* confWindow;
       std::vector<QScrollArea*> tabPages;
-      std::vector<QString> productSelectionNames;
-      std::vector<double> productSelectionPrices;
       QLabel* currentSpent;
+      QLabel* budget;
+      QString budgetAmountString;
       double budgetAmount;
       double totalAmount;
-      QString budgetAmountString;
-       QLabel* budget;
 };
 
 #endif

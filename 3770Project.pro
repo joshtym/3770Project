@@ -11,5 +11,5 @@ OBJECTS_DIR = ./obj/
 DESTDIR = ./bin/
 
 # Input
-HEADERS += include/PartPickerWindow.h include/ProcessorWindow.h include/MotherboardWindow.h include/SpecificationWindow.h include/RamWindow.h include/HardDriveWindow.h include/InfoTab.h include/ConfirmationWindow.h
-SOURCES += src/PartPickerWindow.cc src/main.cc src/ProcessorWindow.cc src/MotherboardWindow.cc src/SpecificationWindow.cc src/RamWindow.cc src/HardDriveWindow.cc src/InfoTab.cc src/ConfirmationWindow.cc
+HEADERS += include/PartPickerWindow.h include/ProcessorWindow.h include/MotherboardWindow.h include/SpecificationWindow.h include/RamWindow.h include/HardDriveWindow.h include/InfoWindow.h include/ConfirmationWindow.h include/PartPageInterface.h
+SOURCES += src/PartPickerWindow.cc src/main.cc src/ProcessorWindow.cc src/MotherboardWindow.cc src/SpecificationWindow.cc src/RamWindow.cc src/HardDriveWindow.cc src/InfoWindow.cc src/ConfirmationWindow.cc src/PartPageInterface.cc
